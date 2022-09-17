@@ -68,15 +68,142 @@ Latīnōrum	Latīnus[prn] Latīnus[adj]
 tabulae	tabula
 `
 
-const expectedOutputFromSampleData =
+const expectedTabbedOutputFromSampleData =
 `Ord	Word	Lemmata	Length	AllConsonants	Uncompounded	Phonetic	Scansion	AllVowels	SyllableCount	Stress	UltimaRhyme	RhymeVowels	PerfectRhyme	RhymeConsonants	Ultima	RhymeVowelsAndUltimaCoda	EcclesPhonetic	EcclesVowels	EcclesRhymeVowels	EcclesRhymeVowelsAndUltimaCoda	EcclesPerfectRhyme	EcclesSort	LemmaCount	Lemma1	Lemma2	Lemma3	Lemma4	Lemma5	ScansionWithElision	IsFitForDactyl	LemmaArray	IsLemma	IsNonLemma	DuplicateWords	NewLemmata	NoMacra	NoMacraLowerCase	AlphOrderNoMacra	Sort
 89780	vocābulōrum	vocābulum	11	vcblrm	vocābulōrum	vocābulōrũ	⏑–⏑––	oāuōũ	5	2	ũ	ōũ	ōrũ	aram	'2 ũ	ōũ	vocabulorum	oauou	ou	oum	orum	ou-aram-uao-labacav-vocazzzzbulozzzzrum/	1	vocābulum					⏑–⏑–	0	["vocābulum"]	0	1			vocabulorum	vocabulorum	abclmooruuv	ozzzzuzzzzzz-ara-uazzzzo-labazzzzcav-vocābulōrum/
 89781	excellentium	excellēns excellō	12	xcllntm	excellentium	ecscellentiũ	–––⏑–	eeeiũ	5	3	ũ	eiũ	entiũ	antaam	ũ	eiũ	ecscellentium	eeeiu	eiu	eium	entium	eiu-antaam-ee-llacsca-excellentium/	2	excellēns	excellō				–––⏑	1	["excellēns","excellō"]	0	1			excellentium	excellentium	ceeeillmntux	eiuzzzzzz-antaa-ee-llacsca-excellentium/
 89782	Latīnōrum	Latīnus[prn] Latīnus[adj]	9	ltnrm	Latīnōrum	latīnōrũ	⏑–––	aīōũ	4	2	ũ	ōũ	ōrũ	aram	'2 ũ	ōũ	latinorum	aiou	ou	oum	orum	ou-aram-ia-natal-latizzzznozzzzrum	2	Latīnus[prn]	Latīnus[adj]				⏑––	1	["Latīnus[prn]","Latīnus[adj]"]	0	1			Latinorum	latinorum	ailmnortu	ozzzzuzzzzzz-ara-izzzza-nizzzztal-latīnōrum
 `
 
+const expectedOutputFromSampleData = {
+"vocābulōrum": {
+  "Ord": 123,
+  "Word": "vocābulōrum",
+  "Lemmata": "vocābulum",
+  "Length": 11,
+  "AllConsonants": "vcblrm",
+  "Uncompounded": "vocābulōrum",
+  "Phonetic": "vocābulōrũ",
+  "Scansion": "⏑–⏑––",
+  "ScansionWithElision": "⏑–⏑–",
+  "IsFitForDactyl": 0,
+  "AllVowels": "oāuōũ",
+  "SyllableCount": 5,
+  "Stress": 2,
+  "UltimaRhyme": "ũ",
+  "RhymeVowels": "ōũ",
+  "PerfectRhyme": "ōrũ",
+  "RhymeConsonants": "aram",
+  "RhymeVowelsAndUltimaCoda": "ōũ",
+  "EcclesPhonetic": "vocabulorum",
+  "EcclesVowels": "oauou",
+  "EcclesRhymeVowels": "ou",
+  "EcclesRhymeVowelsAndUltimaCoda": "oum",
+  "EcclesPerfectRhyme": "orum",
+  "EcclesSort": "ou-aram-uao-labacav-vocazzzzbulozzzzrum/",
+  "LemmaCount": 1,
+  "LemmaArray": ["vocābulum"],
+  "IsLemma": 0,
+  "IsNonLemma": 1,
+  "NoMacra": "vocabulorum",
+  "NoMacraLowerCase": "vocabulorum",
+  "AlphOrderNoMacra": "abclmooruuv",
+  "Sort": "ozzzzuzzzzzz-ara-uazzzzo-labazzzzcav-vocābulōrum/"
+},
+"excellentium": {
+  "Ord": 123,
+  "Word": "excellentium",
+  "Lemmata": "excellēns excellō",
+  "Length": 12,
+  "AllConsonants": "xcllntm",
+  "Uncompounded": "excellentium",
+  "Phonetic": "ecscellentiũ",
+  "Scansion": "–––⏑–",
+  "ScansionWithElision": "–––⏑",
+  "IsFitForDactyl": 1,
+  "AllVowels": "eeeiũ",
+  "SyllableCount": 5,
+  "Stress": 3,
+  "UltimaRhyme": "ũ",
+  "RhymeVowels": "eiũ",
+  "PerfectRhyme": "entiũ",
+  "RhymeConsonants": "antaam",
+  "RhymeVowelsAndUltimaCoda": "eiũ",
+  "EcclesPhonetic": "ecscellentium",
+  "EcclesVowels": "eeeiu",
+  "EcclesRhymeVowels": "eiu",
+  "EcclesRhymeVowelsAndUltimaCoda": "eium",
+  "EcclesPerfectRhyme": "entium",
+  "EcclesSort": "eiu-antaam-ee-llacsca-excellentium/",
+  "LemmaCount": 2,
+  "LemmaArray": ["excellēns","excellō"],
+  "IsLemma": 0,
+  "IsNonLemma": 1,
+  "NoMacra": "excellentium",
+  "NoMacraLowerCase": "excellentium",
+  "AlphOrderNoMacra": "ceeeillmntux",
+  "Sort": "eiuzzzzzz-antaa-ee-llacsca-excellentium/"
+},
+"Latīnōrum": {
+  "Ord": 123,
+  "Word": "Latīnōrum",
+  "Lemmata": "Latīnus[prn] Latīnus[adj]",
+  "Length": 9,
+  "AllConsonants": "ltnrm",
+  "Uncompounded": "Latīnōrum",
+  "Phonetic": "latīnōrũ",
+  "Scansion": "⏑–––",
+  "ScansionWithElision": "⏑––",
+  "IsFitForDactyl": 1,
+  "AllVowels": "aīōũ",
+  "SyllableCount": 4,
+  "Stress": 2,
+  "UltimaRhyme": "ũ",
+  "RhymeVowels": "ōũ",
+  "PerfectRhyme": "ōrũ",
+  "RhymeConsonants": "aram",
+  "RhymeVowelsAndUltimaCoda": "ōũ",
+  "EcclesPhonetic": "latinorum",
+  "EcclesVowels": "aiou",
+  "EcclesRhymeVowels": "ou",
+  "EcclesRhymeVowelsAndUltimaCoda": "oum",
+  "EcclesPerfectRhyme": "orum",
+  "EcclesSort": "ou-aram-ia-natal-latizzzznozzzzrum",
+  "LemmaCount": 2,
+  "LemmaArray": ["Latīnus[prn]","Latīnus[adj]"],
+  "IsLemma": 0,
+  "IsNonLemma": 1,
+  "NoMacra": "Latinorum",
+  "NoMacraLowerCase": "latinorum",
+  "AlphOrderNoMacra": "ailmnortu",
+  "Sort": "ozzzzuzzzzzz-ara-izzzza-nizzzztal-latīnōrum"
+}
+}
+
 
 //// Functions used in `generateJson`:
+
+const checkResult = (word, lemmata, functionName) => {
+    if (expectedOutputFromSampleData[word]) {
+        const expectedOutput = expectedOutputFromSampleData[word][functionName];
+        const actualOutput = wordsformFunctions[functionName](word, lemmata);
+        if (actualOutput === expectedOutput) {
+            console.log('Yay!');
+        }
+        else if (expectedOutput === undefined && actualOutput === "") {
+            console.log(`Neither the function nor the expected value has been defined for ${functionName}(${word}, ${lemmata})`);
+        }
+        else if (expectedOutput === undefined) {
+            console.log(`${functionName}(${word}, ${lemmata}) gives ${actualOutput} but the expected value hasn’t been defined`);
+        }
+        else if (actualOutput === "") {
+            console.log(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but the function hasn’t been written`);
+        }
+        else {
+            console.error(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but gives ${actualOutput}`);
+        }
+    }
+}
 
 const getSchemaFromHeaderRow = (headerRow) => {
     switch (headerRow[1]) {
@@ -175,6 +302,7 @@ const generateJson = () => {
 
         functionNames.forEach(functionName => {
             resultsForLine[functionName] = wordsformFunctions[functionName](word, lemmata);
+            checkResult(word, lemmata, functionName);
         })
         // output ({word, lemmata});
     //     output("{");
