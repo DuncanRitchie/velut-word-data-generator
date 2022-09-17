@@ -246,36 +246,11 @@ const f = {
 																																																																																																																						"cù"
 																																																																																																																				),
 																																																																																																																				OR(
-																																																																																																																						ISNUMBER(
-																																																																																																																								SEARCH(
-																																																																																																																										"ngua",
-																																																																																																																										f.NoMacra(word, lemmata)
-																																																																																																																								)
-																																																																																																																						),
-																																																																																																																						ISNUMBER(
-																																																																																																																								SEARCH(
-																																																																																																																										"ngue",
-																																																																																																																										f.NoMacra(word, lemmata)
-																																																																																																																								)
-																																																																																																																						),
-																																																																																																																						ISNUMBER(
-																																																																																																																								SEARCH(
-																																																																																																																										"ngui",
-																																																																																																																										f.NoMacra(word, lemmata)
-																																																																																																																								)
-																																																																																																																						),
-																																																																																																																						ISNUMBER(
-																																																																																																																								SEARCH(
-																																																																																																																										"nguo",
-																																																																																																																										f.NoMacra(word, lemmata)
-																																																																																																																								)
-																																																																																																																						),
-																																																																																																																						ISNUMBER(
-																																																																																																																								SEARCH(
-																																																																																																																										"nguu",
-																																																																																																																										f.NoMacra(word, lemmata)
-																																																																																																																								)
-																																																																																																																						)
+																																																																																																																					f.NoMacra(word, lemmata).includes("ngua"),
+																																																																																																																						f.NoMacra(word, lemmata).includes("ngue"),
+																																																																																																																						f.NoMacra(word, lemmata).includes("ngui"),
+																																																																																																																						f.NoMacra(word, lemmata).includes("nguo"),
+																																																																																																																						f.NoMacra(word, lemmata).includes("nguu")
 																																																																																																																				),
 																																																																																																																				SUBSTITUTE(
 																																																																																																																						f.Uncompounded(word, lemmata),
@@ -284,24 +259,9 @@ const f = {
 																																																																																																																						1
 																																																																																																																				),
 																																																																																																																				OR(
-																																																																																																																						ISNUMBER(
-																																																																																																																								SEARCH(
-																																																																																																																										"suād",
-																																																																																																																										f.Lemma1(word, lemmata)
-																																																																																																																								)
-																																																																																																																						),
-																																																																																																																						ISNUMBER(
-																																																																																																																								SEARCH(
-																																																																																																																										"suās",
-																																																																																																																										f.Lemma1(word, lemmata)
-																																																																																																																								)
-																																																																																																																						),
-																																																																																																																						ISNUMBER(
-																																																																																																																								SEARCH(
-																																																																																																																										"suāv",
-																																																																																																																										f.Lemma1(word, lemmata)
-																																																																																																																								)
-																																																																																																																						)
+																																																																																																																						f.Lemma1(word, lemmata).includes("suād"),
+																																																																																																																						f.Lemma1(word, lemmata).includes("suās"),
+																																																																																																																						f.Lemma1(word, lemmata).includes("suāv")
 																																																																																																																				),
 																																																																																																																				SUBSTITUTE(
 																																																																																																																						f.Uncompounded(word, lemmata),
