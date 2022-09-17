@@ -10,7 +10,7 @@ const f = {
 		},
 	Lemmata:
 		(word, lemmata) => {
-			return '';
+			return lemmata;
 		},
 	Length:
 		(word, lemmata) => {
