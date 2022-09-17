@@ -6,7 +6,7 @@ const f = {
 		},
 	Word:
 		(word, lemmata) => {
-			return '';
+			return word;
 		},
 	Lemmata:
 		(word, lemmata) => {
