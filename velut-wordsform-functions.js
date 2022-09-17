@@ -853,7 +853,10 @@ const f = {
 		},
 	AllVowels:
 		(word, lemmata) => {
-			return '';
+			if (f.Scansion(word, lemmata) === '∅' || word[0] === '-') {
+				return '∅';
+			}
+			return f.Phonetic(word, lemmata).replace(/[bcdfghjklmnpqrstvxzχφθ]/g, '');
 		},
 	SyllableCount:
 		(word, lemmata) => {
