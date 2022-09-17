@@ -23,7 +23,31 @@ const f = {
 		},
 	Uncompounded:
 		(word, lemmata) => {
-			return '';
+			if (['-ne', '-que', '-ve'].includes(word)) {
+				return '∅';
+			}
+			if (f.Lemma1(word, lemmata).endsWith('que')) {
+				return word;
+			}
+			if (!word.endsWith('ne') && !word.endsWith('que') && !word.endsWith('ve')) {
+				return word;
+			}
+			const wordMinusPossibleEnclitic = word.replace(/(ne|que|ve)$/, '');
+			// This should really be all the words already in the database, but this web-project does not have a database connection.
+			const wordsAlreadyInDatabase = [];
+			if (wordsAlreadyInDatabase.includes(wordMinusPossibleEnclitic)) {
+				return wordMinusPossibleEnclitic;
+			}
+			if (["á","é","í","ó","ú","ý","ḗ"].some(acute => wordMinusPossibleEnclitic.contains(acute))) {
+				const removeAcutes = (word) => {
+					return word.replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ý","y").replaceAll("ḗ","ē");
+				}
+				const wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis = removeAcutes(wordMinusPossibleEnclitic).replaceAll("ü","u");
+				if (wordsAlreadyInDatabase.includes(wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis)) {
+					return wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis;
+				}
+			}
+			return word;
 		},
 	Phonetic:
 		(word, lemmata) => {
