@@ -146,7 +146,8 @@ const f = {
 		},
 	NoMacra:
 		(word, lemmata) => {
-			return '';
+			// Function from https://ricardometring.com/javascript-replace-special-characters
+			return word.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 		},
 	NoMacraLowerCase:
 		(word, lemmata) => {
