@@ -14,7 +14,7 @@ const f = {
 		},
 	Length:
 		(word, lemmata) => {
-			return '';
+			return word.length;
 		},
 	AllConsonants:
 		(word, lemmata) => {
