@@ -114,7 +114,737 @@ const f = {
 		},
 	Phonetic:
 		(word, lemmata) => {
-			return '';
+
+			const formula = CONCAT(
+				SUBSTITUTE(
+						SUBSTITUTE(
+								SUBSTITUTE(
+										SUBSTITUTE(
+												SUBSTITUTE(
+														SUBSTITUTE(
+																SUBSTITUTE(
+																		SUBSTITUTE(
+																				SUBSTITUTE(
+																						SUBSTITUTE(
+																								SUBSTITUTE(
+																										SUBSTITUTE(
+																												SUBSTITUTE(
+																														SUBSTITUTE(
+																																SUBSTITUTE(
+																																		SUBSTITUTE(
+																																				SUBSTITUTE(
+																																						SUBSTITUTE(
+																																								SUBSTITUTE(
+																																										SUBSTITUTE(
+																																												SUBSTITUTE(
+																																														SUBSTITUTE(
+																																																SUBSTITUTE(
+																																																		SUBSTITUTE(
+																																																				SUBSTITUTE(
+																																																						SUBSTITUTE(
+																																																								SUBSTITUTE(
+																																																										SUBSTITUTE(
+																																																												SUBSTITUTE(
+																																																														SUBSTITUTE(
+																																																																SUBSTITUTE(
+																																																																		SUBSTITUTE(
+																																																																				SUBSTITUTE(
+																																																																						SUBSTITUTE(
+																																																																								SUBSTITUTE(
+																																																																										SUBSTITUTE(
+																																																																												SUBSTITUTE(
+																																																																														SUBSTITUTE(
+																																																																																SUBSTITUTE(
+																																																																																		SUBSTITUTE(
+																																																																																				SUBSTITUTE(
+																																																																																						SUBSTITUTE(
+																																																																																								SUBSTITUTE(
+																																																																																										SUBSTITUTE(
+																																																																																												SUBSTITUTE(
+																																																																																														SUBSTITUTE(
+																																																																																																SUBSTITUTE(
+																																																																																																		SUBSTITUTE(
+																																																																																																				SUBSTITUTE(
+																																																																																																						SUBSTITUTE(
+																																																																																																								SUBSTITUTE(
+																																																																																																										SUBSTITUTE(
+																																																																																																												CONCAT(
+																																																																																																														"_",
+																																																																																																														LOWER(
+																																																																																																																itojj(
+																																																																																																																		IFS(
+																																																																																																																				f.Uncompounded(word, lemmata) === "ai",
+																																																																																																																				"à",
+																																																																																																																				f.Uncompounded(word, lemmata) === "ei",
+																																																																																																																				"è",
+																																																																																																																				f.Uncompounded(word, lemmata) === "eia",
+																																																																																																																				"èa",
+																																																																																																																				f.Uncompounded(word, lemmata) === "hei",
+																																																																																																																				"hè",
+																																																																																																																				f.Uncompounded(word, lemmata) === "heia",
+																																																																																																																				"hèa",
+																																																																																																																				f.Uncompounded(word, lemmata) === "hoc",
+																																																																																																																				"hocc",
+																																																																																																																				f.Uncompounded(word, lemmata) === "oi",
+																																																																																																																				"ò",
+																																																																																																																				f.Uncompounded(word, lemmata) === "oiei",
+																																																																																																																				"òè",
+																																																																																																																				f.Uncompounded(word, lemmata) === "dehinc",
+																																																																																																																				"dènc",
+																																																																																																																				OR(
+																																																																																																																						f.Uncompounded(word, lemmata) === "dein",
+																																																																																																																						f.Uncompounded(word, lemmata) === "deinde",
+																																																																																																																						f.Uncompounded(word, lemmata) === "proin",
+																																																																																																																						f.Uncompounded(word, lemmata) === "proindē"
+																																																																																																																				),
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						SUBSTITUTE(
+																																																																																																																								f.Uncompounded(word, lemmata),
+																																																																																																																								"dein",
+																																																																																																																								"dèn"
+																																																																																																																						),
+																																																																																																																						"proin",
+																																																																																																																						"pròn"
+																																																																																																																				),
+																																																																																																																				f.Lemma1(word, lemmata) === "praeeō",
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						f.Word(word, lemmata),
+																																																																																																																						"praei",
+																																																																																																																						"prài"
+																																																																																																																				),
+																																																																																																																				OR(
+																																																																																																																						LEFT(
+																																																																																																																								f.Lemma1(word, lemmata),
+																																																																																																																								3
+																																																																																																																						) === "cui",
+																																																																																																																						LEFT(
+																																																																																																																								f.Lemma1(word, lemmata),
+																																																																																																																								4
+																																																																																																																						) === "quis",
+																																																																																																																						LEFT(
+																																																																																																																								f.Lemma1(word, lemmata),
+																																																																																																																								3
+																																																																																																																						) === "quī",
+																																																																																																																						f.Lemma1(word, lemmata) === "aliquis",
+																																																																																																																						f.Lemma1(word, lemmata) === "ecquis",
+																																																																																																																						f.Lemma1(word, lemmata) === "nesciōquis",
+																																																																																																																						f.Lemma1(word, lemmata) === "ūnusquisque"
+																																																																																																																				),
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						SUBSTITUTE(
+																																																																																																																								itojj(
+																																																																																																																										f.Uncompounded(word, lemmata)
+																																																																																																																								),
+																																																																																																																								"cuiā",
+																																																																																																																								"cùjā"
+																																																																																																																						),
+																																																																																																																						"cui",
+																																																																																																																						"cù"
+																																																																																																																				),
+																																																																																																																				OR(
+																																																																																																																						ISNUMBER(
+																																																																																																																								SEARCH(
+																																																																																																																										"ngua",
+																																																																																																																										f.NoMacra(word, lemmata)
+																																																																																																																								)
+																																																																																																																						),
+																																																																																																																						ISNUMBER(
+																																																																																																																								SEARCH(
+																																																																																																																										"ngue",
+																																																																																																																										f.NoMacra(word, lemmata)
+																																																																																																																								)
+																																																																																																																						),
+																																																																																																																						ISNUMBER(
+																																																																																																																								SEARCH(
+																																																																																																																										"ngui",
+																																																																																																																										f.NoMacra(word, lemmata)
+																																																																																																																								)
+																																																																																																																						),
+																																																																																																																						ISNUMBER(
+																																																																																																																								SEARCH(
+																																																																																																																										"nguo",
+																																																																																																																										f.NoMacra(word, lemmata)
+																																																																																																																								)
+																																																																																																																						),
+																																																																																																																						ISNUMBER(
+																																																																																																																								SEARCH(
+																																																																																																																										"nguu",
+																																																																																																																										f.NoMacra(word, lemmata)
+																																																																																																																								)
+																																																																																																																						)
+																																																																																																																				),
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						"ngu",
+																																																																																																																						"ngv",
+																																																																																																																						1
+																																																																																																																				),
+																																																																																																																				OR(
+																																																																																																																						ISNUMBER(
+																																																																																																																								SEARCH(
+																																																																																																																										"suād",
+																																																																																																																										f.Lemma1(word, lemmata)
+																																																																																																																								)
+																																																																																																																						),
+																																																																																																																						ISNUMBER(
+																																																																																																																								SEARCH(
+																																																																																																																										"suās",
+																																																																																																																										f.Lemma1(word, lemmata)
+																																																																																																																								)
+																																																																																																																						),
+																																																																																																																						ISNUMBER(
+																																																																																																																								SEARCH(
+																																																																																																																										"suāv",
+																																																																																																																										f.Lemma1(word, lemmata)
+																																																																																																																								)
+																																																																																																																						)
+																																																																																																																				),
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						"suā",
+																																																																																																																						"svā",
+																																																																																																																						1
+																																																																																																																				),
+																																																																																																																				LEFT(
+																																																																																																																						f.Word(word, lemmata),
+																																																																																																																						6
+																																																																																																																				) === "Eduard",
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						"Eduard",
+																																																																																																																						"Edvard"
+																																																																																																																				),
+																																																																																																																				ISNUMBER(
+																																																																																																																						SEARCH(
+																																																																																																																								"suē",
+																																																																																																																								LOWER(
+																																																																																																																										f.Lemma1(word, lemmata)
+																																																																																																																								)
+																																																																																																																						)
+																																																																																																																				),
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						SUBSTITUTE(
+																																																																																																																								SUBSTITUTE(
+																																																																																																																										SUBSTITUTE(
+																																																																																																																												SUBSTITUTE(
+																																																																																																																														SUBSTITUTE(
+																																																																																																																																f.Uncompounded(word, lemmata),
+																																																																																																																																"suē",
+																																																																																																																																"svē",
+																																																																																																																																1
+																																																																																																																														),
+																																																																																																																														"Suē",
+																																																																																																																														"Svē",
+																																																																																																																														1
+																																																																																																																												),
+																																																																																																																												"sue",
+																																																																																																																												"sve",
+																																																																																																																												1
+																																																																																																																										),
+																																																																																																																										"sui",
+																																																																																																																										"svi",
+																																																																																																																										1
+																																																																																																																								),
+																																																																																																																								"suī",
+																																																																																																																								"svī",
+																																																																																																																								1
+																																																																																																																						),
+																																																																																																																						"suu",
+																																																																																																																						"svu",
+																																																																																																																						1
+																																																																																																																				),
+																																																																																																																				f.Lemma1(word, lemmata) === "urgueō",
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						"urgu",
+																																																																																																																						"urgv"
+																																																																																																																				),
+																																																																																																																				OR(
+																																																																																																																						RIGHT(
+																																																																																																																								f.Lemma1(word, lemmata),
+																																																																																																																								5
+																																																																																																																						) === "iaceō",
+																																																																																																																						RIGHT(
+																																																																																																																								f.Lemma1(word, lemmata),
+																																																																																																																								5
+																																																																																																																						) === "iectō",
+																																																																																																																						RIGHT(
+																																																																																																																								f.Lemma1(word, lemmata),
+																																																																																																																								5
+																																																																																																																						) === "iaciō",
+																																																																																																																						RIGHT(
+																																																																																																																								f.Lemma1(word, lemmata),
+																																																																																																																								6
+																																																																																																																						) === "iectus",
+																																																																																																																						RIGHT(
+																																																																																																																								f.Lemma1(word, lemmata),
+																																																																																																																								5
+																																																																																																																						) === "iectē",
+																																																																																																																						f.Lemma1(word, lemmata) === "abiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "adiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "circumiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "coniciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "dēiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "disiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "ēiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "iniciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "intericiō",
+																																																																																																																						f.Lemma1(word, lemmata) === "obiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "periciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "praeiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "reiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "subiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "trāiciō",
+																																																																																																																						f.Lemma1(word, lemmata) === "obex",
+																																																																																																																						f.Lemma1(word, lemmata) === "subicēs"
+																																																																																																																				),
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						SUBSTITUTE(
+																																																																																																																								SUBSTITUTE(
+																																																																																																																										SUBSTITUTE(
+																																																																																																																												SUBSTITUTE(
+																																																																																																																														SUBSTITUTE(
+																																																																																																																																f.Uncompounded(word, lemmata),
+																																																																																																																																"iēc",
+																																																																																																																																"jēc",
+																																																																																																																																1
+																																																																																																																														),
+																																																																																																																														"iec",
+																																																																																																																														"jec",
+																																																																																																																														1
+																																																																																																																												),
+																																																																																																																												"iac",
+																																																																																																																												"jac",
+																																																																																																																												1
+																																																																																																																										),
+																																																																																																																										"bex",
+																																																																																																																										"bjex"
+																																																																																																																								),
+																																																																																																																								"ic",
+																																																																																																																								"jic"
+																																																																																																																						),
+																																																																																																																						"rej",
+																																																																																																																						"rèj"
+																																																																																																																				),
+																																																																																																																				LEFT(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						5
+																																																																																																																				) === "coniū",
+																																																																																																																				REPLACE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						1,
+																																																																																																																						5,
+																																																																																																																						"conjū"
+																																																																																																																				),
+																																																																																																																				LEFT(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						5
+																																																																																																																				) === "coniu",
+																																																																																																																				REPLACE(
+																																																																																																																						LOWER(
+																																																																																																																								f.Uncompounded(word, lemmata)
+																																																																																																																						),
+																																																																																																																						1,
+																																																																																																																						5,
+																																																																																																																						"conju"
+																																																																																																																				),
+																																																																																																																				LEFT(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						5
+																																																																																																																				) === "disiu",
+																																																																																																																				REPLACE(
+																																																																																																																						LOWER(
+																																																																																																																								f.Uncompounded(word, lemmata)
+																																																																																																																						),
+																																																																																																																						1,
+																																																																																																																						5,
+																																																																																																																						"disju"
+																																																																																																																				),
+																																																																																																																				LEFT(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						5
+																																																																																																																				) === "disiū",
+																																																																																																																				REPLACE(
+																																																																																																																						LOWER(
+																																																																																																																								f.Uncompounded(word, lemmata)
+																																																																																																																						),
+																																																																																																																						1,
+																																																																																																																						5,
+																																																																																																																						"disjū"
+																																																																																																																				),
+																																																																																																																				OR(
+																																																																																																																						f.Lemma1(word, lemmata) === "iniugis",
+																																																																																																																						f.Lemma1(word, lemmata) === "biiugis",
+																																																																																																																						f.Lemma1(word, lemmata) === "biiugus",
+																																																																																																																						f.Lemma1(word, lemmata) === "subiugō"
+																																																																																																																				),
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						"iug",
+																																																																																																																						"jug"
+																																																																																																																				),
+																																																																																																																				OR(
+																																																																																																																						LEFT(
+																																																																																																																								f.Uncompounded(word, lemmata),
+																																																																																																																								4
+																																																																																																																						) === "adiu",
+																																																																																																																						LEFT(
+																																																																																																																								f.Uncompounded(word, lemmata),
+																																																																																																																								4
+																																																																																																																						) === "adiū"
+																																																																																																																				),
+																																																																																																																				REPLACE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						1,
+																																																																																																																						3,
+																																																																																																																						"adj"
+																																																																																																																				),
+																																																																																																																				LEFT(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						5
+																																																																																																																				) === "iniūr",
+																																																																																																																				REPLACE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						1,
+																																																																																																																						5,
+																																																																																																																						"injūr"
+																																																																																																																				),
+																																																																																																																				f.Lemma1(word, lemmata) === "iūsiūrandum",
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						"iūr",
+																																																																																																																						"jūr"
+																																																																																																																				),
+																																																																																																																				f.Lemma1(word, lemmata) === "periūrus",
+																																																																																																																				REPLACE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						4,
+																																																																																																																						1,
+																																																																																																																						"j"
+																																																																																																																				),
+																																																																																																																				AND(
+																																																																																																																						OR(
+																																																																																																																								LEFT(
+																																																																																																																										LOWER(
+																																																																																																																												f.NoMacra(word, lemmata)
+																																																																																																																										),
+																																																																																																																										2
+																																																																																																																								) === "ia",
+																																																																																																																								LEFT(
+																																																																																																																										LOWER(
+																																																																																																																												f.NoMacra(word, lemmata)
+																																																																																																																										),
+																																																																																																																										2
+																																																																																																																								) === "ie",
+																																																																																																																								LEFT(
+																																																																																																																										LOWER(
+																																																																																																																												f.NoMacra(word, lemmata)
+																																																																																																																										),
+																																																																																																																										2
+																																																																																																																								) === "ii",
+																																																																																																																								LEFT(
+																																																																																																																										LOWER(
+																																																																																																																												f.NoMacra(word, lemmata)
+																																																																																																																										),
+																																																																																																																										2
+																																																																																																																								) === "io",
+																																																																																																																								LEFT(
+																																																																																																																										LOWER(
+																																																																																																																												f.NoMacra(word, lemmata)
+																																																																																																																										),
+																																																																																																																										2
+																																																																																																																								) === "iu",
+																																																																																																																								LEFT(
+																																																																																																																										LOWER(
+																																																																																																																												f.NoMacra(word, lemmata)
+																																																																																																																										),
+																																																																																																																										2
+																																																																																																																								) === "iy"
+																																																																																																																						),
+																																																																																																																						NOT(
+																																																																																																																								EXACT(
+																																																																																																																										UPPER(
+																																																																																																																												LEFT(
+																																																																																																																														f.Word(word, lemmata),
+																																																																																																																														1
+																																																																																																																												)
+																																																																																																																										),
+																																																																																																																										"Ī"
+																																																																																																																								)
+																																																																																																																						),
+																																																																																																																						COUNTIF(
+																																																																																																																								phoneticExceptions["Vocalic initial i"],
+																																																																																																																								f.Lemma1(word, lemmata)
+																																																																																																																						) === 0,
+																																																																																																																						f.Uncompounded(word, lemmata) !== "iīs"
+																																																																																																																				),
+																																																																																																																				REPLACE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						1,
+																																																																																																																						1,
+																																																																																																																						"j"
+																																																																																																																				),
+																																																																																																																				OR(
+																																																																																																																						f.Lemma1(word, lemmata) === "magnus",
+																																																																																																																						f.Lemma1(word, lemmata) === "magis",
+																																																																																																																						f.Lemma1(word, lemmata) === "maiestās",
+																																																																																																																						f.Lemma1(word, lemmata) === "maiōrēs",
+																																																																																																																						f.Lemma1(word, lemmata) === "malus",
+																																																																																																																						f.Lemma1(word, lemmata) === "male",
+																																																																																																																						AND(
+																																																																																																																								f.NoMacra(
+																																																																																																																										f.Lemma1(word, lemmata)
+																																																																																																																								) === "aio",
+																																																																																																																								OR(
+																																																																																																																										RIGHT(
+																																																																																																																												LEFT(
+																																																																																																																														f.NoMacra(word, lemmata),
+																																																																																																																														3
+																																																																																																																												),
+																																																																																																																												1
+																																																																																																																										) === "a",
+																																																																																																																										RIGHT(
+																																																																																																																												LEFT(
+																																																																																																																														f.NoMacra(word, lemmata),
+																																																																																																																														3
+																																																																																																																												),
+																																																																																																																												1
+																																																																																																																										) === "e",
+																																																																																																																										RIGHT(
+																																																																																																																												LEFT(
+																																																																																																																														f.NoMacra(word, lemmata),
+																																																																																																																														3
+																																																																																																																												),
+																																																																																																																												1
+																																																																																																																										) === "i",
+																																																																																																																										RIGHT(
+																																																																																																																												LEFT(
+																																																																																																																														f.NoMacra(word, lemmata),
+																																																																																																																														3
+																																																																																																																												),
+																																																																																																																												1
+																																																																																																																										) === "o",
+																																																																																																																										RIGHT(
+																																																																																																																												LEFT(
+																																																																																																																														f.NoMacra(word, lemmata),
+																																																																																																																														3
+																																																																																																																												),
+																																																																																																																												1
+																																																																																																																										) === "u",
+																																																																																																																										RIGHT(
+																																																																																																																												LEFT(
+																																																																																																																														f.NoMacra(word, lemmata),
+																																																																																																																														3
+																																																																																																																												),
+																																																																																																																												1
+																																																																																																																										) === "y"
+																																																																																																																								)
+																																																																																																																						)
+																																																																																																																				),
+																																																																																																																				SUBSTITUTE(
+																																																																																																																						f.Uncompounded(word, lemmata),
+																																																																																																																						"ai",
+																																																																																																																						"ajj"
+																																																																																																																				),
+																																																																																																																				LEFT(
+																																																																																																																						f.Word(word, lemmata),
+																																																																																																																						1
+																																																																																																																				) === "-",
+																																																																																																																				"",
+																																																																																																																				1 === 1,
+																																																																																																																				f.Uncompounded(word, lemmata)
+																																																																																																																		)
+																																																																																																																)
+																																																																																																														),
+																																																																																																														"_"
+																																																																																																												),
+																																																																																																												"am_",
+																																																																																																												"ã"
+																																																																																																										),
+																																																																																																										"em_",
+																																																																																																										"ẽ"
+																																																																																																								),
+																																																																																																								"im_",
+																																																																																																								"ĩ"
+																																																																																																						),
+																																																																																																						"om_",
+																																																																																																						"õ"
+																																																																																																				),
+																																																																																																				"um_",
+																																																																																																				"ũ"
+																																																																																																		),
+																																																																																																		"ym_",
+																																																																																																		"ỹ"
+																																																																																																),
+																																																																																																"qu",
+																																																																																																"q"
+																																																																																														),
+																																																																																														"ds",
+																																																																																														"ts"
+																																																																																												),
+																																																																																												"z",
+																																																																																												"ds"
+																																																																																										),
+																																																																																										"x",
+																																																																																										"cs"
+																																																																																								),
+																																																																																								"bs",
+																																																																																								"ps"
+																																																																																						),
+																																																																																						"bt",
+																																																																																						"pt"
+																																																																																				),
+																																																																																				"ch",
+																																																																																				"χ"
+																																																																																		),
+																																																																																		"ph",
+																																																																																		"φ"
+																																																																																),
+																																																																																"rh",
+																																																																																"r"
+																																																																														),
+																																																																														"th",
+																																																																														"θ"
+																																																																												),
+																																																																												"ae",
+																																																																												"à"
+																																																																										),
+																																																																										"au",
+																																																																										"â"
+																																																																								),
+																																																																								"oe",
+																																																																								"ò"
+																																																																						),
+																																																																						"ë",
+																																																																						"e"
+																																																																				),
+																																																																				"ï",
+																																																																				"i"
+																																																																		),
+																																																																		"ü",
+																																																																		"u"
+																																																																),
+																																																																"ṻ",
+																																																																"ū"
+																																																														),
+																																																														"á",
+																																																														"a"
+																																																												),
+																																																												"é",
+																																																												"e"
+																																																										),
+																																																										"í",
+																																																										"i"
+																																																								),
+																																																								"ó",
+																																																								"o"
+																																																						),
+																																																						"ú",
+																																																						"u"
+																																																				),
+																																																				"ý",
+																																																				"y"
+																																																		),
+																																																		"ḗ",
+																																																		"ē"
+																																																),
+																																																"āns",
+																																																"ãs"
+																																														),
+																																														"ēns",
+																																														"ẽs"
+																																												),
+																																												"īns",
+																																												"ĩs"
+																																										),
+																																										"ōns",
+																																										"õs"
+																																								),
+																																								"ūns",
+																																								"ũs"
+																																						),
+																																						"ȳns",
+																																						"ỹs"
+																																				),
+																																				"ānf",
+																																				"ãf"
+																																		),
+																																		"ēnf",
+																																		"ẽf"
+																																),
+																																"īnf",
+																																"ĩf"
+																														),
+																														"ōnf",
+																														"õf"
+																												),
+																												"ūnf",
+																												"ũf"
+																										),
+																										"ȳnf",
+																										"ỹf"
+																								),
+																								"lectiient",
+																								"lectijent"
+																						),
+																						"ōsuestr",
+																						"ōsvestr"
+																				),
+																				"reiciav",
+																				"rejcjav"
+																		),
+																		"k",
+																		"c"
+																),
+																"eu",
+																IF(
+																		COUNTIF(
+																				phoneticExceptions["Diphthong eu"],
+																				f.Lemma1(word, lemmata)
+																		) > 0,
+																		"€",
+																		"eu"
+																)
+														),
+														"_eu",
+														"_€"
+												),
+												"_€nd",
+												"eund"
+										),
+										"_€nt",
+										"eunt"
+								),
+								"eu_",
+								"€"
+						),
+						"_",
+						""
+				),
+				IF(
+						LEN(
+								f.Word(word, lemmata)
+						) ===
+						LEN(
+								f.Uncompounded(word, lemmata)
+						),
+						"",
+						RIGHT(
+								SUBSTITUTE(
+										f.Word(word, lemmata),
+										"qu",
+										"q"
+								),
+								2
+						)
+				)
+		);
+
+			if (word === '') {
+				return '_';
+			}
+
+			return formula;
 		},
 	Scansion:
 		(word, lemmata) => {
