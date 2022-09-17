@@ -65,6 +65,12 @@ const IF = (condition, trueReturn, falseReturn) => {
 const LEN = (text) => {
 	return `${text}`.length;
 }
+const reversestr = (text) => {
+	return `${text}`.split('').reverse().join('');
+}
+const SUM = (...args) => {
+	return args.reduce((previous, current) => previous + current);
+}
 
 
 // Functions replacing the fields in `wordsform` sheet.
@@ -842,7 +848,88 @@ const f = {
 		},
 	Stress:
 		(word, lemmata) => {
-			return '';
+			return IFS(
+				f.SyllableCount(word, lemmata) == 0,
+				0,
+				LEFT(word,1) == "-",
+				2,
+				OR(
+					word == "abhinc",
+					EXACT(word,"adhūc"),
+					EXACT(word,"Antiās"),
+					EXACT(word,"Arpīnās"),
+					EXACT(word,"Asprēnās"),
+					word == "Fīdēnās",
+					word == "illāc",
+					word == "illīc",
+					word == "illinc",
+					word == "illūc",
+					word == "istīc",
+					word == "Maecēnās",
+					word == "nostrās",
+					f.Phonetic(word, lemmata) == "posθāc",
+					word == "Samnīs",
+					word == "satin",
+					word == "Suffēnās",
+					word == "tantōn",
+					word == "viden",
+					word == "vidēn",
+					RIGHT(f.Phonetic(word, lemmata),3) == "dīc",
+					RIGHT(f.Phonetic(word, lemmata),3) == "dūc",
+					RIGHT(f.Phonetic(word, lemmata),3) == "fac",
+					f.SyllableCount(word, lemmata) == 1
+				),
+				1,
+				f.SyllableCount(word, lemmata) == 2,
+				2,
+				OR(
+					word == "deïnde",
+					word == "exindē",
+					word == "perinde",
+					word == "proïndē",
+					word == "subinde"
+				),
+				3,
+				LEFT(RIGHT(f.Scansion(word, lemmata),2),1) == "–",
+				2,
+				LEN(word)!==LEN(f.Uncompounded(word, lemmata)),
+				2,
+				OR(
+					word == "agedum",
+					word == "egomet",
+					word == "ibidem",
+					word == "meamet",
+					f.Phonetic(word, lemmata) == "satine",
+					word == "suamet",
+					word == "ubinam"
+				),
+				2,
+				OR(
+					f.Uncompounded(word, lemmata).includes("á"),
+					f.Uncompounded(word, lemmata).includes("é"),
+					f.Uncompounded(word, lemmata).includes("í"),
+					f.Uncompounded(word, lemmata).includes("ó"),
+					f.Uncompounded(word, lemmata).includes("ú"),
+					f.Uncompounded(word, lemmata).includes("ý"),
+				),
+				2,
+				AND(
+					OR(
+						RIGHT(f.Lemma1(word, lemmata),3) == "ius",
+						RIGHT(f.Lemma1(word, lemmata),3) == "ïus",
+						RIGHT(f.Lemma1(word, lemmata),3) == "ium",
+						RIGHT(f.Lemma1(word, lemmata),8) == "ius[prn]",
+						RIGHT(f.Lemma1(word, lemmata),8) == "ius[adj]",
+						RIGHT(f.Lemma1(word, lemmata),6) == "ius[n]",
+						RIGHT(f.Lemma1(word, lemmata),8) == "ium[prn]",
+						RIGHT(f.Lemma1(word, lemmata),6) == "ium[n]"
+					),
+					reversestr(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(word,"á","a"),"é","e"),"í","i"),"ó","o"),"ú","u"),"ý","y")) == REPLACE(reversestr(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(f.Lemma1(word, lemmata),"[n]",""),"[prn]",""),"[adj]","")),1,3,"ī")
+				),
+				2,
+				1 == 1,
+				3
+			);
 		},
 	UltimaRhyme:
 		(word, lemmata) => {
