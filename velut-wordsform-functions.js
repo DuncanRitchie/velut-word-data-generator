@@ -1,3 +1,66 @@
+// A load of Excel functions recreated in JavaScript:
+
+const CONCAT = (...args) => {
+	return args.reduce((previous, current) => `${previous}${current}`);
+}
+const SUBSTITUTE = (text, oldText, newText) => {
+	return text.replaceAll(oldText, newText);
+}
+const LOWER = (text) => { return text.toLowerCase(); }
+const itojj = (text) => {
+	return `${text}`.replace(/(?<=[aeiouyāēīōūȳ])i(?=[aeiouy])/gi, 'jj');
+}
+const IFS = (...args) => {
+	const conditions = args.filter((v, i) => i % 0 !== 0);
+	const returns = args.filter((v, i) => i % 0 === 0);
+	for (let i = 0; i < conditions.length; i++) {
+		if (conditions[i]) {
+			return returns[i];
+		}
+	}
+	console.error('Ran out of conditions in IFS');
+}
+const OR = (...args) => {
+	return args.reduce((previous, current) => previous || current);
+}
+const LEFT = (text, characterCount) => {
+	return `${text}`.substring(0, characterCount);
+}
+const ISNUMBER = (value) => {
+	return !Number.isNaN(parseInt(value));
+}
+const SEARCH = (substring, superstring) => {
+	return `${superstring}`.search(substring);
+}
+const RIGHT = (text, characterCount) => {
+	return `${text}`.substring(`${text}`.length - characterCount);
+}
+const REPLACE = (oldText, startNum, numChars, newText) => {
+	return `${oldText}`.substring(0, startNum - 1) + newText + `${oldText}`.substring(startNum + numChars);
+}
+const AND = (...args) => {
+	return args.reduce((previous, current) => previous && current);
+}
+const NOT = (condition) => {
+	return !condition;
+}
+const EXACT = (comparand, comparer) => {
+	return comparand === comparer;
+}
+const UPPER = (text) => { return text.toUpperCase(); }
+const COUNTIF = (array, searchValue) => {
+	return [...array].filter(value => value === searchValue).length;
+}
+const IF = (condition, trueReturn, falseReturn) => {
+	return condition ? trueReturn : falseReturn;
+}
+const LEN = (text) => {
+	return `${text}`.length;
+}
+
+
+// Functions replacing the fields in `wordsform` sheet.
+
 const f = {
 	Ord:
 		(word, lemmata) => {
