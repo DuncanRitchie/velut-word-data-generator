@@ -216,7 +216,7 @@ const f = {
 																																																																																																																				),
 																																																																																																																				f.Lemma1(word, lemmata) === "praeeō",
 																																																																																																																				SUBSTITUTE(
-																																																																																																																						f.Word(word, lemmata),
+																																																																																																																						word,
 																																																																																																																						"praei",
 																																																																																																																						"prài"
 																																																																																																																				),
@@ -274,7 +274,7 @@ const f = {
 																																																																																																																						1
 																																																																																																																				),
 																																																																																																																				LEFT(
-																																																																																																																						f.Word(word, lemmata),
+																																																																																																																						word,
 																																																																																																																						6
 																																																																																																																				) === "Eduard",
 																																																																																																																				SUBSTITUTE(
@@ -533,7 +533,7 @@ const f = {
 																																																																																																																								EXACT(
 																																																																																																																										UPPER(
 																																																																																																																												LEFT(
-																																																																																																																														f.Word(word, lemmata),
+																																																																																																																														word,
 																																																																																																																														1
 																																																																																																																												)
 																																																																																																																										),
@@ -615,7 +615,7 @@ const f = {
 																																																																																																																						"ajj"
 																																																																																																																				),
 																																																																																																																				LEFT(
-																																																																																																																						f.Word(word, lemmata),
+																																																																																																																						word,
 																																																																																																																						1
 																																																																																																																				) === "-",
 																																																																																																																				"",
@@ -791,7 +791,7 @@ const f = {
 				),
 				IF(
 						LEN(
-								f.Word(word, lemmata)
+								word
 						) ===
 						LEN(
 								f.Uncompounded(word, lemmata)
@@ -799,7 +799,7 @@ const f = {
 						"",
 						RIGHT(
 								SUBSTITUTE(
-										f.Word(word, lemmata),
+										word,
 										"qu",
 										"q"
 								),
