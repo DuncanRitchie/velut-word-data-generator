@@ -11,12 +11,16 @@ const itojj = (text) => {
 	return `${text}`.replace(/(?<=[aeiouyāēīōūȳ])i(?=[aeiouy])/gi, 'jj');
 }
 const IFS = (...args) => {
-	const conditions = args.filter((v, i) => i % 0 !== 0);
-	const returns = args.filter((v, i) => i % 0 === 0);
+	const conditions = args.filter((v, i) => i % 2 === 0);
+	const returns = args.filter((v, i) => i % 2 !== 0);
 	for (let i = 0; i < conditions.length; i++) {
-		if (conditions[i]) {
+		if (conditions[i] === true) {
 			return returns[i];
 		}
+		if (conditions[i] === false) {
+			continue;
+		}
+		console.error(`Value of ${conditions[i]} was passed into IFS as a condition`);
 	}
 	console.error('Ran out of conditions in IFS');
 }
