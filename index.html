@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A tool that Duncan Ritchie uses to generate data for the “words” collection in his Latin website, velut.">
+    <title>Duncan’s Word Data Generator for velut</title>
+    <!-- <base href="https://www.duncanritchie.co.uk/velut-word-data-generator/"/> -->
+    <link rel="shortcut icon" href="https://www.duncanritchie.co.uk/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://www.duncanritchie.co.uk/css/main.css" key="main">
+    <link rel="stylesheet" href="https://www.duncanritchie.co.uk/css/subsites.css" key="subsites">
+    <link rel="stylesheet" href="./main.css" key="subsite">
+</head>
+<body>
+    <main>
+        <h1>Duncan’s Word Data Generator for velut</h1>
+        <div class="buttons">
+            <button id="clear-inputs">Clear</button>
+            <button id="load-sample-data">Load sample</button>
+        </div>
+        <label for="textarea-input">Paste from Excel here (or use sample):</label><br/>
+        <textarea id="textarea-input"></textarea><br/>
+        <div class="buttons">
+            <span id="text-by-generate-json"></span>
+            <button id="generate-json">Generate Json</button><br/>
+        </div>
+        <label for="textarea-output">Output Json:</label><br/>
+        <textarea id="textarea-output" readonly></textarea>
+        <div class="buttons">
+            <span id="text-by-copy-to-clipboard"></span>
+            <button id="copy-to-clipboard">Copy to clipboard</button>
+            <button id="download">Download as file</button>
+        </div>
+
+        <section>
+            <h2>About</h2>
+            <p>
+                <a href="https://www.velut.co.uk/" title="velut — a Latin rhyming dictionary">velut</a> is my Latin vocabulary website, which uses a MongoDB database with two collections (“words” and “lemmata”). But I generate and store all the data for it in a private Excel file. To get my Excel data into MongoDB, I copy an entire table (either “words” or “lemmata”) into the field above, generate the Json, copy it into (or save it as) a .json file on my computer, then run a mongoimport command to replace my MongoDB data with the new Json.
+            </p>
+            <p>
+                If this sounds a bit convoluted, that’s fair enough. If you’re thinking I should automate it more, you’re probably right. If you question the rationality of using Excel for all the things I’m currently using it for, I don’t disagree. Over time I will make further adjustments to how I manage and upload the data, but this is where I’m at now.
+            </p>
+            <p>
+                For this page to work correctly, each row must be a record, except the first row which is the header row, and fields must be tab-delimited. This is true when I am copying the table from Excel.
+            </p>
+            <p>
+                I have two pre-defined schemata: words and lemmata. If the second column is “Word”, this page will assume you’re using the “words” schema. If the second column is “Lemma”, this page will assume you’re using the “lemmata” schema. Columns in the input that are not in my schema will not appear in the output Json.
+            </p>
+            <p>
+                If the second column is something else, this page will not use my schemata, but will attempt to convert your input to Json, with all the fields you specify. Be aware that the fields might not be the data-type you want, and might not even be valid Json.
+            </p>
+            <p>
+                The Json generated does not have commas separating the objects, or square brackets around the entire array. This is not the standard Json format, but is the format required by mongoimport.
+            </p>
+            <p>
+                If you’re not me, you won’t have access to the Excel file I store all the data for velut in. You can load a small amount of sample data using the buttons at the top of the page, so you can still see what this page does. Or you can paste your own data in.
+            </p>
+        </section>
+    </main>
+    <footer>
+        <ul>
+            <li>
+                <a href="https://www.duncanritchie.co.uk/" title="Duncan Ritchie’s website">Made by Duncan Ritchie</a>
+            </li>
+            <li>
+                <a href="https://github.com/DuncanRitchie/velut-word-data-generator" title="Code for this page on GitHub">See the code</a>
+            </li>
+        </ul>
+    </footer>
+    <script src="./main.js"></script>
+</body>
+</html>
