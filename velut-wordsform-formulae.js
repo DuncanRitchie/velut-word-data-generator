@@ -1,4 +1,4 @@
-export const wordsformFormulae = {
+const wordsformFormulae = {
 	Ord:
 		'=ROWS(words)+ROW()-1',
 	Word:

@@ -1,4 +1,4 @@
-export const phoneticExceptions = {
+const phoneticExceptions = {
 	"Diphthong eu": [
 		"Aegeus",
 		"Andreus",
