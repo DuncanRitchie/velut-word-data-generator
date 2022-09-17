@@ -1,20 +1,29 @@
 // A load of Excel functions recreated in JavaScript:
 
 const CONCAT = (...args) => {
+	console.log('Concat:', args);
 	return args.reduce((previous, current) => `${previous}${current}`);
 }
 const SUBSTITUTE = (text, oldText, newText) => {
+	console.log('Substitute:', {text, oldText, newText});
 	return text.replaceAll(oldText, newText);
 }
 const LOWER = (text) => {
+	console.log('Lower:', text);
 	return text.toLowerCase();
 }
 const itojj = (text) => {
+	if (text === undefined) {
+		console.error('itojj: Text is undefined')
+	}
+	console.log('itojj:', text);
 	return `${text}`.replace(/(?<=[aeiouyāēīōūȳ])i(?=[aeiouy])/gi, 'jj');
 }
 const IFS = (...args) => {
+	console.log('Ifs:', args);
 	const conditions = args.filter((v, i) => i % 2 === 0);
 	const returns = args.filter((v, i) => i % 2 !== 0);
+	console.log({conditions, returns})
 	for (let i = 0; i < conditions.length; i++) {
 		if (conditions[i] === true) {
 			return returns[i];
@@ -27,42 +36,55 @@ const IFS = (...args) => {
 	console.error('Ran out of conditions in IFS');
 }
 const OR = (...args) => {
+	console.log('Or:', args);
 	return args.reduce((previous, current) => previous || current);
 }
 const LEFT = (text, characterCount) => {
+	console.log('Left:', {text, characterCount});
 	return `${text}`.substring(0, characterCount);
 }
 const ISNUMBER = (value) => {
+	console.log('IsNumber', value);
 	return !Number.isNaN(parseInt(value));
 }
 const SEARCH = (substring, superstring) => {
+	console.log('Search:', {substring, superstring});
 	return `${superstring}`.search(substring);
 }
 const RIGHT = (text, characterCount) => {
+	console.log('Right:', {text, characterCount});
 	return `${text}`.substring(`${text}`.length - characterCount);
 }
 const REPLACE = (oldText, startNum, numChars, newText) => {
+	console.log('Replace', {oldText, startNum, numChars, newText});
 	return `${oldText}`.substring(0, startNum - 1) + newText + `${oldText}`.substring(startNum + numChars);
 }
 const AND = (...args) => {
+	console.log('And:', args)
 	return args.reduce((previous, current) => previous && current);
 }
 const NOT = (condition) => {
+	console.log('Not:', condition);
 	return !condition;
 }
 const EXACT = (comparand, comparer) => {
+	console.log('Exact:', {comparand, comparer});
 	return comparand === comparer;
 }
 const UPPER = (text) => {
+	console.log('Upper', text);
 	return text.toUpperCase();
 }
 const COUNTIF = (array, searchValue) => {
+	console.log('Countif:', {array, searchValue});
 	return [...array].filter(value => value === searchValue).length;
 }
 const IF = (condition, trueReturn, falseReturn) => {
+	console.log('If:', {condition, trueReturn, falseReturn});
 	return condition ? trueReturn : falseReturn;
 }
 const LEN = (text) => {
+	console.log('Len:', text);
 	return `${text}`.length;
 }
 
