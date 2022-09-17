@@ -191,10 +191,10 @@ const checkResult = (word, lemmata, functionName) => {
             console.log('Yay!');
         }
         else if (expectedOutput === undefined && actualOutput === "") {
-            console.log(`Neither the function nor the expected value has been defined for ${functionName}(${word}, ${lemmata})`);
+            console.warn(`Neither the function nor the expected value has been defined for ${functionName}(${word}, ${lemmata})`);
         }
         else if (expectedOutput === undefined) {
-            console.log(`${functionName}(${word}, ${lemmata}) gives ${actualOutput} but the expected value hasn’t been defined`);
+            console.warn(`${functionName}(${word}, ${lemmata}) gives ${actualOutput} but the expected value hasn’t been defined`);
         }
         else if (actualOutput === "") {
             console.log(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but the function hasn’t been written`);
