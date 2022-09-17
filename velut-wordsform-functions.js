@@ -151,7 +151,7 @@ const f = {
 		},
 	NoMacraLowerCase:
 		(word, lemmata) => {
-			return '';
+			return f.NoMacra(word).toLowerCase();
 		},
 	AlphOrderNoMacra:
 		(word, lemmata) => {
