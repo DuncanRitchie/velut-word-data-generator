@@ -126,7 +126,7 @@ const f = {
 		},
 	LemmaArray:
 		(word, lemmata) => {
-			return '';
+			return lemmata.split(' ');
 		},
 	IsLemma:
 		(word, lemmata) => {
