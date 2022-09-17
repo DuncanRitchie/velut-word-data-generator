@@ -838,7 +838,18 @@ const f = {
 		},
 	Scansion:
 		(word, lemmata) => {
-			return '';
+			return f.Phonetic(word, lemmata)
+				.replace(/[eiouy]/g, 'a')
+				.replace(/[ēīōūȳãẽĩõũỹàâ€èòùḗ]/g, 'ā')
+				.replace(/bl|cl|cr|dr|fr|fl|gl|gr|pr|pl|tr|θl|θr|φl|φr|χl|χr/g, 'br')
+				.replace(/br/g, 'b')
+				.replace(/h/g, '')
+				.replace(/c|d|f|g|j|k|l|m|n|p|q|r|s|t|v|φ|χ|θ/g, 'b')
+				.replace(/z/g, 'bb')
+				.replace(/abb/g, 'ā')
+				.replace(/b/g, '')
+				.replace(/a/g, '⏑')
+				.replace(/ā/g, '–') || '∅';
 		},
 	AllVowels:
 		(word, lemmata) => {
