@@ -187,10 +187,7 @@ const checkResult = (word, lemmata, functionName) => {
     if (expectedOutputFromSampleData[word]) {
         const expectedOutput = expectedOutputFromSampleData[word][functionName];
         const actualOutput = wordsformFunctions[functionName](word, lemmata);
-        if (actualOutput === expectedOutput) {
-            console.log('Yay!');
-        }
-        else if (expectedOutput === undefined && actualOutput === "") {
+        if (expectedOutput === undefined && actualOutput === "") {
             console.warn(`Neither the function nor the expected value has been defined for ${functionName}(${word}, ${lemmata})`);
         }
         else if (expectedOutput === undefined) {
@@ -199,8 +196,11 @@ const checkResult = (word, lemmata, functionName) => {
         else if (actualOutput === "") {
             console.log(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but the function hasn’t been written`);
         }
+        else if (JSON.stringify(actualOutput) === JSON.stringify(expectedOutput)) {
+            console.log(`Yay for ${functionName}(${word}, ${lemmata})!`);
+        }
         else {
-            console.error(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but gives ${actualOutput}`);
+            console.error({for: `${functionName}(${word}, ${lemmata})`, expected: expectedOutput, actual: actualOutput});
         }
     }
 }
