@@ -6,7 +6,9 @@ const CONCAT = (...args) => {
 const SUBSTITUTE = (text, oldText, newText) => {
 	return text.replaceAll(oldText, newText);
 }
-const LOWER = (text) => { return text.toLowerCase(); }
+const LOWER = (text) => {
+	return text.toLowerCase();
+}
 const itojj = (text) => {
 	return `${text}`.replace(/(?<=[aeiouyāēīōūȳ])i(?=[aeiouy])/gi, 'jj');
 }
@@ -51,7 +53,9 @@ const NOT = (condition) => {
 const EXACT = (comparand, comparer) => {
 	return comparand === comparer;
 }
-const UPPER = (text) => { return text.toUpperCase(); }
+const UPPER = (text) => {
+	return text.toUpperCase();
+}
 const COUNTIF = (array, searchValue) => {
 	return [...array].filter(value => value === searchValue).length;
 }
