@@ -95,27 +95,27 @@ const f = {
 		},
 	LemmaCount:
 		(word, lemmata) => {
-			return '';
+			return f.LemmaArray(word, lemmata).length;
 		},
 	Lemma1:
 		(word, lemmata) => {
-			return '';
+			return f.LemmaArray(word, lemmata)[0];
 		},
 	Lemma2:
 		(word, lemmata) => {
-			return '';
+			return f.LemmaArray(word, lemmata)[1] || null;
 		},
 	Lemma3:
 		(word, lemmata) => {
-			return '';
+			return f.LemmaArray(word, lemmata)[2] || null;
 		},
 	Lemma4:
 		(word, lemmata) => {
-			return '';
+			return f.LemmaArray(word, lemmata)[3] || null;
 		},
 	Lemma5:
 		(word, lemmata) => {
-			return '';
+			return f.LemmaArray(word, lemmata)[4] || null;
 		},
 	ScansionWithElision:
 		(word, lemmata) => {
