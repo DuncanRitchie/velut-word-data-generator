@@ -838,7 +838,7 @@ const f = {
 		},
 	SyllableCount:
 		(word, lemmata) => {
-			return '';
+			return f.AllVowels(word, lemmata).replace('∅', '').length;
 		},
 	Stress:
 		(word, lemmata) => {
