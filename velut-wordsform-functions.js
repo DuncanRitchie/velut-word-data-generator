@@ -18,7 +18,8 @@ const f = {
 		},
 	AllConsonants:
 		(word, lemmata) => {
-			return '';
+			const replaced = f.NoMacraLowerCase(word).replace(/[aeiouy]/gi, '');
+			return replaced || '-';
 		},
 	Uncompounded:
 		(word, lemmata) => {
