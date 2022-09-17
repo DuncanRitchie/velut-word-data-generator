@@ -144,7 +144,7 @@ const functionNames = Object.keys(wordsformFunctions);
 let outputArray = [];
 
 const output = (jsonObject) => {
-    outputArray.push(JSON.stringify(jsonObject));
+    outputArray.push(JSON.stringify(jsonObject, undefined, 2));
 }
 
 
