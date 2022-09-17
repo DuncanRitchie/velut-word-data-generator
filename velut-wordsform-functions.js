@@ -1,7 +1,8 @@
 const f = {
 	Ord:
 		(word, lemmata) => {
-			return '';
+			// Should really be a serial number, not hardcoded
+			return 123;
 		},
 	Word:
 		(word, lemmata) => {
