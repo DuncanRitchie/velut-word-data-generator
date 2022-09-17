@@ -137,12 +137,14 @@ const warnOfEmptyOutput = () => {
 
 let tableName = "custom"; //// "custom", "lemmata", "words".
 
+const functionNames = Object.keys(wordsformFunctions);
+
 //// `outputArray` gets modified by `generateJson` and displayed in the second text-area by `displayOutput`.
 
 let outputArray = [];
 
-const output = (line) => {
-    outputArray.push(line);
+const output = (jsonObject) => {
+    outputArray.push(JSON.stringify(jsonObject));
 }
 
 
@@ -153,54 +155,62 @@ const generateJson = () => {
     textByGenerateJson.textContent = "Generating Json, please wait...";
     outputArray.length = 0; // Clear the output in case there’s anything from previous runs.
     const allInputRows = textareaInput.value.split("\n");
-    const headerRow = allInputRows[0].split("\t");
-    const schema = getSchemaFromHeaderRow(headerRow);
-    const emptyTextReplacement = getEmptyTextRepresentation(headerRow); // Empty string fields are represented differently in “words” than in “lemmata”.
-    const lastKeyInSchema = getLastKey(schema); // This is used to prevent trailing commas.
-    const countColumnsInInput = headerRow.length;
+
+    // const headerRow = allInputRows[0].split("\t");
+    // const schema = getSchemaFromHeaderRow(headerRow);
+    // const emptyTextReplacement = getEmptyTextRepresentation(headerRow); // Empty string fields are represented differently in “words” than in “lemmata”.
+    // const lastKeyInSchema = getLastKey(schema); // This is used to prevent trailing commas.
+    // const countColumnsInInput = headerRow.length;
     const countRows = allInputRows.length;
 
     //// For each line of values in the input...
-    //// (We skip i==0 because that’s the header row.)
-    for (let i = 1; i < countRows; i++) {
+    // //// (We skip i==0 because that’s the header row.)
+    for (let i = 0; i < countRows; i++) {
         //// Skip empty lines.
         if (allInputRows[i] == "") { continue; }
 
         const rowOfValues = allInputRows[i].split("\t");
-        output("{");
+        const [word, lemmata, ...rest] = rowOfValues;
+        const resultsForLine = {};
 
-        //// Create an object that maps each key in `headerRow` to the value in the current row.
-        let valuesAsObject = {};
-        for (let j = 0; j < countColumnsInInput; j++) {
-            const currentKey = headerRow[j];
-            const currentValue = rowOfValues[j];
-            valuesAsObject[currentKey] = currentValue;
-        }
+        functionNames.forEach(functionName => {
+            resultsForLine[functionName] = wordsformFunctions[functionName](word, lemmata);
+        })
+        // output ({word, lemmata});
+    //     output("{");
 
-        //// Fields will be added to the output in the order they appear in the schema.
-        for (let currentKey in schema) {
-            const currentValue = valuesAsObject[currentKey];
-            //// Decide whether there should be a comma after the key–value pair.
-            const lineTerminator = currentKey == lastKeyInSchema ? "" : ",";
-            //// Use the types defined in the schema to determine the format.
-            //// Strings need to be quoted, but other values do not.
-            switch (schema[currentKey]) {
-                case "int":
-                    output(`"${currentKey}": ${currentValue ? currentValue : "null"}${lineTerminator}`);
-                    break;
-                case "string":
-                    output(`"${currentKey}": ${currentValue ? `"${currentValue}"` : emptyTextReplacement}${lineTerminator}`);
-                    break;
-                case "array":
-                    //// My value from Excel is always valid Json for an array of strings.
-                    output(`"${currentKey}": ${currentValue}${lineTerminator}`);
-                    break;
-                default:
-                    break;
-            }
-        }
+    //     //// Create an object that maps each key in `headerRow` to the value in the current row.
+    //     let valuesAsObject = {};
+    //     for (let j = 0; j < countColumnsInInput; j++) {
+    //         const currentKey = headerRow[j];
+    //         const currentValue = rowOfValues[j];
+    //         valuesAsObject[currentKey] = currentValue;
+    //     }
 
-        output("}")
+    //     //// Fields will be added to the output in the order they appear in the schema.
+    //     for (let currentKey in schema) {
+    //         const currentValue = valuesAsObject[currentKey];
+    //         //// Decide whether there should be a comma after the key–value pair.
+    //         const lineTerminator = currentKey == lastKeyInSchema ? "" : ",";
+    //         //// Use the types defined in the schema to determine the format.
+    //         //// Strings need to be quoted, but other values do not.
+    //         switch (schema[currentKey]) {
+    //             case "int":
+    //                 output(`"${currentKey}": ${currentValue ? currentValue : "null"}${lineTerminator}`);
+    //                 break;
+    //             case "string":
+    //                 output(`"${currentKey}": ${currentValue ? `"${currentValue}"` : emptyTextReplacement}${lineTerminator}`);
+    //                 break;
+    //             case "array":
+    //                 //// My value from Excel is always valid Json for an array of strings.
+    //                 output(`"${currentKey}": ${currentValue}${lineTerminator}`);
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+
+        output(resultsForLine);
     }
     displayOutput();
     textByGenerateJson.textContent = "Json generated!";
