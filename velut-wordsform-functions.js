@@ -1174,11 +1174,15 @@ const f = {
 		},
 	IsLemma:
 		(word, lemmata) => {
-			return '';
+			return f.LemmaArray(word, lemmata).some(lemma => {
+				return lemma.replace(/\[[^\]]+\]/, '') === word;
+			}) ? 1 : 0;
 		},
 	IsNonLemma:
 		(word, lemmata) => {
-			return '';
+			return f.LemmaArray(word, lemmata).some(lemma => {
+				return lemma.replace(/\[[^\]]+\]/, '') !== word;
+			}) ? 1 : 0;
 		},
 	DuplicateWords:
 		(word, lemmata) => {
