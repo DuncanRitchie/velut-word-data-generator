@@ -1142,43 +1142,18 @@ const f = {
 		},
 	ScansionWithElision:
 		(word, lemmata) => {
-			return IF(
-				OR(
-					f.UltimaRhyme(word, lemmata)==="a",
-					f.UltimaRhyme(word, lemmata)==="e",
-					f.UltimaRhyme(word, lemmata)==="i",
-					f.UltimaRhyme(word, lemmata)==="o",
-					f.UltimaRhyme(word, lemmata)==="u",
-					f.UltimaRhyme(word, lemmata)==="y",
-					f.UltimaRhyme(word, lemmata)==="ā",
-					f.UltimaRhyme(word, lemmata)==="ē",
-					f.UltimaRhyme(word, lemmata)==="ī",
-					f.UltimaRhyme(word, lemmata)==="ō",
-					f.UltimaRhyme(word, lemmata)==="ū",
-					f.UltimaRhyme(word, lemmata)==="ӯ",
-					f.UltimaRhyme(word, lemmata)==="ã",
-					f.UltimaRhyme(word, lemmata)==="ẽ",
-					f.UltimaRhyme(word, lemmata)==="ĩ",
-					f.UltimaRhyme(word, lemmata)==="õ",
-					f.UltimaRhyme(word, lemmata)==="ũ",
-					f.UltimaRhyme(word, lemmata)==="ỹ",
-					f.UltimaRhyme(word, lemmata)==="à",
-					f.UltimaRhyme(word, lemmata)==="â",
-					f.UltimaRhyme(word, lemmata)==="é",
-					f.UltimaRhyme(word, lemmata)==="€",
-					f.UltimaRhyme(word, lemmata)==="ò",
-					f.UltimaRhyme(word, lemmata)==="ù"
-				),
-				IF(
-					f.SyllableCount(word, lemmata)===1,
-					"∅",
-					LEFT(
-						f.Scansion(word, lemmata),
-						f.SyllableCount(word, lemmata)-1
-					)
-				),
-				f.Scansion(word, lemmata)
-			);
+			if (["a", "e", "i", "o", "u", "y", "ā", "ē", "ī", "ō", "ū", "ӯ", "ã", "ẽ", "ĩ", "õ", "ũ", "ỹ", "à", "â", "é", "€", "ò", "ù"]
+				.includes(f.UltimaRhyme(word, lemmata))
+			) {
+				if (f.SyllableCount(word, lemmata) === 1) {
+					return '∅';
+				}
+				return LEFT(
+					f.Scansion(word, lemmata),
+					f.SyllableCount(word, lemmata) - 1
+				)
+			}
+			return f.Scansion(word, lemmata);
 		},
 	IsFitForDactylic:
 		(word, lemmata) => {
