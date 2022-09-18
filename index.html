@@ -35,25 +35,35 @@
         <section>
             <h2>About</h2>
             <p>
-                <a href="https://www.velut.co.uk/" title="velut — a Latin rhyming dictionary">velut</a> is my Latin vocabulary website, which uses a MongoDB database with two collections (“words” and “lemmata”). But I generate and store all the data for it in a private Excel file. To get my Excel data into MongoDB, I copy an entire table (either “words” or “lemmata”) into the field above, generate the Json, copy it into (or save it as) a .json file on my computer, then run a mongoimport command to replace my MongoDB data with the new Json.
+                This is a webpage that generates data for my Latin rhyming dictionary, <a href="https://www.velut.co.uk/" title="velut — a Latin rhyming dictionary">velut</a>; specifically it generates the “words” data. For each word and corresponding list of lemmata, this generates fields such as the phonetic representation, the number of syllables, the rhyming-part, and strings that words are sorted on. The resultant Json can be downloaded (or copied to the clipboard). Once it’s on my hard drive, I have a script to upload it to the MongoDB database that the velut website uses.
             </p>
+
             <p>
-                If this sounds a bit convoluted, that’s fair enough. If you’re thinking I should automate it more, you’re probably right. If you question the rationality of using Excel for all the things I’m currently using it for, I don’t disagree. Over time I will make further adjustments to how I manage and upload the data, but this is where I’m at now.
+                Each line of input must be a word, a tab, and the space-separated list of lemmata. The “Load sample” button will give you some examples.
             </p>
+
             <p>
-                For this page to work correctly, each row must be a record, except the first row which is the header row, and fields must be tab-delimited. This is true when I am copying the table from Excel.
+                The Json generated does not have commas separating the objects, or square brackets around the entire array. This is not the standard Json format, but is the format required by mongoimport (which is the tool my script uses to import into the database).
             </p>
+
             <p>
-                I have two pre-defined schemata: words and lemmata. If the second column is “Word”, this page will assume you’re using the “words” schema. If the second column is “Lemma”, this page will assume you’re using the “lemmata” schema. Columns in the input that are not in my schema will not appear in the output Json.
+                Although the velut website uses a MongoDB database, and this page produces Json data for the MongoDB database, I privately have a large Excel file for generating and storing the data in velut. This webpage is intended to replace a sheet called “wordsform” in that Excel file. The sheet can generate all the data from words and lemmata entered into the second and third columns — which is why the second and third fields of the output are Word and Lemmata, the two columns that don’t have Excel formulae.
             </p>
+
             <p>
-                If the second column is something else, this page will not use my schemata, but will attempt to convert your input to Json, with all the fields you specify. Be aware that the fields might not be the data-type you want, and might not even be valid Json.
+                One of the differences between the “wordsform” sheet and this Word Data Generator is that in the sheet the output data are in Excel cells, but in the generator they’re in Json format. Copying data from Excel makes them tab-delimited. To convert the tab-delimited data to Json, I use my <a href="https://www.duncanritchie.co.uk/velut-json-generator">Json Generator</a>, which is a separate webpage. But I’ll hopefully have less need of that in the future, because the data from the Word Data Generator are already in Json format.
             </p>
+
             <p>
-                The Json generated does not have commas separating the objects, or square brackets around the entire array. This is not the standard Json format, but is the format required by mongoimport.
+                I haven’t yet checked the output of the Word Data Generator against the data I already have from Excel, apart from the sample data. So I expect some bugs will have been introduced in my attempts to re-write my Excel formulae in JavaScript. When I’m confident that this page gives the same output as my Excel formulae, for all the Latin words I have, I will then stop using the “wordsform” sheet.
             </p>
+
             <p>
-                If you’re not me, you won’t have access to the Excel file I store all the data for velut in. You can load a small amount of sample data using the buttons at the top of the page, so you can still see what this page does. Or you can paste your own data in.
+                It’s all part of my long-term project of converting my Excel file into websites and webpages that are easier to share and maintain. I’m very much in a transition period of using the Excel file for some things and my newer websites/webpages for others. But the Word Data Generator is another step in the process. At the moment, the whole velut project is very convoluted; in the future, it won’t be as bad.
+            </p>
+
+            <p>
+                If you’re not me, you’re unlikely to have much use for the Word Data Generator, but kudos to you for reading so far!
             </p>
         </section>
     </main>
