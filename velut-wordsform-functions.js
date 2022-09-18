@@ -1033,7 +1033,7 @@ const f = {
 		},
 	EcclesRhymeVowels:
 		(word, lemmata) => {
-			return '';
+			return IF(word==="dehinc", "ei", RIGHT(f.EcclesVowels(word, lemmata), f.Stress(word, lemmata)) + IF(f.Scansion(word, lemmata) === "∅", "∅", ""));
 		},
 	EcclesRhymeVowelsAndUltimaCoda:
 		(word, lemmata) => {
