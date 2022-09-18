@@ -933,7 +933,12 @@ const f = {
 		},
 	UltimaRhyme:
 		(word, lemmata) => {
-			return '';
+			if (f.SyllableCount(word, lemmata) === 0) {
+				return f.Phonetic(word, lemmata);
+			}
+			const ultimaVowel = f.AllVowels(word, lemmata).at(-1)
+			const lastIndex = `${f.Phonetic(word, lemmata)}`.lastIndexOf(ultimaVowel)
+			return `${f.Phonetic(word, lemmata)}`.substring(lastIndex);
 		},
 	RhymeVowels:
 		(word, lemmata) => {
