@@ -1214,6 +1214,9 @@ const f = {
 		},
 	NewLemmata:
 		(word, lemmata) => {
+			// I’m not going to write something useful for this.
+			// In the Excel file, this column checks whether lemmata are missing from
+			// a sheet called `lemmata` — but that sheet cannot be replicated here.
 			return '';
 		},
 	NoMacra:
