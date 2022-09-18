@@ -966,7 +966,12 @@ const f = {
 		},
 	RhymeConsonants:
 		(word, lemmata) => {
-			return '';
+			return (f.PerfectRhyme(word, lemmata) + '.')
+				.replace(/[€āàâeēiīoōóòuūùyȳ]/g, 'a')
+				.replace(/[ãẽĩõũỹ]f/g, 'anf')
+				.replace(/[ãẽĩõũỹ]s/g, 'ans')
+				.replace(/[ãẽĩõũỹ]/g, 'am')
+				.replace('.', '');
 		},
 	Ultima:
 		(word, lemmata) => {
