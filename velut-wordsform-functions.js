@@ -1227,7 +1227,7 @@ const f = {
 		},
 	AlphOrderNoMacra:
 		(word, lemmata) => {
-			return '';
+			return f.NoMacraLowerCase(word, lemmata).split('').sort().join('');
 		},
 	Sort:
 		(word, lemmata) => {
