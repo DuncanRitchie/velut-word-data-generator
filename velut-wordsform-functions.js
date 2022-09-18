@@ -84,6 +84,9 @@ const clearWordsArray = () => {
 	existingWords.length = 0;
 }
 
+// Constant used when a field would be the empty string, such as the consonants in a word of all vowels.
+const EMPTY = '∅';
+
 
 // Functions replacing the fields in `wordsform` sheet.
 
@@ -112,7 +115,7 @@ const f = {
 	Uncompounded:
 		(word, lemmata) => {
 			if (['-ne', '-que', '-ve'].includes(word)) {
-				return '∅';
+				return EMPTY;
 			}
 			if (f.Lemma1(word, lemmata).endsWith('que')) {
 				return word;
@@ -844,18 +847,18 @@ const f = {
 				.replace(/abb/g, 'ā')
 				.replace(/b/g, '')
 				.replace(/a/g, '⏑')
-				.replace(/ā/g, '–') || '∅';
+				.replace(/ā/g, '–') || EMPTY;
 		},
 	AllVowels:
 		(word, lemmata) => {
-			if (f.Scansion(word, lemmata) === '∅' || word[0] === '-') {
-				return '∅';
+			if (f.Scansion(word, lemmata) === EMPTY || word[0] === '-') {
+				return EMPTY;
 			}
 			return f.Phonetic(word, lemmata).replace(/[bcdfghjklmnpqrstvxzχφθ]/g, '');
 		},
 	SyllableCount:
 		(word, lemmata) => {
-			return f.AllVowels(word, lemmata).replace('∅', '').length;
+			return f.AllVowels(word, lemmata).replace(EMPTY, '').length;
 		},
 	Stress:
 		(word, lemmata) => {
@@ -953,8 +956,8 @@ const f = {
 		},
 	RhymeVowels:
 		(word, lemmata) => {
-			if (f.Scansion(word, lemmata) === '∅') {
-				return '∅';
+			if (f.Scansion(word, lemmata) === EMPTY) {
+				return EMPTY;
 			}
 			return RIGHT(f.AllVowels(word, lemmata), f.Stress(word, lemmata));
 		},
@@ -1037,7 +1040,7 @@ const f = {
 	EcclesVowels:
 		(word, lemmata) => {
 			if (word.startsWith('-')) {
-				return '∅';
+				return EMPTY;
 			}
 			return f.EcclesPhonetic(word, lemmata)
 				.replace(/[bcdghjklmnpqrstvxz]/g, '');
@@ -1047,15 +1050,15 @@ const f = {
 			if (word === 'dehinc') {
 				return 'ei';
 			}
-			if (f.Scansion(word, lemmata) === '∅') {
-				return '∅';
+			if (f.Scansion(word, lemmata) === EMPTY) {
+				return EMPTY;
 			}
 			return RIGHT(f.EcclesVowels(word, lemmata), f.Stress(word, lemmata));
 		},
 	EcclesRhymeVowelsAndUltimaCoda:
 		(word, lemmata) => {
-			if (f.Scansion(word, lemmata) === '∅') {
-				return '∅';
+			if (f.Scansion(word, lemmata) === EMPTY) {
+				return EMPTY;
 			}
 			const phonetic = f.EcclesPhonetic(word, lemmata);
 			const rhymeVowels = f.EcclesRhymeVowels(word, lemmata);
@@ -1158,7 +1161,7 @@ const f = {
 				return f.Scansion(word, lemmata);
 			}
 			if (f.SyllableCount(word, lemmata) === 1) {
-				return '∅';
+				return EMPTY;
 			}
 			return LEFT(
 				f.Scansion(word, lemmata),
