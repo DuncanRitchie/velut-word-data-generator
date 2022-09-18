@@ -93,7 +93,7 @@ const EMPTY = '∅';
 const f = {
 	Ord:
 		(word, lemmata) => {
-			return existingWords.length;
+			return existingWords.length + 1;
 		},
 	Word:
 		(word, lemmata) => {

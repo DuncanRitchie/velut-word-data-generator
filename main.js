@@ -77,7 +77,7 @@ const expectedTabbedOutputFromSampleData =
 
 const expectedOutputFromSampleData = {
 "vocābulōrum": {
-  "Ord": 0,
+  "Ord": 1,
   "Word": "vocābulōrum",
   "Lemmata": "vocābulum",
   "Length": 11,
@@ -120,7 +120,7 @@ const expectedOutputFromSampleData = {
   "RepeatWord": "vocābulōrum",
 },
 "excellentium": {
-  "Ord": 1,
+  "Ord": 2,
   "Word": "excellentium",
   "Lemmata": "excellēns excellō",
   "Length": 12,
@@ -163,7 +163,7 @@ const expectedOutputFromSampleData = {
   "RepeatWord": "excellentium",
 },
 "Latīnōrum": {
-  "Ord": 2,
+  "Ord": 3,
   "Word": "Latīnōrum",
   "Lemmata": "Latīnus[prn] Latīnus[adj]",
   "Length": 9,
@@ -206,7 +206,7 @@ const expectedOutputFromSampleData = {
   "RepeatWord": "Latīnōrum",
 },
 "ūtilēs": {
-  "Ord": 3,
+  "Ord": 4,
   "Word": "ūtilēs",
   "Lemmata": "ūtilis",
   "Length": 6,
@@ -249,7 +249,7 @@ const expectedOutputFromSampleData = {
   "RepeatWord": "ūtilēs",
 },
 "tabulae": {
-  "Ord": 4,
+  "Ord": 5,
   "Word": "tabulae",
   "Lemmata": "tabula",
   "Length": 7,
