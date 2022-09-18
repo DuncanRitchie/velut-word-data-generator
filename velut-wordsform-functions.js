@@ -1043,7 +1043,14 @@ const f = {
 		},
 	EcclesRhymeVowelsAndUltimaCoda:
 		(word, lemmata) => {
-			return '';
+			if (f.Scansion(word, lemmata) === '∅') {
+				return '∅';
+			}
+			const phonetic = f.EcclesPhonetic(word, lemmata);
+			const rhymeVowels = f.EcclesRhymeVowels(word, lemmata);
+			const ultimaVowel = rhymeVowels.substring(rhymeVowels.length - 1);
+			const ultimaVowelIndex = phonetic.lastIndexOf(ultimaVowel);
+			return rhymeVowels + phonetic.substring(ultimaVowelIndex + 1);
 		},
 	EcclesPerfectRhyme:
 		(word, lemmata) => {
