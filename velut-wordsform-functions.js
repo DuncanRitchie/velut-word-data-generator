@@ -1074,7 +1074,57 @@ const f = {
 		},
 	EcclesSort:
 		(word, lemmata) => {
-			return '';
+			return CONCAT(
+				CONCAT(
+					f.EcclesRhymeVowels(word, lemmata),
+					"-",
+					f.EcclesPerfectRhyme(word, lemmata)
+						.replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a'),
+					"-",
+					reversestr(
+						LEFT(
+							f.EcclesVowels(word, lemmata),
+							LEN(f.EcclesVowels(word, lemmata)) - LEN(f.EcclesRhymeVowels(word, lemmata))
+						)
+					) || "",
+					"-",
+					reversestr(
+						LEFT(
+							f.EcclesPhonetic(word, lemmata),
+							LEN(f.EcclesPhonetic(word, lemmata)) - LEN(f.EcclesPerfectRhyme(word, lemmata))
+						)
+					).replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a'),
+					"-",
+					LOWER(word)
+				).replaceAll('ā', 'azzzz')
+					.replaceAll('ē', 'ezzzz')
+					.replaceAll('ḗ', 'ezzzz')
+					.replaceAll('ī', 'izzzz')
+					.replaceAll('ō', 'ozzzz')
+					.replaceAll('ū', 'uzzzz')
+					.replaceAll('ȳ', 'yzzzz')
+					.replaceAll('ã', 'azzzzzz')
+					.replaceAll('ẽ', 'ezzzzzz')
+					.replaceAll('ĩ', 'izzzzzz')
+					.replaceAll('õ', 'ozzzzzz')
+					.replaceAll('ũ', 'uzzzzzz')
+					.replaceAll('ỹ', 'yzzzzzz')
+					.replaceAll('à', 'azzzzzzzz')
+					.replaceAll('â', 'azzzzzzzzzzzz')
+					.replaceAll('è', 'ezzzzzzzz')
+					.replaceAll('€', 'ezzzzzzzzzzzz')
+					.replaceAll('ò', 'ozzzzzzzz')
+					.replaceAll('ù', 'uzzzzzzzz'),
+				IF(
+					EXACT(LEFT(word,1),LOWER(LEFT(word,1))),
+					IF(
+						EXACT(word,LOWER(word)),
+						"/",
+						""
+					),
+					""
+				)
+			);
 		},
 	LemmaCount:
 		(word, lemmata) => {
