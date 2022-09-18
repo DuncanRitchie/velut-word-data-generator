@@ -942,7 +942,10 @@ const f = {
 		},
 	RhymeVowels:
 		(word, lemmata) => {
-			return '';
+			if (f.Scansion(word, lemmata) === '∅') {
+				return '∅';
+			}
+			return RIGHT(f.AllVowels(word, lemmata), f.Stress(word, lemmata));
 		},
 	PerfectRhyme:
 		(word, lemmata) => {
