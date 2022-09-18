@@ -1211,7 +1211,7 @@ const f = {
 		},
 	RepeatWord:
 		(word, lemmata) => {
-			return '';
+			return word;
 		},
 }
 
