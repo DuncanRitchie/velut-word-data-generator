@@ -975,7 +975,10 @@ const f = {
 		},
 	Ultima:
 		(word, lemmata) => {
-			return '';
+			if (f.Stress(word, lemmata) === 2) {
+				return '2 ' + f.UltimaRhyme(word, lemmata);
+			}
+			return f.UltimaRhyme(word, lemmata);
 		},
 	RhymeVowelsAndUltimaCoda:
 		(word, lemmata) => {
