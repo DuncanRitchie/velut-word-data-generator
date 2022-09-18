@@ -1054,7 +1054,23 @@ const f = {
 		},
 	EcclesPerfectRhyme:
 		(word, lemmata) => {
-			return '';
+			if (word === 'dehinc') {
+				return 'einc';
+			}
+			if (word.startsWith('-')
+			  || f.Stress(word, lemmata) === 0
+			) {
+				f.EcclesPhonetic(word, lemmata)
+			}
+			const rhymeVowels = f.EcclesRhymeVowels(word, lemmata).split('');
+			// Subtract syllables from the end until the rhyme-vowels are used up.
+			// Eg vocabulorum => vocabul
+			let wordMinusRhyme = rhymeVowels.reduceRight((substring, vowel) => {
+				return substring.substring(0, substring.lastIndexOf(vowel));
+			}, f.EcclesPhonetic(word, lemmata));
+			// Remove this from the initial word to give the syllables that were subtracted in the `reduceRight`.
+			// Eg vocabulorum - vocabul => orum
+			return f.EcclesPhonetic(word, lemmata).replace(wordMinusRhyme, '');
 		},
 	EcclesSort:
 		(word, lemmata) => {
