@@ -245,7 +245,7 @@ const expectedOutputFromSampleData = {
   "NoMacra": "utiles",
   "NoMacraLowerCase": "utiles",
   "AlphOrderNoMacra": "eilstu",
-  "Sort": "uzzzziezzzzzz-atalas---ūtilēs",
+  "Sort": "uzzzziezzzz-atalas---ūtilēs/",
   "RepeatWord": "ūtilēs",
 },
 "tabulae": {
@@ -288,7 +288,7 @@ const expectedOutputFromSampleData = {
   "NoMacra": "tabulae",
   "NoMacraLowerCase": "tabulae",
   "AlphOrderNoMacra": "aabeltu",
-  "Sort": "auazzzzzzzz-abala--t-tabulae",
+  "Sort": "auazzzzzzzz-abala--t-tabulae/",
   "RepeatWord": "tabulae",
 }
 }
