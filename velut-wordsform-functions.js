@@ -990,7 +990,38 @@ const f = {
 		},
 	EcclesPhonetic:
 		(word, lemmata) => {
-			return '';
+			return `${f.Phonetic(word, lemmata)}.`
+				.replace(/ā/g, 'a')
+				.replace(/ē/g, 'e')
+				.replace(/ī/g, 'i')
+				.replace(/ō/g, 'o')
+				.replace(/ū/g, 'u')
+				.replace(/ȳ/g, 'y')
+				.replaceAll("ihi","iki")
+				.replaceAll("òè","ojej")
+				.replaceAll("à","e")
+				.replaceAll("èn","ein")
+				.replaceAll("è","ej")
+				.replaceAll("ò","e")
+				.replaceAll("ù","uj")
+				.replaceAll("y","i")
+				.replaceAll("ã.","am")
+				.replaceAll("ẽ.","em")
+				.replaceAll("ĩ.","im")
+				.replaceAll("õ.","om")
+				.replaceAll("ũ.","um")
+				.replaceAll("ỹ.","ym")
+				.replaceAll("ã","an")
+				.replaceAll("ẽ","en")
+				.replaceAll("ĩ","in")
+				.replaceAll("õ","on")
+				.replaceAll("ũ","un")
+				.replaceAll("ỹ","yn")
+				.replaceAll("χ","c")
+				.replaceAll("φ","f")
+				.replaceAll("θ","t")
+				.replaceAll("h","")
+				.replaceAll(".","");
 		},
 	EcclesVowels:
 		(word, lemmata) => {
