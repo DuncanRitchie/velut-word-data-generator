@@ -392,6 +392,7 @@ const output = (jsonObject) => {
 
 const generateJson = () => {
     clearTextMessages();
+    clearWordsArray();
     textByGenerateJson.textContent = "Generating Json, please wait...";
     outputArray.length = 0; // Clear the output in case there’s anything from previous runs.
     const allInputRows = textareaInput.value.split("\n");
@@ -452,6 +453,7 @@ const generateJson = () => {
     //     }
 
         output(resultsForLine);
+        addToWordsArray(word, lemmata);
     }
     displayOutput();
     textByGenerateJson.textContent = "Json generated!";

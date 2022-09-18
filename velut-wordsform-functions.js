@@ -73,13 +73,24 @@ const SUM = (...args) => {
 }
 
 
+// Defining a value then emptying the array gives us IntelliSense without TypeScript :)
+const existingWords = [{word: 'string', lemmata: ['string']}].filter(_ => false);
+
+const addToWordsArray = (word, lemmata) => {
+	existingWords.push({word, lemmata});
+}
+
+const clearWordsArray = () => {
+	existingWords.length = 0;
+}
+
+
 // Functions replacing the fields in `wordsform` sheet.
 
 const f = {
 	Ord:
 		(word, lemmata) => {
-			// Should really be a serial number, not hardcoded
-			return 123;
+			return existingWords.length;
 		},
 	Word:
 		(word, lemmata) => {
