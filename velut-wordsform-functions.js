@@ -1075,7 +1075,6 @@ const f = {
 	EcclesSort:
 		(word, lemmata) => {
 			return CONCAT(
-				CONCAT(
 					f.EcclesRhymeVowels(word, lemmata),
 					"-",
 					f.EcclesPerfectRhyme(word, lemmata)
@@ -1095,7 +1094,7 @@ const f = {
 						)
 					).replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a'),
 					"-",
-					LOWER(word)
+					word.toLowerCase()
 				).replaceAll('ā', 'azzzz')
 					.replaceAll('ē', 'ezzzz')
 					.replaceAll('ḗ', 'ezzzz')
@@ -1114,17 +1113,8 @@ const f = {
 					.replaceAll('è', 'ezzzzzzzz')
 					.replaceAll('€', 'ezzzzzzzzzzzz')
 					.replaceAll('ò', 'ozzzzzzzz')
-					.replaceAll('ù', 'uzzzzzzzz'),
-				IF(
-					EXACT(LEFT(word,1),LOWER(LEFT(word,1))),
-					IF(
-						EXACT(word,LOWER(word)),
-						"/",
-						""
-					),
-					""
-				)
-			);
+					.replaceAll('ù', 'uzzzzzzzz')
+				+ (word === word.toLowerCase() ? '/' : '');
 		},
 	LemmaCount:
 		(word, lemmata) => {
