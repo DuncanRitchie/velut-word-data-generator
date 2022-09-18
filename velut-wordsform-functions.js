@@ -1156,7 +1156,17 @@ const f = {
 		},
 	IsFitForDactylic:
 		(word, lemmata) => {
-			return '';
+			const scansionWithElision = f.ScansionWithElision(word, lemmata);
+			if (
+				scansionWithElision.includes('–⏑–') ||
+				scansionWithElision.includes('⏑⏑⏑') ||
+				scansionWithElision.includes('⏑––⏑')
+			) {
+				return 0;
+			} return 1;
+			// A dactylic hexameter fits the regex /–(–|⏑⏑)–(–|⏑⏑)–(–|⏑⏑)–(–|⏑⏑)–⏑⏑–[–⏑]/
+			// Another way of writing that is /(––|–⏑⏑){4}–⏑⏑–[–⏑]/
+			// If a word contains (eg) –⏑– it cannot be part of a full hexameter.
 		},
 	LemmaArray:
 		(word, lemmata) => {
