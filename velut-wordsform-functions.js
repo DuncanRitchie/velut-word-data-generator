@@ -1025,7 +1025,7 @@ const f = {
 		},
 	EcclesVowels:
 		(word, lemmata) => {
-			return '';
+			return IF(LEFT(f.Word(word, lemmata),1)==="-","∅","")+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(f.EcclesPhonetic(word, lemmata),"b","."),"c","."),"d","."),"f","."),"g","."),"h","."),"j","."),"k","."),"l","."),"m","."),"n","."),"p","."),"q","."),"r","."),"s","."),"t","."),"v","."),"x","."),"z","."),".","");
 		},
 	EcclesRhymeVowels:
 		(word, lemmata) => {
