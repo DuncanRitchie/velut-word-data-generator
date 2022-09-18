@@ -949,7 +949,20 @@ const f = {
 		},
 	PerfectRhyme:
 		(word, lemmata) => {
-			return '';
+			if (word.startsWith('-')
+			  || f.Stress(word, lemmata) === 0
+			) {
+				return f.Phonetic(word, lemmata);
+			}
+			const rhymeVowels = f.RhymeVowels(word, lemmata).split('');
+			// Subtract syllables from the end until the rhyme-vowels are used up.
+			// Eg vocābulōrũ => vocābul
+			let wordMinusRhyme = rhymeVowels.reduceRight((substring, vowel) => {
+				return substring.substring(0, substring.lastIndexOf(vowel));
+			}, f.Phonetic(word, lemmata));
+			// Remove this from the initial word to give the syllables that were subtracted in the `reduceRight`.
+			// Eg vocābulōrũ - vocābul => ōrũ
+			return f.Phonetic(word, lemmata).replace(wordMinusRhyme, '');
 		},
 	RhymeConsonants:
 		(word, lemmata) => {
