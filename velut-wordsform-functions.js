@@ -982,7 +982,11 @@ const f = {
 		},
 	RhymeVowelsAndUltimaCoda:
 		(word, lemmata) => {
-			return IF(f.Stress(word, lemmata)===0,f.UltimaRhyme(word, lemmata),REPLACE(RIGHT(f.AllVowels(word, lemmata),f.Stress(word, lemmata)),LEN(RIGHT(f.AllVowels(word, lemmata),f.Stress(word, lemmata))),1,f.UltimaRhyme(word, lemmata)));
+			if (f.Stress(word, lemmata) === 0) {
+				return f.UltimaRhyme(word, lemmata);
+			}
+
+			return f.RhymeVowels(word, lemmata) + f.UltimaRhyme(word, lemmata).substring(1);
 		},
 	EcclesPhonetic:
 		(word, lemmata) => {
