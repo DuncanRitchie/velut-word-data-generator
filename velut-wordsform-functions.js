@@ -1142,18 +1142,17 @@ const f = {
 		},
 	ScansionWithElision:
 		(word, lemmata) => {
-			if (["a", "e", "i", "o", "u", "y", "ā", "ē", "ī", "ō", "ū", "ӯ", "ã", "ẽ", "ĩ", "õ", "ũ", "ỹ", "à", "â", "é", "€", "ò", "ù"]
-				.includes(f.UltimaRhyme(word, lemmata))
+			if (!"aeiouyāēīōūӯãẽĩõũỹàâé€òù".includes(f.UltimaRhyme(word, lemmata))
 			) {
-				if (f.SyllableCount(word, lemmata) === 1) {
-					return '∅';
-				}
-				return LEFT(
-					f.Scansion(word, lemmata),
-					f.SyllableCount(word, lemmata) - 1
-				)
+				return f.Scansion(word, lemmata);
 			}
-			return f.Scansion(word, lemmata);
+			if (f.SyllableCount(word, lemmata) === 1) {
+				return '∅';
+			}
+			return LEFT(
+				f.Scansion(word, lemmata),
+				f.SyllableCount(word, lemmata) - 1
+			)
 		},
 	IsFitForDactylic:
 		(word, lemmata) => {
