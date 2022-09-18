@@ -1197,7 +1197,20 @@ const f = {
 		},
 	DuplicateWords:
 		(word, lemmata) => {
-			return '';
+			const duplicateFound = existingWords.find(record => record.word === word);
+			if (duplicateFound) {
+				if (JSON.stringify(duplicateFound.lemmata) === JSON.stringify(lemmata)) {
+					console.error(`Duplicate found for ${word} with matching lemmata — please delete the duplicate`);
+					return word;
+				}
+				if (lemmata.some(lemmaInNewRecord => !duplicateFound.lemmata.includes(lemmaInNewRecord))) {
+					console.error(`Duplicate found for ${word} with new lemmata [${lemmata}] that are not in [${duplicateFound.lemmata}] — please merge two records`);
+					return word;
+				}
+				console.error(`Duplicate found for ${word} with lemmata [${lemmata}] that match existing lemmata [${duplicateFound.lemmata}] — please delete the duplicate`);
+				return word;
+			}
+			return null;
 		},
 	NewLemmata:
 		(word, lemmata) => {
