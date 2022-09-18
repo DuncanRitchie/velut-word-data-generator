@@ -38,6 +38,7 @@
                 This is a webpage that generates data for my Latin rhyming dictionary, <a href="https://www.velut.co.uk/" title="velut — a Latin rhyming dictionary">velut</a>; specifically it generates the “words” data. For each word and corresponding list of lemmata, this generates fields such as the phonetic representation, the number of syllables, the rhyming-part, and strings that words are sorted on. The resultant Json can be downloaded (or copied to the clipboard). Once it’s on my hard drive, I have a script to upload it to the MongoDB database that the velut website uses.
             </p>
 
+            <h3>Input and output format</h3>
             <p>
                 Each line of input must be a word, a tab, and the space-separated list of lemmata. The “Load sample” button will give you some examples.
             </p>
@@ -46,6 +47,7 @@
                 The Json generated does not have commas separating the objects, or square brackets around the entire array. This is not the standard Json format, but is the format required by mongoimport (which is the tool my script uses to import into the database).
             </p>
 
+            <h3>The velut Excel file & how I’m getting rid of it</h3>
             <p>
                 Although the velut website uses a MongoDB database, and this page produces Json data for the MongoDB database, I privately have a large Excel file for generating and storing the data in velut. This webpage is intended to replace a sheet called “wordsform” in that Excel file. The sheet can generate all the data from words and lemmata entered into the second and third columns — which is why the second and third fields of the output are Word and Lemmata, the two columns that don’t have Excel formulae.
             </p>
