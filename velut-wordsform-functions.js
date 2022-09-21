@@ -129,7 +129,7 @@ const f = {
 			if (wordsAlreadyInDatabase.includes(wordMinusPossibleEnclitic)) {
 				return wordMinusPossibleEnclitic;
 			}
-			if (["á","é","í","ó","ú","ý","ḗ"].some(acute => wordMinusPossibleEnclitic.contains(acute))) {
+			if (["á","é","í","ó","ú","ý","ḗ"].some(acute => wordMinusPossibleEnclitic.includes(acute))) {
 				const removeAcutes = (word) => {
 					return word.replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ý","y").replaceAll("ḗ","ē");
 				}
