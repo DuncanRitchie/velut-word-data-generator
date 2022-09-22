@@ -23,7 +23,7 @@ const wordsSchema = {
     Phonetic: "string",
     Scansion: "string",
     ScansionWithElision: "string",
-    IsFitForDactyl: "int",
+    IsFitForDactylic: "int",
     AllVowels: "string",
     SyllableCount: "int",
     Stress: "int",
@@ -318,37 +318,6 @@ const checkResult = (word, lemmata, functionName) => {
     }
 }
 
-const getSchemaFromHeaderRow = (headerRow) => {
-    switch (headerRow[1]) {
-        case "Word":
-            tableName = "words";
-            return wordsSchema;
-        case "Lemma":
-            tableName = "lemmata";
-            return lemmataSchema;
-        default:
-            tableName = "custom";
-            return generateSchemaFromCustomHeaderRow(headerRow);
-    }
-}
-
-const generateSchemaFromCustomHeaderRow = (headerRow) => {
-    let newSchema = {};
-    for (let i = 0; i < headerRow.length; i++) {
-        newSchema[headerRow[i]] = "string";
-    }
-    return newSchema;
-}
-
-const getEmptyTextRepresentation = (headerRow) => {
-    switch (headerRow[1]) {
-        case "Word":
-            return "0";
-        default:
-            return "null";
-    }
-}
-
 const getLastKey = (schema) => {
     const keys = Object.keys(schema);
     return keys[keys.length - 1];
@@ -377,14 +346,26 @@ const warnOfEmptyOutput = () => {
 
 let tableName = "custom"; //// "custom", "lemmata", "words".
 
-const functionNames = Object.keys(wordsformFunctions);
+const functionNames = Object.keys(wordsSchema);
 
 //// `outputArray` gets modified by `generateJson` and displayed in the second text-area by `displayOutput`.
 
 let outputArray = [];
 
 const output = (jsonObject) => {
-    outputArray.push(JSON.stringify(jsonObject, undefined, 2));
+    outputArray.push('{');
+    //// Convert the object to an array of key–value pairs.
+    const asEntries = Object.entries(jsonObject);
+    let i = 0;
+    //// Key–value pairs before the last pair is output as `"key": "value",` with a comma.
+    for (; i < asEntries.length - 1; i++) {
+        outputArray.push(`"${asEntries[i][0]}": ${JSON.stringify(asEntries[i][1])},`);
+    }
+    //// The last key–value pair is output as `"key": "value"` without the trailing comma.
+    for (; i < asEntries.length; i++) {
+        outputArray.push(`"${asEntries[i][0]}": ${JSON.stringify(asEntries[i][1])}`);
+    }
+    outputArray.push('}');
 }
 
 
