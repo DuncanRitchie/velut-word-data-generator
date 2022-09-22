@@ -88,9 +88,21 @@ const clearWordsArray = () => {
 const EMPTY = '∅';
 
 
+const memoisedData = {};
+
+const memoise = (func, functionName, word, lemmata) => {
+	if (memoisedData[word]?.[functionName] === undefined) {
+		const wordObject = {... memoisedData[word]}
+		wordObject[functionName] = func(word, lemmata);
+		memoisedData[word] = wordObject;
+	}
+	return memoisedData[word][functionName];
+}
+
+
 // Functions replacing the fields in `wordsform` sheet.
 
-const f = {
+const unmemoisedFuncs = {
 	Ord:
 		(word, lemmata) => {
 			return existingWords.length + 1;
@@ -1245,4 +1257,13 @@ const f = {
 		},
 }
 
-const wordsformFunctions = f;
+// Object with the same shape as `unmemoisedFuncs`, but all the functions are memoised.
+const wordsformFunctionsMemoised = Object.entries(unmemoisedFuncs)
+	.reduce((memoisedFuncs, [currentFuncName, currentFunc]) => {
+		memoisedFuncs[currentFuncName] = ((word, lemmata) => memoise(currentFunc, currentFuncName, word, lemmata));
+		return memoisedFuncs;
+	}, {});
+
+// Aliases
+const f = wordsformFunctionsMemoised
+const wordsformFunctions = wordsformFunctionsMemoised;
