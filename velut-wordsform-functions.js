@@ -142,8 +142,7 @@ const unmemoisedFuncs = {
 				return word;
 			}
 			const wordMinusPossibleEnclitic = word.replace(/(ne|que|ve)$/, '');
-			// This should really be all the words already in the database, but this web-project does not have a database connection.
-			const wordsAlreadyInDatabase = [];
+			const wordsAlreadyInDatabase = existingWords.map(record => record.word);
 			if (wordsAlreadyInDatabase.includes(wordMinusPossibleEnclitic)) {
 				return wordMinusPossibleEnclitic;
 			}
