@@ -23,7 +23,7 @@ const LOWER = (text) => {
 	return text.toLowerCase();
 }
 const itojj = (text) => {
-	return `${text}`.replace(/(?<=[aeiouyāēīōūȳ])i(?=[aeiouy])/gi, 'jj');
+	return `${text}`.replace(/(?<=[āēīōūȳ])i(?=[aeiouyāēīōūȳ])/gi, 'jj');
 }
 const IFS = (...args) => {
 	const conditions = args.filter((v, i) => i % 2 === 0);
@@ -52,7 +52,7 @@ const RIGHT = (text, characterCount) => {
 	return `${text}`.substring(`${text}`.length - characterCount);
 }
 const REPLACE = (oldText, startNum, numChars, newText) => {
-	return `${oldText}`.substring(0, startNum - 1) + newText + `${oldText}`.substring(startNum + numChars);
+	return `${oldText}`.substring(0, startNum - 1) + newText + `${oldText}`.substring(startNum + numChars - 1);
 }
 const AND = (...args) => {
 	return args.reduce((previous, current) => previous && current);
@@ -477,10 +477,12 @@ const unmemoisedFuncs = {
 									),
 									// Condition 25 in IFS
 									f.Lemma1(word, lemmata) === "iūsiūrandum",
-									SUBSTITUTE(
+									SUBSTITUTES(
 										f.Uncompounded(word, lemmata),
 										"iūr",
-										"jūr"
+										"jūr",
+										"iūs",
+										"jūs"
 									),
 									// Condition 26 in IFS
 									f.Lemma1(word, lemmata) === "periūrus",
