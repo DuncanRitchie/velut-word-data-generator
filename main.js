@@ -395,6 +395,7 @@ const generateJson = () => {
 
         output(resultsForLine);
         addToWordsArray(word, lemmata);
+        clearMemoisationCache();
     }
     displayOutput();
     textByGenerateJson.textContent = "Json generated!";

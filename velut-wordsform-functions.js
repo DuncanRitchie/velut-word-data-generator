@@ -99,6 +99,12 @@ const memoise = (func, functionName, word, lemmata) => {
 	return memoisedData[word][functionName];
 }
 
+const clearMemoisationCache = () => {
+	for (const key in memoisedData) {
+		delete memoisedData[key];
+	}
+}
+
 
 // Functions replacing the fields in `wordsform` sheet.
 
