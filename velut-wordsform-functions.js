@@ -54,9 +54,6 @@ const REPLACE = (oldText, startNum, numChars, newText) => {
 const AND = (...args) => {
 	return args.reduce((previous, current) => previous && current);
 }
-const NOT = (condition) => {
-	return !condition;
-}
 const COUNTIF = (array, searchValue) => {
 	return [...array].filter(value => value === searchValue).length;
 }
