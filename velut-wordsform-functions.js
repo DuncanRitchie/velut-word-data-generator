@@ -179,12 +179,7 @@ const unmemoisedFuncs = {
 								f.Uncompounded(word, lemmata) === "dehinc",
 								"dènc",
 								// Condition 9 in IFS
-								OR(
-									f.Uncompounded(word, lemmata) === "dein",
-									f.Uncompounded(word, lemmata) === "deinde",
-									f.Uncompounded(word, lemmata) === "proin",
-									f.Uncompounded(word, lemmata) === "proindē"
-								),
+								['dein', 'deinde', 'proin', 'proindē'].includes(f.Uncompounded(word, lemmata)),
 								SUBSTITUTES(
 									f.Uncompounded(word, lemmata),
 									"dein",
@@ -200,24 +195,13 @@ const unmemoisedFuncs = {
 									"prài"
 								),
 								// Condition 11 in IFS
-								OR(
-									LEFT(
-										f.Lemma1(word, lemmata),
-										3
-									) === "cui",
-									LEFT(
-										f.Lemma1(word, lemmata),
-										4
-									) === "quis",
-									LEFT(
-										f.Lemma1(word, lemmata),
-										3
-									) === "quī",
-									f.Lemma1(word, lemmata) === "aliquis",
-									f.Lemma1(word, lemmata) === "ecquis",
-									f.Lemma1(word, lemmata) === "nesciōquis",
-									f.Lemma1(word, lemmata) === "ūnusquisque"
-								),
+								f.Lemma1(word, lemmata).startsWith('cui')
+									|| f.Lemma1(word, lemmata).startsWith('quis')
+									|| f.Lemma1(word, lemmata).startsWith('quī')
+									|| f.Lemma1(word, lemmata) === "aliquis"
+									|| f.Lemma1(word, lemmata) === "ecquis"
+									|| f.Lemma1(word, lemmata) === "nesciōquis"
+									|| f.Lemma1(word, lemmata) === "ūnusquisque",
 								SUBSTITUTES(
 									itojj(
 										f.Uncompounded(word, lemmata)
@@ -228,24 +212,20 @@ const unmemoisedFuncs = {
 									"cù"
 								),
 								// Condition 12 in IFS
-								OR(
-									f.NoMacra(word, lemmata).includes("ngua"),
-									f.NoMacra(word, lemmata).includes("ngue"),
-									f.NoMacra(word, lemmata).includes("ngui"),
-									f.NoMacra(word, lemmata).includes("nguo"),
-									f.NoMacra(word, lemmata).includes("nguu")
-								),
+								f.NoMacra(word, lemmata).includes("ngua")
+									|| f.NoMacra(word, lemmata).includes("ngue")
+									|| f.NoMacra(word, lemmata).includes("ngui")
+									|| f.NoMacra(word, lemmata).includes("nguo")
+									|| f.NoMacra(word, lemmata).includes("nguu"),
 								SUBSTITUTEONCE(
 									f.Uncompounded(word, lemmata),
 									"ngu",
 									"ngv",
 								),
 								// Condition 13 in IFS
-								OR(
-									f.Lemma1(word, lemmata).includes("suād"),
-									f.Lemma1(word, lemmata).includes("suās"),
-									f.Lemma1(word, lemmata).includes("suāv")
-								),
+								f.Lemma1(word, lemmata).includes("suād")
+									|| f.Lemma1(word, lemmata).includes("suās")
+									|| f.Lemma1(word, lemmata).includes("suāv"),
 								SUBSTITUTEONCE(
 									f.Uncompounded(word, lemmata),
 									"suā",
@@ -405,12 +385,10 @@ const unmemoisedFuncs = {
 									"disjū"
 								),
 								// Condition 22 in IFS
-								OR(
-									f.Lemma1(word, lemmata) === "iniugis",
-									f.Lemma1(word, lemmata) === "biiugis",
-									f.Lemma1(word, lemmata) === "biiugus",
-									f.Lemma1(word, lemmata) === "subiugō"
-								),
+								f.Lemma1(word, lemmata) === "iniugis"
+									|| f.Lemma1(word, lemmata) === "biiugis"
+									|| f.Lemma1(word, lemmata) === "biiugus"
+									|| f.Lemma1(word, lemmata) === "subiugō",
 								SUBSTITUTE(
 									f.Uncompounded(word, lemmata),
 									"iug",
@@ -470,12 +448,8 @@ const unmemoisedFuncs = {
 								f.Uncompounded(word, lemmata).replace(/^i/i, 'j'),
 								// Condition 28 in IFS
 								OR(
-									f.Lemma1(word, lemmata) === "magnus",
-									f.Lemma1(word, lemmata) === "magis",
-									f.Lemma1(word, lemmata) === "maiestās",
-									f.Lemma1(word, lemmata) === "maiōrēs",
-									f.Lemma1(word, lemmata) === "malus",
-									f.Lemma1(word, lemmata) === "male",
+									["magnus", "magis", "maiestās", "maiōrēs", "malus", "male"]
+										.includes(f.Lemma1(word, lemmata)),
 									AND(
 										f.NoMacra(
 											f.Lemma1(word, lemmata)
@@ -706,78 +680,78 @@ const unmemoisedFuncs = {
 				0,
 				LEFT(word,1) == "-",
 				2,
-				OR(
-					word == "abhinc",
-					word === "adhūc",
-					word === "Antiās",
-					word === "Arpīnās",
-					word === "Asprēnās",
-					word == "Fīdēnās",
-					word == "illāc",
-					word == "illīc",
-					word == "illinc",
-					word == "illūc",
-					word == "istīc",
-					word == "Maecēnās",
-					word == "nostrās",
-					f.Phonetic(word, lemmata) == "posθāc",
-					word == "Samnīs",
-					word == "satin",
-					word == "Suffēnās",
-					word == "tantōn",
-					word == "viden",
-					word == "vidēn",
-					RIGHT(f.Phonetic(word, lemmata),3) == "dīc",
-					RIGHT(f.Phonetic(word, lemmata),3) == "dūc",
-					RIGHT(f.Phonetic(word, lemmata),3) == "fac",
-					f.SyllableCount(word, lemmata) == 1
+				(
+					[
+						"abhinc",
+						"adhūc",
+						"Antiās",
+						"Arpīnās",
+						"Asprēnās",
+						"Fīdēnās",
+						"illāc",
+						"illīc",
+						"illinc",
+						"illūc",
+						"istīc",
+						"Maecēnās",
+						"nostrās",
+						"posthāc",
+						"Samnīs",
+						"satin",
+						"Suffēnās",
+						"tantōn",
+						"viden",
+						"vidēn",
+					].includes(word)
+					|| f.Phonetic(word, lemmata).endsWith("dīc")
+					|| f.Phonetic(word, lemmata).endsWith("dūc")
+					|| f.Phonetic(word, lemmata).endsWith("fac")
+					|| f.SyllableCount(word, lemmata) == 1
 				),
 				1,
 				f.SyllableCount(word, lemmata) == 2,
 				2,
-				OR(
-					word == "deïnde",
-					word == "exindē",
-					word == "perinde",
-					word == "proïndē",
-					word == "subinde"
-				),
+				[
+					"deïnde",
+					"exindē",
+					"perinde",
+					"proïndē",
+					"subinde",
+				].includes(word),
 				3,
 				LEFT(RIGHT(f.Scansion(word, lemmata),2),1) == "–",
 				2,
 				word.length !== f.Uncompounded(word, lemmata).length,
 				2,
-				OR(
-					word == "agedum",
-					word == "egomet",
-					word == "ibidem",
-					word == "meamet",
-					f.Phonetic(word, lemmata) == "satine",
-					word == "suamet",
-					word == "ubinam"
-				),
+				[
+					"agedum",
+					"egomet",
+					"ibidem",
+					"meamet",
+					"satine",
+					"suamet",
+					"ubinam",
+				].includes(word),
 				2,
-				OR(
-					f.Uncompounded(word, lemmata).includes("á"),
-					f.Uncompounded(word, lemmata).includes("é"),
-					f.Uncompounded(word, lemmata).includes("í"),
-					f.Uncompounded(word, lemmata).includes("ó"),
-					f.Uncompounded(word, lemmata).includes("ú"),
-					f.Uncompounded(word, lemmata).includes("ý"),
-				),
+				f.Uncompounded(word, lemmata).includes("á")
+				|| f.Uncompounded(word, lemmata).includes("é")
+				|| f.Uncompounded(word, lemmata).includes("í")
+				|| f.Uncompounded(word, lemmata).includes("ó")
+				|| f.Uncompounded(word, lemmata).includes("ú")
+				|| f.Uncompounded(word, lemmata).includes("ý"),
 				2,
 				AND(
-					OR(
-						RIGHT(f.Lemma1(word, lemmata),3) == "ius",
-						RIGHT(f.Lemma1(word, lemmata),3) == "ïus",
-						RIGHT(f.Lemma1(word, lemmata),3) == "ium",
-						RIGHT(f.Lemma1(word, lemmata),8) == "ius[prn]",
-						RIGHT(f.Lemma1(word, lemmata),8) == "ius[adj]",
-						RIGHT(f.Lemma1(word, lemmata),6) == "ius[n]",
-						RIGHT(f.Lemma1(word, lemmata),8) == "ium[prn]",
-						RIGHT(f.Lemma1(word, lemmata),6) == "ium[n]"
+					(
+						f.Lemma1(word, lemmata).endsWith("ius")
+						|| f.Lemma1(word, lemmata).endsWith("ïus")
+						|| f.Lemma1(word, lemmata).endsWith("ium")
+						|| f.Lemma1(word, lemmata).endsWith("ius[prn]")
+						|| f.Lemma1(word, lemmata).endsWith("ius[adj]")
+						|| f.Lemma1(word, lemmata).endsWith("ius[n]")
+						|| f.Lemma1(word, lemmata).endsWith("ium[prn]")
+						|| f.Lemma1(word, lemmata).endsWith("ium[n]")
 					),
-					reversestr(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(word,"á","a"),"é","e"),"í","i"),"ó","o"),"ú","u"),"ý","y")) == REPLACE(reversestr(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(f.Lemma1(word, lemmata),"[n]",""),"[prn]",""),"[adj]","")),1,3,"ī")
+					reversestr(SUBSTITUTES(word,"á","a","é","e","í","i","ó","o","ú","u","ý","y")) == REPLACE(reversestr(SUBSTITUTE(f.Lemma1(word, lemmata),"[n]","","[prn]","","[adj]","")), 1, 3, "ī")
 				),
 				2,
 				1 == 1,
