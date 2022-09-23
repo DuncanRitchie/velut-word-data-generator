@@ -54,9 +54,6 @@ const REPLACE = (oldText, startNum, numChars, newText) => {
 const AND = (...args) => {
 	return args.reduce((previous, current) => previous && current);
 }
-const COUNTIF = (array, searchValue) => {
-	return [...array].filter(value => value === searchValue).length;
-}
 const IF = (condition, trueReturn, falseReturn) => {
 	return condition ? trueReturn : falseReturn;
 }
@@ -473,10 +470,7 @@ const unmemoisedFuncs = {
 								// Condition 27 in IFS
 								AND(
 									/^i[aeiouyāēīōūȳ]/i.test(word),
-									COUNTIF(
-										phoneticExceptions["Vocalic initial i"],
-										f.Lemma1(word, lemmata)
-									) === 0,
+									!phoneticExceptions["Vocalic initial i"].includes(f.Lemma1(word, lemmata)),
 									f.Uncompounded(word, lemmata) !== "iīs"
 								),
 								f.Uncompounded(word, lemmata).replace(/^i/i, 'j'),
@@ -650,10 +644,7 @@ const unmemoisedFuncs = {
 					"c",
 					"eu",
 					IF(
-						COUNTIF(
-							phoneticExceptions["Diphthong eu"],
-							f.Lemma1(word, lemmata)
-						) > 0,
+						phoneticExceptions["Diphthong eu"].includes(f.Lemma1(word, lemmata)) > 0,
 						"€",
 						"eu"
 					),
