@@ -3,13 +3,17 @@
 const CONCAT = (...args) => {
 	return args.reduce((previous, current) => `${previous}${current}`);
 }
-const SUBSTITUTE = (text, oldText, newText, maxSubstitutionsCount = Infinity) => {
-	let temp = `${text}`;
-	for (let i = 0; i < maxSubstitutionsCount && i < temp.length; i++) {
-		if (!temp.includes(oldText)) { return temp; }
-		temp = temp.replace(oldText, newText)
+const SUBSTITUTE = (text, oldText, newText, fourthArg) => {
+	if (fourthArg) {
+		console.warn(`SUBSTITUTE called with 4th arg`)
 	}
-	return temp;
+	return text.replaceAll(oldText, newText);
+}
+const SUBSTITUTEONCE = (text, oldText, newText, fourthArg) => {
+	if (fourthArg) {
+		console.warn(`SUBSTITUTE called with 4th arg`)
+	}
+	return text.replace(oldText, newText);
 }
 // Eg, SUBSTITUTES('velut', 'e', 'E', 'u', 'U') => 'vElUt'
 const SUBSTITUTES = (text, ...args) => {
@@ -262,11 +266,10 @@ const unmemoisedFuncs = {
 										f.NoMacra(word, lemmata).includes("nguo"),
 										f.NoMacra(word, lemmata).includes("nguu")
 									),
-									SUBSTITUTE(
+									SUBSTITUTEONCE(
 										f.Uncompounded(word, lemmata),
 										"ngu",
 										"ngv",
-										1
 									),
 									// Condition 13 in IFS
 									OR(
@@ -274,11 +277,10 @@ const unmemoisedFuncs = {
 										f.Lemma1(word, lemmata).includes("suās"),
 										f.Lemma1(word, lemmata).includes("suāv")
 									),
-									SUBSTITUTE(
+									SUBSTITUTEONCE(
 										f.Uncompounded(word, lemmata),
 										"suā",
 										"svā",
-										1
 									),
 									// Condition 14 in IFS
 									LEFT(
@@ -292,36 +294,30 @@ const unmemoisedFuncs = {
 									),
 									// Condition 15 in IFS
 									f.Lemma1(word, lemmata).toLowerCase().includes("suē"),
-									SUBSTITUTE(
-										SUBSTITUTE(
-											SUBSTITUTE(
-												SUBSTITUTE(
-													SUBSTITUTE(
-														SUBSTITUTE(
+									SUBSTITUTEONCE(
+										SUBSTITUTEONCE(
+											SUBSTITUTEONCE(
+												SUBSTITUTEONCE(
+													SUBSTITUTEONCE(
+														SUBSTITUTEONCE(
 															f.Uncompounded(word, lemmata),
 															"suē",
 															"svē",
-															1
 														),
 														"Suē",
 														"Svē",
-														1
 													),
 													"sue",
 													"sve",
-													1
 												),
 												"sui",
 												"svi",
-												1
 											),
 											"suī",
 											"svī",
-											1
 										),
 										"suu",
 										"svu",
-										1
 									),
 									// Condition 16 in IFS
 									f.Lemma1(word, lemmata) === "urgueō",
@@ -373,21 +369,18 @@ const unmemoisedFuncs = {
 									SUBSTITUTE(
 										SUBSTITUTE(
 											SUBSTITUTE(
-												SUBSTITUTE(
-													SUBSTITUTE(
-														SUBSTITUTE(
+												SUBSTITUTEONCE(
+													SUBSTITUTEONCE(
+														SUBSTITUTEONCE(
 															f.Uncompounded(word, lemmata),
 															"iēc",
 															"jēc",
-															1
 														),
 														"iec",
 														"jec",
-														1
 													),
 													"iac",
 													"jac",
-													1
 												),
 												"bex",
 												"bjex"
