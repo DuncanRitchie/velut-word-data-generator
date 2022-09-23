@@ -60,9 +60,6 @@ const COUNTIF = (array, searchValue) => {
 const IF = (condition, trueReturn, falseReturn) => {
 	return condition ? trueReturn : falseReturn;
 }
-const LEN = (text) => {
-	return `${text}`.length;
-}
 const reversestr = (text) => {
 	return `${text}`.split('').reverse().join('');
 }
@@ -672,12 +669,7 @@ const unmemoisedFuncs = {
 					""
 				),
 				IF(
-					LEN(
-							word
-					) ===
-					LEN(
-							f.Uncompounded(word, lemmata)
-					),
+					word.length === f.Uncompounded(word, lemmata).length,
 					"",
 					RIGHT(
 						SUBSTITUTE(
@@ -768,7 +760,7 @@ const unmemoisedFuncs = {
 				3,
 				LEFT(RIGHT(f.Scansion(word, lemmata),2),1) == "–",
 				2,
-				LEN(word)!==LEN(f.Uncompounded(word, lemmata)),
+				word.length !== f.Uncompounded(word, lemmata).length,
 				2,
 				OR(
 					word == "agedum",
@@ -959,14 +951,14 @@ const unmemoisedFuncs = {
 					reversestr(
 						LEFT(
 							f.EcclesVowels(word, lemmata),
-							LEN(f.EcclesVowels(word, lemmata)) - LEN(f.EcclesRhymeVowels(word, lemmata))
+							f.EcclesVowels(word, lemmata).length - f.EcclesRhymeVowels(word, lemmata).length
 						)
 					) || "",
 					"-",
 					reversestr(
 						LEFT(
 							f.EcclesPhonetic(word, lemmata),
-							LEN(f.EcclesPhonetic(word, lemmata)) - LEN(f.EcclesPerfectRhyme(word, lemmata))
+							f.EcclesPhonetic(word, lemmata).length - f.EcclesPerfectRhyme(word, lemmata).length
 						)
 					).replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a'),
 					"-",
