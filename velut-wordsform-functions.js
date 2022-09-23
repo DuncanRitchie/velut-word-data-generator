@@ -673,90 +673,118 @@ const unmemoisedFuncs = {
 		(word, lemmata) => {
 			return f.AllVowels(word, lemmata).replace(EMPTY, '').length;
 		},
+	// Returns the stress position: 3 for antepenult, 2 for penult, 1 for ultima, 0 for words of no syllables.
 	Stress:
 		(word, lemmata) => {
-			return IFS(
-				f.SyllableCount(word, lemmata) == 0,
-				0,
-				LEFT(word,1) == "-",
-				2,
-				(
-					[
-						"abhinc",
-						"adhūc",
-						"Antiās",
-						"Arpīnās",
-						"Asprēnās",
-						"Fīdēnās",
-						"illāc",
-						"illīc",
-						"illinc",
-						"illūc",
-						"istīc",
-						"Maecēnās",
-						"nostrās",
-						"posthāc",
-						"Samnīs",
-						"satin",
-						"Suffēnās",
-						"tantōn",
-						"viden",
-						"vidēn",
-					].includes(word)
-					|| f.Phonetic(word, lemmata).endsWith("dīc")
-					|| f.Phonetic(word, lemmata).endsWith("dūc")
-					|| f.Phonetic(word, lemmata).endsWith("fac")
-					|| f.SyllableCount(word, lemmata) == 1
-				),
-				1,
-				f.SyllableCount(word, lemmata) == 2,
-				2,
-				[
-					"deïnde",
-					"exindē",
-					"perinde",
-					"proïndē",
-					"subinde",
-				].includes(word),
-				3,
-				LEFT(RIGHT(f.Scansion(word, lemmata),2),1) == "–",
-				2,
-				word.length !== f.Uncompounded(word, lemmata).length,
-				2,
-				[
-					"agedum",
-					"egomet",
-					"ibidem",
-					"meamet",
-					"satine",
-					"suamet",
-					"ubinam",
-				].includes(word),
-				2,
+			// Eg ‘st’ has 0 syllables, so cannot have a stressed syllable.
+			if (f.SyllableCount(word, lemmata) === 0) {
+				return 0;
+			}
+			// Eg ‘-que’ is an enclitic, with the stress on the penult (the syllable before the enclitic!).
+			if (word.startsWith('-')) {
+				return 2;
+			}
+			// Monosyllables have only one syllable that could be stressed.
+			if (f.SyllableCount(word, lemmata) === 1) {
+				return 1;
+			}
+			// These other words are stressed on the ultima.
+			if ([
+				"abhinc",
+				"adhūc",
+				"Antiās",
+				"Arpīnās",
+				"Asprēnās",
+				"Fīdēnās",
+				"illāc",
+				"illīc",
+				"illinc",
+				"illūc",
+				"istīc",
+				"Maecēnās",
+				"nostrās",
+				"posthāc",
+				"Samnīs",
+				"satin",
+				"Suffēnās",
+				"tantōn",
+				"viden",
+				"vidēn",
+			].includes(word)) {
+				return 1;
+			}
+			// Some irregular imperatives have ultima stress.
+			if (f.Phonetic(word, lemmata).endsWith("dīc")
+			|| f.Phonetic(word, lemmata).endsWith("dūc")
+			|| f.Phonetic(word, lemmata).endsWith("fac")) {
+				return 1;
+			}
+			// Any other word of two syllables.
+			if (f.SyllableCount(word, lemmata) === 2) {
+				return 2;
+			}
+			// “-inde” behaves as an enclitic, moving stress to the antepenult.
+			if ([
+				"deïnde",
+				"exindē",
+				"perinde",
+				"proïndē",
+				"subinde",
+			].includes(word)) {
+				return 3;
+			}
+			// Words with long penult are stressed on it.
+			if (f.Scansion(word, lemmata)[f.SyllableCount(word, lemmata) - 2] === '–') {
+				return 2
+			}
+			// Encliticized words have stress on the syllable before the enclitic (ie the penult).
+			if (word.length !== f.Uncompounded(word, lemmata).length) {
+				return 2;
+			}
+			// More encliticized words (not ending in the regular -que -ne -ve).
+			if ([
+				"agedum",
+				"egomet",
+				"ibidem",
+				"meamet",
+				"satine",
+				"suamet",
+				"ubinam",
+			].includes(word)) {
+				return 2;
+			}
+			// I use acutes to mark stress in words like ‘domínĭ’, to differentiate from homographs stressed on the antepenult.
+			if (
 				f.Uncompounded(word, lemmata).includes("á")
 				|| f.Uncompounded(word, lemmata).includes("é")
 				|| f.Uncompounded(word, lemmata).includes("í")
 				|| f.Uncompounded(word, lemmata).includes("ó")
 				|| f.Uncompounded(word, lemmata).includes("ú")
-				|| f.Uncompounded(word, lemmata).includes("ý"),
-				2,
-				AND(
-					(
-						f.Lemma1(word, lemmata).endsWith("ius")
-						|| f.Lemma1(word, lemmata).endsWith("ïus")
-						|| f.Lemma1(word, lemmata).endsWith("ium")
-						|| f.Lemma1(word, lemmata).endsWith("ius[prn]")
-						|| f.Lemma1(word, lemmata).endsWith("ius[adj]")
-						|| f.Lemma1(word, lemmata).endsWith("ius[n]")
-						|| f.Lemma1(word, lemmata).endsWith("ium[prn]")
-						|| f.Lemma1(word, lemmata).endsWith("ium[n]")
-					),
-					reversestr(SUBSTITUTES(word,"á","a","é","e","í","i","ó","o","ú","u","ý","y")) == REPLACE(reversestr(SUBSTITUTE(f.Lemma1(word, lemmata),"[n]","","[prn]","","[adj]","")), 1, 3, "ī")
-				),
-				2,
-				1 == 1,
-				3
-			);
+				|| f.Uncompounded(word, lemmata).includes("ý")
+			) {
+				return 2;
+			}
+			// More contractions such as ‘imperī’ from ‘imperium’, where I haven’t used an acute.
+			if (
+				(
+					f.Lemma1(word, lemmata).endsWith("ius")
+					|| f.Lemma1(word, lemmata).endsWith("ïus")
+					|| f.Lemma1(word, lemmata).endsWith("ium")
+					|| f.Lemma1(word, lemmata).endsWith("ius[prn]")
+					|| f.Lemma1(word, lemmata).endsWith("ius[adj]")
+					|| f.Lemma1(word, lemmata).endsWith("ius[n]")
+					|| f.Lemma1(word, lemmata).endsWith("ium[prn]")
+					|| f.Lemma1(word, lemmata).endsWith("ium[n]")
+				)
+				&& (
+					reversestr(SUBSTITUTES(word,"á","a","é","e","í","i","ó","o","ú","u","ý","y"))
+					== REPLACE(reversestr(SUBSTITUTES(f.Lemma1(word, lemmata),"[n]","","[prn]","","[adj]","")), 1, 3, "ī")
+				)
+			) {
+				return 2;
+			}
+			// All other words are stressed on the antepenult.
+			return 3;
 		},
 	UltimaRhyme:
 		(word, lemmata) => {
