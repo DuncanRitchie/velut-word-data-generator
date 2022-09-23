@@ -142,8 +142,7 @@ const unmemoisedFuncs = {
 				return word;
 			}
 			const wordMinusPossibleEnclitic = word.replace(/(ne|que|ve)$/, '');
-			const wordsAlreadyInDatabase = existingWords.map(record => record.word);
-			if (wordsAlreadyInDatabase.includes(wordMinusPossibleEnclitic)) {
+			if (existingWords.some(record => record.word === wordMinusPossibleEnclitic)) {
 				return wordMinusPossibleEnclitic;
 			}
 			if (["á","é","í","ó","ú","ý","ḗ"].some(acute => wordMinusPossibleEnclitic.includes(acute))) {
@@ -151,7 +150,7 @@ const unmemoisedFuncs = {
 					return word.replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ý","y").replaceAll("ḗ","ē");
 				}
 				const wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis = removeAcutes(wordMinusPossibleEnclitic).replaceAll("ü","u");
-				if (wordsAlreadyInDatabase.includes(wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis)) {
+				if (existingWords.some(record => record.word === wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis)) {
 					return wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis;
 				}
 			}
