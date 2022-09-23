@@ -60,9 +60,6 @@ const NOT = (condition) => {
 const EXACT = (comparand, comparer) => {
 	return comparand === comparer;
 }
-const UPPER = (text) => {
-	return text.toUpperCase();
-}
 const COUNTIF = (array, searchValue) => {
 	return [...array].filter(value => value === searchValue).length;
 }
