@@ -39,9 +39,6 @@ const IFS = (...args) => {
 const OR = (...args) => {
 	return args.reduce((previous, current) => previous || current);
 }
-const LEFT = (text, characterCount) => {
-	return `${text}`.substring(0, characterCount);
-}
 const RIGHT = (text, characterCount) => {
 	return `${text}`.substring(`${text}`.length - characterCount);
 }
@@ -232,15 +229,8 @@ const unmemoisedFuncs = {
 									"svā",
 								),
 								// Condition 14 in IFS
-								LEFT(
-									word,
-									6
-								) === "Eduard",
-								SUBSTITUTE(
-									f.Uncompounded(word, lemmata),
-									"Eduard",
-									"Edvard"
-								),
+								word.startsWith('Eduard'),
+								f.Uncompounded(word, lemmata).replace('Eduard', 'edvard'),
 								// Condition 15 in IFS
 								f.Lemma1(word, lemmata).toLowerCase().includes("suē"),
 								SUBSTITUTEONCE(
@@ -341,10 +331,7 @@ const unmemoisedFuncs = {
 									"rèj"
 								),
 								// Condition 18 in IFS
-								LEFT(
-									f.Uncompounded(word, lemmata),
-									5
-								) === "coniū",
+								f.Uncompounded(word, lemmata).startsWith('coniū'),
 								REPLACE(
 									f.Uncompounded(word, lemmata),
 									1,
@@ -352,10 +339,7 @@ const unmemoisedFuncs = {
 									"conjū"
 								),
 								// Condition 19 in IFS
-								LEFT(
-									f.Uncompounded(word, lemmata),
-									5
-								) === "coniu",
+								f.Uncompounded(word, lemmata).startsWith('coniu'),
 								REPLACE(
 									f.Uncompounded(word, lemmata).toLowerCase(),
 									1,
@@ -363,10 +347,7 @@ const unmemoisedFuncs = {
 									"conju"
 								),
 								// Condition 20 in IFS
-								LEFT(
-									f.Uncompounded(word, lemmata),
-									5
-								) === "disiu",
+								f.Uncompounded(word, lemmata).startsWith('disiu'),
 								REPLACE(
 									f.Uncompounded(word, lemmata).toLowerCase(),
 									1,
@@ -374,10 +355,7 @@ const unmemoisedFuncs = {
 									"disju"
 								),
 								// Condition 21 in IFS
-								LEFT(
-									f.Uncompounded(word, lemmata),
-									5
-								) === "disiū",
+								f.Uncompounded(word, lemmata).startsWith('disiū'),
 								REPLACE(
 									f.Uncompounded(word, lemmata).toLowerCase(),
 									1,
@@ -395,16 +373,8 @@ const unmemoisedFuncs = {
 									"jug"
 								),
 								// Condition 23 in IFS
-								OR(
-									LEFT(
-										f.Uncompounded(word, lemmata),
-										4
-									) === "adiu",
-									LEFT(
-										f.Uncompounded(word, lemmata),
-										4
-									) === "adiū"
-								),
+								f.Uncompounded(word, lemmata).startsWith('adiu')
+									|| f.Uncompounded(word, lemmata).startsWith('adiū'),
 								REPLACE(
 									f.Uncompounded(word, lemmata),
 									1,
@@ -412,10 +382,7 @@ const unmemoisedFuncs = {
 									"adj"
 								),
 								// Condition 24 in IFS
-								LEFT(
-									f.Uncompounded(word, lemmata),
-									5
-								) === "iniūr",
+								f.Uncompounded(word, lemmata).startsWith('iniūr'),
 								REPLACE(
 									f.Uncompounded(word, lemmata),
 									1,
@@ -447,57 +414,14 @@ const unmemoisedFuncs = {
 								),
 								f.Uncompounded(word, lemmata).replace(/^i/i, 'j'),
 								// Condition 28 in IFS
-								OR(
+								(
 									["magnus", "magis", "maiestās", "maiōrēs", "malus", "male"]
-										.includes(f.Lemma1(word, lemmata)),
-									AND(
+										.includes(f.Lemma1(word, lemmata))
+									|| (
 										f.NoMacra(
 											f.Lemma1(word, lemmata)
-										) === "aio",
-										OR(
-											RIGHT(
-												LEFT(
-													f.NoMacra(word, lemmata),
-													3
-												),
-												1
-											) === "a",
-											RIGHT(
-												LEFT(
-													f.NoMacra(word, lemmata),
-													3
-												),
-												1
-											) === "e",
-											RIGHT(
-												LEFT(
-													f.NoMacra(word, lemmata),
-													3
-												),
-												1
-											) === "i",
-											RIGHT(
-												LEFT(
-													f.NoMacra(word, lemmata),
-												3
-											),
-											1
-										) === "o",
-											RIGHT(
-												LEFT(
-													f.NoMacra(word, lemmata),
-													3
-												),
-												1
-											) === "u",
-											RIGHT(
-												LEFT(
-													f.NoMacra(word, lemmata),
-													3
-												),
-												1
-											) === "y"
-										)
+										) === "aio"
+										&& ['a','e','i','o','u','y'].includes(f.NoMacra(word, lemmata).substring(2, 3))
 									)
 								),
 								SUBSTITUTE(
@@ -506,11 +430,8 @@ const unmemoisedFuncs = {
 									"ajj"
 								// Condition 29 in IFS
 								),
-								LEFT(
-									word,
-									1
-								) === "-",
-								"",
+								word.startsWith('-'),
+								'',
 								// Condition 30 in IFS
 								1 === 1,
 								f.Uncompounded(word, lemmata)
@@ -936,17 +857,13 @@ const unmemoisedFuncs = {
 						.replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a'),
 					"-",
 					reversestr(
-						LEFT(
-							f.EcclesVowels(word, lemmata),
-							f.EcclesVowels(word, lemmata).length - f.EcclesRhymeVowels(word, lemmata).length
-						)
-					) || "",
+						f.EcclesVowels(word, lemmata)
+							.substring(0, f.EcclesVowels(word, lemmata).length - f.EcclesRhymeVowels(word, lemmata).length)
+					),
 					"-",
 					reversestr(
-						LEFT(
-							f.EcclesPhonetic(word, lemmata),
-							f.EcclesPhonetic(word, lemmata).length - f.EcclesPerfectRhyme(word, lemmata).length
-						)
+						f.EcclesPhonetic(word, lemmata)
+							.substring(0, f.EcclesPhonetic(word, lemmata).length - f.EcclesPerfectRhyme(word, lemmata).length)
 					).replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a'),
 					"-",
 					word.toLowerCase()
@@ -1004,10 +921,8 @@ const unmemoisedFuncs = {
 			if (f.SyllableCount(word, lemmata) === 1) {
 				return EMPTY;
 			}
-			return LEFT(
-				f.Scansion(word, lemmata),
-				f.SyllableCount(word, lemmata) - 1
-			)
+			return f.Scansion(word, lemmata)
+				.substring(0, f.SyllableCount(word, lemmata) - 1);
 		},
 	IsFitForDactyl:
 		(word, lemmata) => {
