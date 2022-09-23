@@ -57,9 +57,6 @@ const AND = (...args) => {
 const NOT = (condition) => {
 	return !condition;
 }
-const EXACT = (comparand, comparer) => {
-	return comparand === comparer;
-}
 const COUNTIF = (array, searchValue) => {
 	return [...array].filter(value => value === searchValue).length;
 }
@@ -737,10 +734,10 @@ const unmemoisedFuncs = {
 				2,
 				OR(
 					word == "abhinc",
-					EXACT(word,"adhūc"),
-					EXACT(word,"Antiās"),
-					EXACT(word,"Arpīnās"),
-					EXACT(word,"Asprēnās"),
+					word === "adhūc",
+					word === "Antiās",
+					word === "Arpīnās",
+					word === "Asprēnās",
 					word == "Fīdēnās",
 					word == "illāc",
 					word == "illīc",
