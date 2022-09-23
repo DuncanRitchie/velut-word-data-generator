@@ -19,9 +19,6 @@ const SUBSTITUTES = (text, ...args) => {
 		}
 	return substituted;
 }
-const LOWER = (text) => {
-	return text.toLowerCase();
-}
 const itojj = (text) => {
 	return `${text}`.replace(/(?<=[āēīōūȳ])i(?=[aeiouyāēīōūȳ])/gi, 'jj');
 }
@@ -173,409 +170,401 @@ const unmemoisedFuncs = {
 				SUBSTITUTES(
 					CONCAT(
 						"_",
-						LOWER(
-							itojj(
-								IFS(
-									// Condition 0 in IFS
-									f.Uncompounded(word, lemmata) === "ai",
-									"à",
-									// Condition 1 in IFS
-									f.Uncompounded(word, lemmata) === "ei",
-									"è",
-									// Condition 2 in IFS
-									f.Uncompounded(word, lemmata) === "eia",
-									"èa",
-									// Condition 3 in IFS
-									f.Uncompounded(word, lemmata) === "hei",
-									"hè",
-									// Condition 4 in IFS
-									f.Uncompounded(word, lemmata) === "heia",
-									"hèa",
-									// Condition 5 in IFS
-									f.Uncompounded(word, lemmata) === "hoc",
-									"hocc",
-									// Condition 6 in IFS
-									f.Uncompounded(word, lemmata) === "oi",
-									"ò",
-									// Condition 7 in IFS
-									f.Uncompounded(word, lemmata) === "oiei",
-									"òè",
-									// Condition 8 in IFS
-									f.Uncompounded(word, lemmata) === "dehinc",
-									"dènc",
-									// Condition 9 in IFS
-									OR(
-										f.Uncompounded(word, lemmata) === "dein",
-										f.Uncompounded(word, lemmata) === "deinde",
-										f.Uncompounded(word, lemmata) === "proin",
-										f.Uncompounded(word, lemmata) === "proindē"
-									),
-									SUBSTITUTES(
-										f.Uncompounded(word, lemmata),
-										"dein",
-										"dèn",
-										"proin",
-										"pròn"
-									),
-									// Condition 10 in IFS
-									f.Lemma1(word, lemmata) === "praeeō",
-									SUBSTITUTE(
-										word,
-										"praei",
-										"prài"
-									),
-									// Condition 11 in IFS
-									OR(
-										LEFT(
-											f.Lemma1(word, lemmata),
-											3
-										) === "cui",
-										LEFT(
-											f.Lemma1(word, lemmata),
-											4
-										) === "quis",
-										LEFT(
-											f.Lemma1(word, lemmata),
-											3
-										) === "quī",
-										f.Lemma1(word, lemmata) === "aliquis",
-										f.Lemma1(word, lemmata) === "ecquis",
-										f.Lemma1(word, lemmata) === "nesciōquis",
-										f.Lemma1(word, lemmata) === "ūnusquisque"
-									),
-									SUBSTITUTES(
-										itojj(
-											f.Uncompounded(word, lemmata)
-										),
-										"cuiā",
-										"cùjā",
-										"cui",
-										"cù"
-									),
-									// Condition 12 in IFS
-									OR(
-										f.NoMacra(word, lemmata).includes("ngua"),
-										f.NoMacra(word, lemmata).includes("ngue"),
-										f.NoMacra(word, lemmata).includes("ngui"),
-										f.NoMacra(word, lemmata).includes("nguo"),
-										f.NoMacra(word, lemmata).includes("nguu")
-									),
-									SUBSTITUTEONCE(
-										f.Uncompounded(word, lemmata),
-										"ngu",
-										"ngv",
-									),
-									// Condition 13 in IFS
-									OR(
-										f.Lemma1(word, lemmata).includes("suād"),
-										f.Lemma1(word, lemmata).includes("suās"),
-										f.Lemma1(word, lemmata).includes("suāv")
-									),
-									SUBSTITUTEONCE(
-										f.Uncompounded(word, lemmata),
-										"suā",
-										"svā",
-									),
-									// Condition 14 in IFS
+						itojj(
+							IFS(
+								// Condition 0 in IFS
+								f.Uncompounded(word, lemmata) === "ai",
+								"à",
+								// Condition 1 in IFS
+								f.Uncompounded(word, lemmata) === "ei",
+								"è",
+								// Condition 2 in IFS
+								f.Uncompounded(word, lemmata) === "eia",
+								"èa",
+								// Condition 3 in IFS
+								f.Uncompounded(word, lemmata) === "hei",
+								"hè",
+								// Condition 4 in IFS
+								f.Uncompounded(word, lemmata) === "heia",
+								"hèa",
+								// Condition 5 in IFS
+								f.Uncompounded(word, lemmata) === "hoc",
+								"hocc",
+								// Condition 6 in IFS
+								f.Uncompounded(word, lemmata) === "oi",
+								"ò",
+								// Condition 7 in IFS
+								f.Uncompounded(word, lemmata) === "oiei",
+								"òè",
+								// Condition 8 in IFS
+								f.Uncompounded(word, lemmata) === "dehinc",
+								"dènc",
+								// Condition 9 in IFS
+								OR(
+									f.Uncompounded(word, lemmata) === "dein",
+									f.Uncompounded(word, lemmata) === "deinde",
+									f.Uncompounded(word, lemmata) === "proin",
+									f.Uncompounded(word, lemmata) === "proindē"
+								),
+								SUBSTITUTES(
+									f.Uncompounded(word, lemmata),
+									"dein",
+									"dèn",
+									"proin",
+									"pròn"
+								),
+								// Condition 10 in IFS
+								f.Lemma1(word, lemmata) === "praeeō",
+								SUBSTITUTE(
+									word,
+									"praei",
+									"prài"
+								),
+								// Condition 11 in IFS
+								OR(
 									LEFT(
-										word,
-										6
-									) === "Eduard",
-									SUBSTITUTE(
-										f.Uncompounded(word, lemmata),
-										"Eduard",
-										"Edvard"
+										f.Lemma1(word, lemmata),
+										3
+									) === "cui",
+									LEFT(
+										f.Lemma1(word, lemmata),
+										4
+									) === "quis",
+									LEFT(
+										f.Lemma1(word, lemmata),
+										3
+									) === "quī",
+									f.Lemma1(word, lemmata) === "aliquis",
+									f.Lemma1(word, lemmata) === "ecquis",
+									f.Lemma1(word, lemmata) === "nesciōquis",
+									f.Lemma1(word, lemmata) === "ūnusquisque"
+								),
+								SUBSTITUTES(
+									itojj(
+										f.Uncompounded(word, lemmata)
 									),
-									// Condition 15 in IFS
-									f.Lemma1(word, lemmata).toLowerCase().includes("suē"),
+									"cuiā",
+									"cùjā",
+									"cui",
+									"cù"
+								),
+								// Condition 12 in IFS
+								OR(
+									f.NoMacra(word, lemmata).includes("ngua"),
+									f.NoMacra(word, lemmata).includes("ngue"),
+									f.NoMacra(word, lemmata).includes("ngui"),
+									f.NoMacra(word, lemmata).includes("nguo"),
+									f.NoMacra(word, lemmata).includes("nguu")
+								),
+								SUBSTITUTEONCE(
+									f.Uncompounded(word, lemmata),
+									"ngu",
+									"ngv",
+								),
+								// Condition 13 in IFS
+								OR(
+									f.Lemma1(word, lemmata).includes("suād"),
+									f.Lemma1(word, lemmata).includes("suās"),
+									f.Lemma1(word, lemmata).includes("suāv")
+								),
+								SUBSTITUTEONCE(
+									f.Uncompounded(word, lemmata),
+									"suā",
+									"svā",
+								),
+								// Condition 14 in IFS
+								LEFT(
+									word,
+									6
+								) === "Eduard",
+								SUBSTITUTE(
+									f.Uncompounded(word, lemmata),
+									"Eduard",
+									"Edvard"
+								),
+								// Condition 15 in IFS
+								f.Lemma1(word, lemmata).toLowerCase().includes("suē"),
+								SUBSTITUTEONCE(
 									SUBSTITUTEONCE(
 										SUBSTITUTEONCE(
 											SUBSTITUTEONCE(
 												SUBSTITUTEONCE(
 													SUBSTITUTEONCE(
-														SUBSTITUTEONCE(
-															f.Uncompounded(word, lemmata),
-															"suē",
-															"svē",
-														),
-														"Suē",
-														"Svē",
+														f.Uncompounded(word, lemmata),
+														"suē",
+														"svē",
 													),
-													"sue",
-													"sve",
+													"Suē",
+													"Svē",
 												),
-												"sui",
-												"svi",
+												"sue",
+												"sve",
 											),
-											"suī",
-											"svī",
+											"sui",
+											"svi",
 										),
-										"suu",
-										"svu",
+										"suī",
+										"svī",
 									),
-									// Condition 16 in IFS
-									f.Lemma1(word, lemmata) === "urgueō",
-									SUBSTITUTE(
-										f.Uncompounded(word, lemmata),
-										"urgu",
-										"urgv"
-									),
-									// Condition 17 in IFS
-									OR(
-										RIGHT(
-											f.Lemma1(word, lemmata),
-											5
-										) === "iaceō",
-										RIGHT(
-											f.Lemma1(word, lemmata),
-											5
-										) === "iectō",
-										RIGHT(
-											f.Lemma1(word, lemmata),
-											5
-										) === "iaciō",
-										RIGHT(
-											f.Lemma1(word, lemmata),
-											6
-										) === "iectus",
-										RIGHT(
-											f.Lemma1(word, lemmata),
-											5
-										) === "iectē",
-										f.Lemma1(word, lemmata) === "abiciō",
-										f.Lemma1(word, lemmata) === "adiciō",
-										f.Lemma1(word, lemmata) === "circumiciō",
-										f.Lemma1(word, lemmata) === "coniciō",
-										f.Lemma1(word, lemmata) === "dēiciō",
-										f.Lemma1(word, lemmata) === "disiciō",
-										f.Lemma1(word, lemmata) === "ēiciō",
-										f.Lemma1(word, lemmata) === "iniciō",
-										f.Lemma1(word, lemmata) === "intericiō",
-										f.Lemma1(word, lemmata) === "obiciō",
-										f.Lemma1(word, lemmata) === "periciō",
-										f.Lemma1(word, lemmata) === "praeiciō",
-										f.Lemma1(word, lemmata) === "reiciō",
-										f.Lemma1(word, lemmata) === "subiciō",
-										f.Lemma1(word, lemmata) === "trāiciō",
-										f.Lemma1(word, lemmata) === "obex",
-										f.Lemma1(word, lemmata) === "subicēs"
-									),
+									"suu",
+									"svu",
+								),
+								// Condition 16 in IFS
+								f.Lemma1(word, lemmata) === "urgueō",
+								SUBSTITUTE(
+									f.Uncompounded(word, lemmata),
+									"urgu",
+									"urgv"
+								),
+								// Condition 17 in IFS
+								OR(
+									RIGHT(
+										f.Lemma1(word, lemmata),
+										5
+									) === "iaceō",
+									RIGHT(
+										f.Lemma1(word, lemmata),
+										5
+									) === "iectō",
+									RIGHT(
+										f.Lemma1(word, lemmata),
+										5
+									) === "iaciō",
+									RIGHT(
+										f.Lemma1(word, lemmata),
+										6
+									) === "iectus",
+									RIGHT(
+										f.Lemma1(word, lemmata),
+										5
+									) === "iectē",
+									f.Lemma1(word, lemmata) === "abiciō",
+									f.Lemma1(word, lemmata) === "adiciō",
+									f.Lemma1(word, lemmata) === "circumiciō",
+									f.Lemma1(word, lemmata) === "coniciō",
+									f.Lemma1(word, lemmata) === "dēiciō",
+									f.Lemma1(word, lemmata) === "disiciō",
+									f.Lemma1(word, lemmata) === "ēiciō",
+									f.Lemma1(word, lemmata) === "iniciō",
+									f.Lemma1(word, lemmata) === "intericiō",
+									f.Lemma1(word, lemmata) === "obiciō",
+									f.Lemma1(word, lemmata) === "periciō",
+									f.Lemma1(word, lemmata) === "praeiciō",
+									f.Lemma1(word, lemmata) === "reiciō",
+									f.Lemma1(word, lemmata) === "subiciō",
+									f.Lemma1(word, lemmata) === "trāiciō",
+									f.Lemma1(word, lemmata) === "obex",
+									f.Lemma1(word, lemmata) === "subicēs"
+								),
+								SUBSTITUTE(
 									SUBSTITUTE(
 										SUBSTITUTE(
-											SUBSTITUTE(
+											SUBSTITUTEONCE(
 												SUBSTITUTEONCE(
 													SUBSTITUTEONCE(
-														SUBSTITUTEONCE(
-															f.Uncompounded(word, lemmata),
-															"iēc",
-															"jēc",
-														),
-														"iec",
-														"jec",
+														f.Uncompounded(word, lemmata),
+														"iēc",
+														"jēc",
 													),
-													"iac",
-													"jac",
+													"iec",
+													"jec",
 												),
-												"bex",
-												"bjex"
+												"iac",
+												"jac",
 											),
-											"ic",
-											"jic"
+											"bex",
+											"bjex"
 										),
-										"rej",
-										"rèj"
+										"ic",
+										"jic"
 									),
-									// Condition 18 in IFS
+									"rej",
+									"rèj"
+								),
+								// Condition 18 in IFS
+								LEFT(
+									f.Uncompounded(word, lemmata),
+									5
+								) === "coniū",
+								REPLACE(
+									f.Uncompounded(word, lemmata),
+									1,
+									5,
+									"conjū"
+								),
+								// Condition 19 in IFS
+								LEFT(
+									f.Uncompounded(word, lemmata),
+									5
+								) === "coniu",
+								REPLACE(
+									f.Uncompounded(word, lemmata).toLowerCase(),
+									1,
+									5,
+									"conju"
+								),
+								// Condition 20 in IFS
+								LEFT(
+									f.Uncompounded(word, lemmata),
+									5
+								) === "disiu",
+								REPLACE(
+									f.Uncompounded(word, lemmata).toLowerCase(),
+									1,
+									5,
+									"disju"
+								),
+								// Condition 21 in IFS
+								LEFT(
+									f.Uncompounded(word, lemmata),
+									5
+								) === "disiū",
+								REPLACE(
+									f.Uncompounded(word, lemmata).toLowerCase(),
+									1,
+									5,
+									"disjū"
+								),
+								// Condition 22 in IFS
+								OR(
+									f.Lemma1(word, lemmata) === "iniugis",
+									f.Lemma1(word, lemmata) === "biiugis",
+									f.Lemma1(word, lemmata) === "biiugus",
+									f.Lemma1(word, lemmata) === "subiugō"
+								),
+								SUBSTITUTE(
+									f.Uncompounded(word, lemmata),
+									"iug",
+									"jug"
+								),
+								// Condition 23 in IFS
+								OR(
 									LEFT(
 										f.Uncompounded(word, lemmata),
-										5
-									) === "coniū",
-									REPLACE(
-										f.Uncompounded(word, lemmata),
-										1,
-										5,
-										"conjū"
-									),
-									// Condition 19 in IFS
+										4
+									) === "adiu",
 									LEFT(
 										f.Uncompounded(word, lemmata),
-										5
-									) === "coniu",
-									REPLACE(
-										LOWER(
-											f.Uncompounded(word, lemmata)
-										),
-										1,
-										5,
-										"conju"
-									),
-									// Condition 20 in IFS
-									LEFT(
-										f.Uncompounded(word, lemmata),
-										5
-									) === "disiu",
-									REPLACE(
-										LOWER(
-											f.Uncompounded(word, lemmata)
-										),
-										1,
-										5,
-										"disju"
-									),
-									// Condition 21 in IFS
-									LEFT(
-										f.Uncompounded(word, lemmata),
-										5
-									) === "disiū",
-									REPLACE(
-										LOWER(
-											f.Uncompounded(word, lemmata)
-										),
-										1,
-										5,
-										"disjū"
-									),
-									// Condition 22 in IFS
-									OR(
-										f.Lemma1(word, lemmata) === "iniugis",
-										f.Lemma1(word, lemmata) === "biiugis",
-										f.Lemma1(word, lemmata) === "biiugus",
-										f.Lemma1(word, lemmata) === "subiugō"
-									),
-									SUBSTITUTE(
-										f.Uncompounded(word, lemmata),
-										"iug",
-										"jug"
-									),
-									// Condition 23 in IFS
-									OR(
-										LEFT(
-											f.Uncompounded(word, lemmata),
-											4
-										) === "adiu",
-										LEFT(
-											f.Uncompounded(word, lemmata),
-											4
-										) === "adiū"
-									),
-									REPLACE(
-										f.Uncompounded(word, lemmata),
-										1,
-										3,
-										"adj"
-									),
-									// Condition 24 in IFS
-									LEFT(
-										f.Uncompounded(word, lemmata),
-										5
-									) === "iniūr",
-									REPLACE(
-										f.Uncompounded(word, lemmata),
-										1,
-										5,
-										"injūr"
-									),
-									// Condition 25 in IFS
-									f.Lemma1(word, lemmata) === "iūsiūrandum",
-									SUBSTITUTES(
-										f.Uncompounded(word, lemmata),
-										"iūr",
-										"jūr",
-										"iūs",
-										"jūs"
-									),
-									// Condition 26 in IFS
-									f.Lemma1(word, lemmata) === "periūrus",
-									REPLACE(
-										f.Uncompounded(word, lemmata),
-										4,
-										1,
-										"j"
-									),
-									// Condition 27 in IFS
+										4
+									) === "adiū"
+								),
+								REPLACE(
+									f.Uncompounded(word, lemmata),
+									1,
+									3,
+									"adj"
+								),
+								// Condition 24 in IFS
+								LEFT(
+									f.Uncompounded(word, lemmata),
+									5
+								) === "iniūr",
+								REPLACE(
+									f.Uncompounded(word, lemmata),
+									1,
+									5,
+									"injūr"
+								),
+								// Condition 25 in IFS
+								f.Lemma1(word, lemmata) === "iūsiūrandum",
+								SUBSTITUTES(
+									f.Uncompounded(word, lemmata),
+									"iūr",
+									"jūr",
+									"iūs",
+									"jūs"
+								),
+								// Condition 26 in IFS
+								f.Lemma1(word, lemmata) === "periūrus",
+								REPLACE(
+									f.Uncompounded(word, lemmata),
+									4,
+									1,
+									"j"
+								),
+								// Condition 27 in IFS
+								AND(
+									/^i[aeiouyāēīōūȳ]/i.test(word),
+									COUNTIF(
+										phoneticExceptions["Vocalic initial i"],
+										f.Lemma1(word, lemmata)
+									) === 0,
+									f.Uncompounded(word, lemmata) !== "iīs"
+								),
+								f.Uncompounded(word, lemmata).replace(/^i/i, 'j'),
+								// Condition 28 in IFS
+								OR(
+									f.Lemma1(word, lemmata) === "magnus",
+									f.Lemma1(word, lemmata) === "magis",
+									f.Lemma1(word, lemmata) === "maiestās",
+									f.Lemma1(word, lemmata) === "maiōrēs",
+									f.Lemma1(word, lemmata) === "malus",
+									f.Lemma1(word, lemmata) === "male",
 									AND(
-										/^i[aeiouyāēīōūȳ]/i.test(word),
-										COUNTIF(
-											phoneticExceptions["Vocalic initial i"],
+										f.NoMacra(
 											f.Lemma1(word, lemmata)
-										) === 0,
-										f.Uncompounded(word, lemmata) !== "iīs"
-									),
-									f.Uncompounded(word, lemmata).replace(/^i/i, 'j'),
-									// Condition 28 in IFS
-									OR(
-										f.Lemma1(word, lemmata) === "magnus",
-										f.Lemma1(word, lemmata) === "magis",
-										f.Lemma1(word, lemmata) === "maiestās",
-										f.Lemma1(word, lemmata) === "maiōrēs",
-										f.Lemma1(word, lemmata) === "malus",
-										f.Lemma1(word, lemmata) === "male",
-										AND(
-											f.NoMacra(
-												f.Lemma1(word, lemmata)
-											) === "aio",
-											OR(
-												RIGHT(
-													LEFT(
-														f.NoMacra(word, lemmata),
-														3
-													),
-													1
-												) === "a",
-												RIGHT(
-													LEFT(
-														f.NoMacra(word, lemmata),
-														3
-													),
-													1
-												) === "e",
-												RIGHT(
-													LEFT(
-														f.NoMacra(word, lemmata),
-														3
-													),
-													1
-												) === "i",
-												RIGHT(
-													LEFT(
-														f.NoMacra(word, lemmata),
+										) === "aio",
+										OR(
+											RIGHT(
+												LEFT(
+													f.NoMacra(word, lemmata),
 													3
 												),
 												1
-											) === "o",
-												RIGHT(
-													LEFT(
-														f.NoMacra(word, lemmata),
-														3
-													),
-													1
-												) === "u",
-												RIGHT(
-													LEFT(
-														f.NoMacra(word, lemmata),
-														3
-													),
-													1
-												) === "y"
-											)
+											) === "a",
+											RIGHT(
+												LEFT(
+													f.NoMacra(word, lemmata),
+													3
+												),
+												1
+											) === "e",
+											RIGHT(
+												LEFT(
+													f.NoMacra(word, lemmata),
+													3
+												),
+												1
+											) === "i",
+											RIGHT(
+												LEFT(
+													f.NoMacra(word, lemmata),
+												3
+											),
+											1
+										) === "o",
+											RIGHT(
+												LEFT(
+													f.NoMacra(word, lemmata),
+													3
+												),
+												1
+											) === "u",
+											RIGHT(
+												LEFT(
+													f.NoMacra(word, lemmata),
+													3
+												),
+												1
+											) === "y"
 										)
-									),
-									SUBSTITUTE(
-										f.Uncompounded(word, lemmata),
-										"ai",
-										"ajj"
-									// Condition 29 in IFS
-									),
-									LEFT(
-										word,
-										1
-									) === "-",
-									"",
-									// Condition 30 in IFS
-									1 === 1,
-									f.Uncompounded(word, lemmata)
-								)
-							)
+									)
+								),
+								SUBSTITUTE(
+									f.Uncompounded(word, lemmata),
+									"ai",
+									"ajj"
+								// Condition 29 in IFS
+								),
+								LEFT(
+									word,
+									1
+								) === "-",
+								"",
+								// Condition 30 in IFS
+								1 === 1,
+								f.Uncompounded(word, lemmata)
+							).toLowerCase()
 						),
 						"_"
 					),
