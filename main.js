@@ -14,47 +14,47 @@ textareaOutput.value = "";
 //// Schema. Commented-out properties will not be used.
 
 const wordsSchema = {
-    Ord: "int",
-    Word: "string",
-    // Lemmata: "string",
-    Length: "int",
-    AllConsonants: "string",
-    Uncompounded: "string",
-    Phonetic: "string",
-    Scansion: "string",
-    ScansionWithElision: "string",
-    IsFitForDactyl: "int",
-    AllVowels: "string",
-    SyllableCount: "int",
-    Stress: "int",
-    UltimaRhyme: "string",
-    RhymeVowels: "string",
-    PerfectRhyme: "string",
-    RhymeConsonants: "string",
-    // Ultima: "string",
-    RhymeVowelsAndUltimaCoda: "string",
-    EcclesPhonetic: "string",
-    EcclesVowels: "string",
-    EcclesRhymeVowels: "string",
-    EcclesRhymeVowelsAndUltimaCoda: "string",
-    EcclesPerfectRhyme: "string",
-    EcclesSort: "string",
-    LemmaCount: "int",
-    // Lemma1: "string",
-    // Lemma2: "string",
-    // Lemma3: "string",
-    // Lemma4: "string",
-    // Lemma5: "string",
-    LemmaArray: "array",
-    IsLemma: "int",
-    IsNonLemma: "int",
-    // DuplicateWords: "string",
-    // NewLemmata: "string",
-    NoMacra: "string",
-    NoMacraLowerCase: "string",
-    AlphOrderNoMacra: "string",
-    Sort: "string",
-    // RepeatWord: "string",
+	Ord: "int",
+	Word: "string",
+	// Lemmata: "string",
+	Length: "int",
+	AllConsonants: "string",
+	Uncompounded: "string",
+	Phonetic: "string",
+	Scansion: "string",
+	ScansionWithElision: "string",
+	IsFitForDactyl: "int",
+	AllVowels: "string",
+	SyllableCount: "int",
+	Stress: "int",
+	UltimaRhyme: "string",
+	RhymeVowels: "string",
+	PerfectRhyme: "string",
+	RhymeConsonants: "string",
+	// Ultima: "string",
+	RhymeVowelsAndUltimaCoda: "string",
+	EcclesPhonetic: "string",
+	EcclesVowels: "string",
+	EcclesRhymeVowels: "string",
+	EcclesRhymeVowelsAndUltimaCoda: "string",
+	EcclesPerfectRhyme: "string",
+	EcclesSort: "string",
+	LemmaCount: "int",
+	// Lemma1: "string",
+	// Lemma2: "string",
+	// Lemma3: "string",
+	// Lemma4: "string",
+	// Lemma5: "string",
+	LemmaArray: "array",
+	IsLemma: "int",
+	IsNonLemma: "int",
+	// DuplicateWords: "string",
+	// NewLemmata: "string",
+	NoMacra: "string",
+	NoMacraLowerCase: "string",
+	AlphOrderNoMacra: "string",
+	Sort: "string",
+	// RepeatWord: "string",
 };
 
 
@@ -293,139 +293,139 @@ const expectedOutputFromSampleData = {
 }
 
 const phoneticTests = [
-    {Word: "ai", Lemmata: "ai", Phonetic: "à"},
-    {Word: "ei", Lemmata: "ei", Phonetic: "è"},
-    {Word: "eia", Lemmata: "eia", Phonetic: "èa"},
-    {Word: "hei", Lemmata: "hei", Phonetic: "hè"},
-    {Word: "heia", Lemmata: "heia", Phonetic: "hèa"},
-    {Word: "hoc", Lemmata: "hic", Phonetic: "hocc"},
-    {Word: "oi", Lemmata: "oi", Phonetic: "ò"},
-    {Word: "oiei", Lemmata: "oiei", Phonetic: "òè"},
-    {Word: "dehinc", Lemmata: "dehinc", Phonetic: "dènc"},
-    {Word: "dein", Lemmata: "dein", Phonetic: "dèn"},
-    {Word: "deinde", Lemmata: "deinde", Phonetic: "dènde"},
-    {Word: "proin", Lemmata: "proin", Phonetic: "pròn"},
-    {Word: "proindē", Lemmata: "proindē", Phonetic: "pròndē"},
-    {Word: "praeeō", Lemmata: "praeeō", Phonetic: "pràeō"},
-    {Word: "praeit", Lemmata: "praeeō", Phonetic: "pràit"},
-    {Word: "cui", Lemmata: "quī quis", Phonetic: "cù"},
-    {Word: "alicuius", Lemmata: "aliquis", Phonetic: "alicùus"},
-    {Word: "eccui", Lemmata: "ecquis", Phonetic: "eccù"},
-    {Word: "nesciōcuius", Lemmata: "nesciōquis", Phonetic: "nesciōcùus"},
-    {Word: "ūnīcuique", Lemmata: "ūnusquisque", Phonetic: "ūnīcùqe"},
-    {Word: "anguis", Lemmata: "anguis", Phonetic: "angvis"},
-    {Word: "lingua", Lemmata: "lingua", Phonetic: "lingva"},
-    {Word: "suādeō", Lemmata: "suādeō", Phonetic: "svādeō"},
-    {Word: "persuāvī", Lemmata: "persuādeō", Phonetic: "persvāvī"},
-    {Word: "persuāsiō", Lemmata: "persuāsiō", Phonetic: "persvāsiō"},
-    {Word: "Eduardō", Lemmata: "Eduardus", Phonetic: "edvardō"},
-    {Word: "suēscō", Lemmata: "suēscō", Phonetic: "svēscō"},
-    {Word: "cōnsuētūdō", Lemmata: "cōnsuētūdō", Phonetic: "cõsvētūdō"},
-    {Word: "urguet", Lemmata: "urgueō", Phonetic: "urgvet"},
-    {Word: "iacent", Lemmata: "iaceō", Phonetic: "jacent"},
-    {Word: "coniectant", Lemmata: "coniectō", Phonetic: "conjectant"},
-    {Word: "subicit", Lemmata: "subiciō", Phonetic: "subjicit"},
-    {Word: "coniūnctiō", Lemmata: "coniūnctiō", Phonetic: "conjūnctiō"},
-    {Word: "coniūnx", Lemmata: "coniūnx", Phonetic: "conjūncs"},
-    {Word: "coniugor", Lemmata: "coniugō", Phonetic: "conjugor"},
-    {Word: "disiungimus", Lemmata: "disiungō", Phonetic: "disjungimus"},
-    {Word: "iniugem", Lemmata: "iniugis", Phonetic: "injugẽ"},
-    {Word: "biiugem", Lemmata: "biiugis", Phonetic: "bijugẽ"},
-    {Word: "biiugum", Lemmata: "biiugis", Phonetic: "bijugũ"},
-    {Word: "subiugat", Lemmata: "subiugō", Phonetic: "subjugat"},
-    {Word: "adiūdicārī", Lemmata: "adiūdicō", Phonetic: "adjūdicārī"},
-    {Word: "adiuvāns", Lemmata: "adiuvō", Phonetic: "adjuvãs"},
-    {Word: "iniūriae", Lemmata: "iniūria", Phonetic: "injūrià"},
-    {Word: "iūsiūrandum", Lemmata: "iūsiūrandum", Phonetic: "jūsjūrandũ"},
-    {Word: "iūrisiūrandī", Lemmata: "iūsiūrandum", Phonetic: "jūrisjūrandī"},
-    {Word: "periūrae", Lemmata: "periūrus", Phonetic: "perjūrà"},
-    {Word: "Iūliam", Lemmata: "Iūlia Iūlius[adj]", Phonetic: "jūliã"},
-    {Word: "iocant", Lemmata: "iocō", Phonetic: "jocant"},
-    {Word: "iambe", Lemmata: "iambus", Phonetic: "iambe"},
-    {Word: "Iāsoniī", Lemmata: "Iāsonius", Phonetic: "iāsoniī"},
-    {Word: "iīs", Lemmata: "is", Phonetic: "iīs"},
-    {Word: "magne", Lemmata: "magnus", Phonetic: "magne"},
-    {Word: "magis", Lemmata: "magis", Phonetic: "magis"},
-    {Word: "maiestātis", Lemmata: "maiestās", Phonetic: "majjestātis"},
-    {Word: "maiōrum", Lemmata: "maiōrēs", Phonetic: "majjōrũ"},
-    {Word: "malō", Lemmata: "malus", Phonetic: "malō"},
-    {Word: "male", Lemmata: "male", Phonetic: "male"},
-    {Word: "aiō", Lemmata: "aiō", Phonetic: "ajjō"},
-    {Word: "aiunt", Lemmata: "aiō", Phonetic: "ajjunt"},
-    {Word: "ait", Lemmata: "aiō", Phonetic: "ait"},
-    {Word: "-que", Lemmata: "-que", Phonetic: "qe"},
-    {Word: "lectiientāculāris", Lemmata: "lectiientāculāris", Phonetic: "lectijentāculāris"},
-    {Word: "Ōsuestriā", Lemmata: "Ōsuestria", Phonetic: "ōsvestriā"},
-    {Word: "Reiciavīcum", Lemmata: "Reiciavīcum", Phonetic: "rejcjavīcũ"},
-    {Word: "kalendae", Lemmata: "kalendae", Phonetic: "calendà"},
-    {Word: "ēheu", Lemmata: "ēheu", Phonetic: "ēh€"},
-    {Word: "meus", Lemmata: "meus", Phonetic: "meus"},
-    {Word: "Orpheus", Lemmata: "Orpheus", Phonetic: "orφ€s"},
-    {Word: "eunt", Lemmata: "eō", Phonetic: "eunt"},
-    {Word: "eundum", Lemmata: "eō", Phonetic: "eundũ"},
+	{Word: "ai", Lemmata: "ai", Phonetic: "à"},
+	{Word: "ei", Lemmata: "ei", Phonetic: "è"},
+	{Word: "eia", Lemmata: "eia", Phonetic: "èa"},
+	{Word: "hei", Lemmata: "hei", Phonetic: "hè"},
+	{Word: "heia", Lemmata: "heia", Phonetic: "hèa"},
+	{Word: "hoc", Lemmata: "hic", Phonetic: "hocc"},
+	{Word: "oi", Lemmata: "oi", Phonetic: "ò"},
+	{Word: "oiei", Lemmata: "oiei", Phonetic: "òè"},
+	{Word: "dehinc", Lemmata: "dehinc", Phonetic: "dènc"},
+	{Word: "dein", Lemmata: "dein", Phonetic: "dèn"},
+	{Word: "deinde", Lemmata: "deinde", Phonetic: "dènde"},
+	{Word: "proin", Lemmata: "proin", Phonetic: "pròn"},
+	{Word: "proindē", Lemmata: "proindē", Phonetic: "pròndē"},
+	{Word: "praeeō", Lemmata: "praeeō", Phonetic: "pràeō"},
+	{Word: "praeit", Lemmata: "praeeō", Phonetic: "pràit"},
+	{Word: "cui", Lemmata: "quī quis", Phonetic: "cù"},
+	{Word: "alicuius", Lemmata: "aliquis", Phonetic: "alicùus"},
+	{Word: "eccui", Lemmata: "ecquis", Phonetic: "eccù"},
+	{Word: "nesciōcuius", Lemmata: "nesciōquis", Phonetic: "nesciōcùus"},
+	{Word: "ūnīcuique", Lemmata: "ūnusquisque", Phonetic: "ūnīcùqe"},
+	{Word: "anguis", Lemmata: "anguis", Phonetic: "angvis"},
+	{Word: "lingua", Lemmata: "lingua", Phonetic: "lingva"},
+	{Word: "suādeō", Lemmata: "suādeō", Phonetic: "svādeō"},
+	{Word: "persuāvī", Lemmata: "persuādeō", Phonetic: "persvāvī"},
+	{Word: "persuāsiō", Lemmata: "persuāsiō", Phonetic: "persvāsiō"},
+	{Word: "Eduardō", Lemmata: "Eduardus", Phonetic: "edvardō"},
+	{Word: "suēscō", Lemmata: "suēscō", Phonetic: "svēscō"},
+	{Word: "cōnsuētūdō", Lemmata: "cōnsuētūdō", Phonetic: "cõsvētūdō"},
+	{Word: "urguet", Lemmata: "urgueō", Phonetic: "urgvet"},
+	{Word: "iacent", Lemmata: "iaceō", Phonetic: "jacent"},
+	{Word: "coniectant", Lemmata: "coniectō", Phonetic: "conjectant"},
+	{Word: "subicit", Lemmata: "subiciō", Phonetic: "subjicit"},
+	{Word: "coniūnctiō", Lemmata: "coniūnctiō", Phonetic: "conjūnctiō"},
+	{Word: "coniūnx", Lemmata: "coniūnx", Phonetic: "conjūncs"},
+	{Word: "coniugor", Lemmata: "coniugō", Phonetic: "conjugor"},
+	{Word: "disiungimus", Lemmata: "disiungō", Phonetic: "disjungimus"},
+	{Word: "iniugem", Lemmata: "iniugis", Phonetic: "injugẽ"},
+	{Word: "biiugem", Lemmata: "biiugis", Phonetic: "bijugẽ"},
+	{Word: "biiugum", Lemmata: "biiugis", Phonetic: "bijugũ"},
+	{Word: "subiugat", Lemmata: "subiugō", Phonetic: "subjugat"},
+	{Word: "adiūdicārī", Lemmata: "adiūdicō", Phonetic: "adjūdicārī"},
+	{Word: "adiuvāns", Lemmata: "adiuvō", Phonetic: "adjuvãs"},
+	{Word: "iniūriae", Lemmata: "iniūria", Phonetic: "injūrià"},
+	{Word: "iūsiūrandum", Lemmata: "iūsiūrandum", Phonetic: "jūsjūrandũ"},
+	{Word: "iūrisiūrandī", Lemmata: "iūsiūrandum", Phonetic: "jūrisjūrandī"},
+	{Word: "periūrae", Lemmata: "periūrus", Phonetic: "perjūrà"},
+	{Word: "Iūliam", Lemmata: "Iūlia Iūlius[adj]", Phonetic: "jūliã"},
+	{Word: "iocant", Lemmata: "iocō", Phonetic: "jocant"},
+	{Word: "iambe", Lemmata: "iambus", Phonetic: "iambe"},
+	{Word: "Iāsoniī", Lemmata: "Iāsonius", Phonetic: "iāsoniī"},
+	{Word: "iīs", Lemmata: "is", Phonetic: "iīs"},
+	{Word: "magne", Lemmata: "magnus", Phonetic: "magne"},
+	{Word: "magis", Lemmata: "magis", Phonetic: "magis"},
+	{Word: "maiestātis", Lemmata: "maiestās", Phonetic: "majjestātis"},
+	{Word: "maiōrum", Lemmata: "maiōrēs", Phonetic: "majjōrũ"},
+	{Word: "malō", Lemmata: "malus", Phonetic: "malō"},
+	{Word: "male", Lemmata: "male", Phonetic: "male"},
+	{Word: "aiō", Lemmata: "aiō", Phonetic: "ajjō"},
+	{Word: "aiunt", Lemmata: "aiō", Phonetic: "ajjunt"},
+	{Word: "ait", Lemmata: "aiō", Phonetic: "ait"},
+	{Word: "-que", Lemmata: "-que", Phonetic: "qe"},
+	{Word: "lectiientāculāris", Lemmata: "lectiientāculāris", Phonetic: "lectijentāculāris"},
+	{Word: "Ōsuestriā", Lemmata: "Ōsuestria", Phonetic: "ōsvestriā"},
+	{Word: "Reiciavīcum", Lemmata: "Reiciavīcum", Phonetic: "rejcjavīcũ"},
+	{Word: "kalendae", Lemmata: "kalendae", Phonetic: "calendà"},
+	{Word: "ēheu", Lemmata: "ēheu", Phonetic: "ēh€"},
+	{Word: "meus", Lemmata: "meus", Phonetic: "meus"},
+	{Word: "Orpheus", Lemmata: "Orpheus", Phonetic: "orφ€s"},
+	{Word: "eunt", Lemmata: "eō", Phonetic: "eunt"},
+	{Word: "eundum", Lemmata: "eō", Phonetic: "eundũ"},
 ]
 
 const testPhonetic = () => {
-    phoneticTests.forEach(test => {
-        const actual = f.Phonetic(test.Word, test.Lemmata)
-        if (actual === test.Phonetic) {
-            console.log(`Yay! Phonetic(${test.Word}) => ${actual}`)
-        }
-        else {
-            console.error(`Phonetic(${test.Word}) should give ${test.Phonetic} but actually gives ${actual}`)
-        }
-    })
+	phoneticTests.forEach(test => {
+		const actual = f.Phonetic(test.Word, test.Lemmata)
+		if (actual === test.Phonetic) {
+			console.log(`Yay! Phonetic(${test.Word}) => ${actual}`)
+		}
+		else {
+			console.error(`Phonetic(${test.Word}) should give ${test.Phonetic} but actually gives ${actual}`)
+		}
+	})
 }
 
 
 //// Functions used in `generateJson`:
 
 const checkResult = (word, lemmata, functionName) => {
-    if (expectedOutputFromSampleData[word]) {
-        const expectedOutput = expectedOutputFromSampleData[word][functionName];
-        const actualOutput = wordsformFunctions[functionName](word, lemmata);
-        if (expectedOutput === undefined && actualOutput === "") {
-            console.warn(`Neither the function nor the expected value has been defined for ${functionName}(${word}, ${lemmata})`);
-        }
-        else if (expectedOutput === undefined) {
-            console.warn(`${functionName}(${word}, ${lemmata}) gives ${actualOutput} but the expected value hasn’t been defined`);
-        }
-        else if (actualOutput === "") {
-            console.log(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but the function hasn’t been written`);
-        }
-        else if (JSON.stringify(actualOutput) === JSON.stringify(expectedOutput)) {
-            console.log(`Yay for ${functionName}(${word}, ${lemmata})!`);
-        }
-        else {
-            console.error({for: `${functionName}(${word}, ${lemmata})`, expected: expectedOutput, actual: actualOutput});
-        }
-    }
+	if (expectedOutputFromSampleData[word]) {
+		const expectedOutput = expectedOutputFromSampleData[word][functionName];
+		const actualOutput = wordsformFunctions[functionName](word, lemmata);
+		if (expectedOutput === undefined && actualOutput === "") {
+			console.warn(`Neither the function nor the expected value has been defined for ${functionName}(${word}, ${lemmata})`);
+		}
+		else if (expectedOutput === undefined) {
+			console.warn(`${functionName}(${word}, ${lemmata}) gives ${actualOutput} but the expected value hasn’t been defined`);
+		}
+		else if (actualOutput === "") {
+			console.log(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but the function hasn’t been written`);
+		}
+		else if (JSON.stringify(actualOutput) === JSON.stringify(expectedOutput)) {
+			console.log(`Yay for ${functionName}(${word}, ${lemmata})!`);
+		}
+		else {
+			console.error({for: `${functionName}(${word}, ${lemmata})`, expected: expectedOutput, actual: actualOutput});
+		}
+	}
 }
 
 const getLastKey = (schema) => {
-    const keys = Object.keys(schema);
-    return keys[keys.length - 1];
+	const keys = Object.keys(schema);
+	return keys[keys.length - 1];
 }
 
 const clearTextMessages = () => {
-    textByGenerateJson.textContent = "";
-    textByCopyToClipboard.textContent = "";
+	textByGenerateJson.textContent = "";
+	textByCopyToClipboard.textContent = "";
 }
 
 const clearInputs = () => {
-    textareaInput.value = "";
-    textareaOutput.value = "";
-    clearTextMessages();
+	textareaInput.value = "";
+	textareaOutput.value = "";
+	clearTextMessages();
 }
 
 const warnOfEmptyInput = () => {
-    clearTextMessages();
-    textByGenerateJson.textContent = "Nothing to generate Json from!";
+	clearTextMessages();
+	textByGenerateJson.textContent = "Nothing to generate Json from!";
 }
 
 const warnOfEmptyOutput = () => {
-    clearTextMessages();
-    textByCopyToClipboard.textContent = "Nothing to copy or download!";
+	clearTextMessages();
+	textByCopyToClipboard.textContent = "Nothing to copy or download!";
 }
 
 let tableName = "custom"; //// "custom", "lemmata", "words".
@@ -437,112 +437,112 @@ const functionNames = Object.keys(wordsSchema);
 let outputArray = [];
 
 const output = (jsonObject) => {
-    outputArray.push('{');
-    //// Convert the object to an array of key–value pairs.
-    const asEntries = Object.entries(jsonObject);
-    let i = 0;
-    //// Key–value pairs before the last pair is output as `"key": "value",` with a comma.
-    for (; i < asEntries.length - 1; i++) {
-        outputArray.push(`"${asEntries[i][0]}": ${JSON.stringify(asEntries[i][1])},`);
-    }
-    //// The last key–value pair is output as `"key": "value"` without the trailing comma.
-    for (; i < asEntries.length; i++) {
-        outputArray.push(`"${asEntries[i][0]}": ${JSON.stringify(asEntries[i][1])}`);
-    }
-    outputArray.push('}');
+	outputArray.push('{');
+	//// Convert the object to an array of key–value pairs.
+	const asEntries = Object.entries(jsonObject);
+	let i = 0;
+	//// Key–value pairs before the last pair is output as `"key": "value",` with a comma.
+	for (; i < asEntries.length - 1; i++) {
+		outputArray.push(`"${asEntries[i][0]}": ${JSON.stringify(asEntries[i][1])},`);
+	}
+	//// The last key–value pair is output as `"key": "value"` without the trailing comma.
+	for (; i < asEntries.length; i++) {
+		outputArray.push(`"${asEntries[i][0]}": ${JSON.stringify(asEntries[i][1])}`);
+	}
+	outputArray.push('}');
 }
 
 
 //// Functions called by buttons:
 
 const generateJson = () => {
-    clearTextMessages();
-    clearWordsArray();
-    textByGenerateJson.textContent = "Generating Json, please wait...";
-    outputArray.length = 0; // Clear the output in case there’s anything from previous runs.
-    const allInputRows = textareaInput.value.split("\n");
-    const countRows = allInputRows.length;
+	clearTextMessages();
+	clearWordsArray();
+	textByGenerateJson.textContent = "Generating Json, please wait...";
+	outputArray.length = 0; // Clear the output in case there’s anything from previous runs.
+	const allInputRows = textareaInput.value.split("\n");
+	const countRows = allInputRows.length;
 
-    //// For each line of values in the input...
-    for (let i = 0; i < countRows; i++) {
-        //// Skip empty lines.
-        if (allInputRows[i] == "") { continue; }
+	//// For each line of values in the input...
+	for (let i = 0; i < countRows; i++) {
+		//// Skip empty lines.
+		if (allInputRows[i] == "") { continue; }
 
-        const rowOfValues = allInputRows[i].split("\t");
-        const [word, lemmata, ...rest] = rowOfValues;
-        const resultsForLine = {};
+		const rowOfValues = allInputRows[i].split("\t");
+		const [word, lemmata, ...rest] = rowOfValues;
+		const resultsForLine = {};
 
-        functionNames.forEach(functionName => {
-            resultsForLine[functionName] = wordsformFunctions[functionName](word, lemmata);
-            checkResult(word, lemmata, functionName);
-        })
+		functionNames.forEach(functionName => {
+			resultsForLine[functionName] = wordsformFunctions[functionName](word, lemmata);
+			checkResult(word, lemmata, functionName);
+		})
 
-        output(resultsForLine);
-        addToWordsArray(word, lemmata);
-        clearMemoisationCache();
-    }
-    displayOutput();
-    textByGenerateJson.textContent = "Json generated!";
-    testPhonetic();
+		output(resultsForLine);
+		addToWordsArray(word, lemmata);
+		clearMemoisationCache();
+	}
+	displayOutput();
+	textByGenerateJson.textContent = "Json generated!";
+	testPhonetic();
 }
 
 const displayOutput = () => {
-    textareaOutput.value = outputArray.join("\n");
+	textareaOutput.value = outputArray.join("\n");
 }
 
 const copyToClipboard = () => {
-    clearTextMessages();
-    textByCopyToClipboard.textContent = "Copying to clipboard...";
-    textareaOutput.select();
-    document.execCommand("copy");
-    textByCopyToClipboard.textContent = "Copied!";
+	clearTextMessages();
+	textByCopyToClipboard.textContent = "Copying to clipboard...";
+	textareaOutput.select();
+	document.execCommand("copy");
+	textByCopyToClipboard.textContent = "Copied!";
 }
 
-const download = () => {    
-    let a = document.createElement('a');
-    a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textareaOutput.value.replace(/\n/g, "\r\n")));;
-    a.setAttribute('download', tableName + "_mongo.json");
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    clearTextMessages();
+const download = () => {
+	let a = document.createElement('a');
+	a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textareaOutput.value.replace(/\n/g, "\r\n")));;
+	a.setAttribute('download', tableName + "_mongo.json");
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+	clearTextMessages();
 }
 
 
 //// Event listeners.
 
 buttonClearInputs.addEventListener("click", ()=>{
-    clearInputs();
+	clearInputs();
 });
 
 buttonLoadSampleData.addEventListener("click", ()=>{
-    textareaInput.value = sampleData;
-    clearTextMessages();
+	textareaInput.value = sampleData;
+	clearTextMessages();
 });
 
 buttonGenerateJson.addEventListener("click", ()=>{
-    if (textareaInput.value === "") {
-        warnOfEmptyInput();
-    }
-    else {
-        generateJson();
-    }
+	if (textareaInput.value === "") {
+		warnOfEmptyInput();
+	}
+	else {
+		generateJson();
+	}
 });
 
 buttonCopyToClipboard.addEventListener("click", ()=>{
-    if (textareaOutput.value === "") {
-        warnOfEmptyOutput();
-    }
-    else {
-        copyToClipboard();
-    }
+	if (textareaOutput.value === "") {
+		warnOfEmptyOutput();
+	}
+	else {
+		copyToClipboard();
+	}
 });
 
 buttonDownload.addEventListener("click", ()=>{
-    if (textareaOutput.value === "") {
-        warnOfEmptyOutput();
-    }
-    else {    
-        download();
-    }
+	if (textareaOutput.value === "") {
+		warnOfEmptyOutput();
+	}
+	else {
+		download();
+	}
 });
