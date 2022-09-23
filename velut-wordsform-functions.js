@@ -60,9 +60,6 @@ const IF = (condition, trueReturn, falseReturn) => {
 const reversestr = (text) => {
 	return `${text}`.split('').reverse().join('');
 }
-const SUM = (...args) => {
-	return args.reduce((previous, current) => previous + current);
-}
 
 
 // Defining a value then emptying the array gives us IntelliSense without TypeScript :)
