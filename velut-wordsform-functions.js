@@ -1,8 +1,5 @@
 // A load of Excel functions recreated in JavaScript:
 
-const CONCAT = (...args) => {
-	return args.reduce((previous, current) => `${previous}${current}`);
-}
 const SUBSTITUTE = (text, oldText, newText) => {
 	return text.replaceAll(oldText, newText);
 }
@@ -142,11 +139,11 @@ const unmemoisedFuncs = {
 	Phonetic:
 		(word, lemmata) => {
 
-			const formula = CONCAT(
+			const formula = (
 				SUBSTITUTES(
-					CONCAT(
-						"_",
-						itojj(
+					(
+						'_'
+						+ itojj(
 							IFS(
 								// Condition 0 in IFS
 								f.Uncompounded(word, lemmata) === "ai",
@@ -436,8 +433,8 @@ const unmemoisedFuncs = {
 								1 === 1,
 								f.Uncompounded(word, lemmata)
 							).toLowerCase()
-						),
-						"_"
+						)
+						+ '_'
 					),
 					"am_",
 					"ã",
@@ -547,8 +544,8 @@ const unmemoisedFuncs = {
 					"€",
 					"_",
 					""
-				),
-				IF(
+				)
+				+ IF(
 					word.length === f.Uncompounded(word, lemmata).length,
 					"",
 					RIGHT(
@@ -850,23 +847,23 @@ const unmemoisedFuncs = {
 		},
 	EcclesSort:
 		(word, lemmata) => {
-			return CONCAT(
-					f.EcclesRhymeVowels(word, lemmata),
-					"-",
-					f.EcclesPerfectRhyme(word, lemmata)
-						.replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a'),
-					"-",
-					reversestr(
+			return (
+					f.EcclesRhymeVowels(word, lemmata)
+					+ '-'
+					+ f.EcclesPerfectRhyme(word, lemmata)
+						.replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a')
+					+ '-'
+					+ reversestr(
 						f.EcclesVowels(word, lemmata)
 							.substring(0, f.EcclesVowels(word, lemmata).length - f.EcclesRhymeVowels(word, lemmata).length)
-					),
-					"-",
-					reversestr(
+					)
+					+ '-'
+					+ reversestr(
 						f.EcclesPhonetic(word, lemmata)
 							.substring(0, f.EcclesPhonetic(word, lemmata).length - f.EcclesPerfectRhyme(word, lemmata).length)
-					).replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a'),
-					"-",
-					word.toLowerCase()
+					).replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a')
+					+ '-'
+					+ word.toLowerCase()
 				).replaceAll('ā', 'azzzz')
 					.replaceAll('ē', 'ezzzz')
 					.replaceAll('ḗ', 'ezzzz')
