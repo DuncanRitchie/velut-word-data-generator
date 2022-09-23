@@ -42,9 +42,6 @@ const OR = (...args) => {
 const LEFT = (text, characterCount) => {
 	return `${text}`.substring(0, characterCount);
 }
-const SEARCH = (substring, superstring) => {
-	return `${superstring}`.search(substring);
-}
 const RIGHT = (text, characterCount) => {
 	return `${text}`.substring(`${text}`.length - characterCount);
 }
