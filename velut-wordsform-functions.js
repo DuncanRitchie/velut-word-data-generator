@@ -3,16 +3,10 @@
 const CONCAT = (...args) => {
 	return args.reduce((previous, current) => `${previous}${current}`);
 }
-const SUBSTITUTE = (text, oldText, newText, fourthArg) => {
-	if (fourthArg) {
-		console.warn(`SUBSTITUTE called with 4th arg`)
-	}
+const SUBSTITUTE = (text, oldText, newText) => {
 	return text.replaceAll(oldText, newText);
 }
-const SUBSTITUTEONCE = (text, oldText, newText, fourthArg) => {
-	if (fourthArg) {
-		console.warn(`SUBSTITUTE called with 4th arg`)
-	}
+const SUBSTITUTEONCE = (text, oldText, newText) => {
 	return text.replace(oldText, newText);
 }
 // Eg, SUBSTITUTES('velut', 'e', 'E', 'u', 'U') => 'vElUt'
