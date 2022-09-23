@@ -291,6 +291,90 @@ const expectedOutputFromSampleData = {
   "Sort": "auazzzzzzzz-abala--t-tabulae/",
   "RepeatWord": "tabulae",
 }
+
+const phoneticTests = [
+    {Word: "ai", Lemmata: "ai", Phonetic: "à"},
+    {Word: "ei", Lemmata: "ei", Phonetic: "è"},
+    {Word: "eia", Lemmata: "eia", Phonetic: "èa"},
+    {Word: "hei", Lemmata: "hei", Phonetic: "hè"},
+    {Word: "heia", Lemmata: "heia", Phonetic: "hèa"},
+    {Word: "hoc", Lemmata: "hic", Phonetic: "hocc"},
+    {Word: "oi", Lemmata: "oi", Phonetic: "ò"},
+    {Word: "oiei", Lemmata: "oiei", Phonetic: "òè"},
+    {Word: "dehinc", Lemmata: "dehinc", Phonetic: "dènc"},
+    {Word: "dein", Lemmata: "dein", Phonetic: "dèn"},
+    {Word: "deinde", Lemmata: "deinde", Phonetic: "dènde"},
+    {Word: "proin", Lemmata: "proin", Phonetic: "pròn"},
+    {Word: "proindē", Lemmata: "proindē", Phonetic: "pròndē"},
+    {Word: "praeeō", Lemmata: "praeeō", Phonetic: "pràeō"},
+    {Word: "praeit", Lemmata: "praeeō", Phonetic: "pràit"},
+    {Word: "cui", Lemmata: "quī quis", Phonetic: "cù"},
+    {Word: "alicuius", Lemmata: "aliquis", Phonetic: "alicùjus"},
+    {Word: "eccui", Lemmata: "ecquis", Phonetic: "eccù"},
+    {Word: "nesciōcuius", Lemmata: "nesciōquis", Phonetic: "nesciōcùjus"},
+    {Word: "ūnīcuique", Lemmata: "ūnusquisque", Phonetic: "ūnīcùqe"},
+    {Word: "anguis", Lemmata: "anguis", Phonetic: "angvis"},
+    {Word: "lingua", Lemmata: "lingua", Phonetic: "lingva"},
+    {Word: "suādeō", Lemmata: "suādeō", Phonetic: "svādeō"},
+    {Word: "persuāvī", Lemmata: "persuādeō", Phonetic: "persvāvī"},
+    {Word: "persuāsiō", Lemmata: "persuāsiō", Phonetic: "persvāsiō"},
+    {Word: "Eduardō", Lemmata: "Eduardus", Phonetic: "edvardō"},
+    {Word: "suēscō", Lemmata: "suēscō", Phonetic: "svēscō"},
+    {Word: "cōnsuētūdō", Lemmata: "cōnsuētūdō", Phonetic: "cōnsvētūdō"},
+    {Word: "urguet", Lemmata: "urgueō", Phonetic: "urgvet"},
+    {Word: "iacent", Lemmata: "iaceō", Phonetic: "jacent"},
+    {Word: "coniectant", Lemmata: "coniectō", Phonetic: "conjectant"},
+    {Word: "subicit", Lemmata: "subiciō", Phonetic: "subjicit"},
+    {Word: "coniūnctiō", Lemmata: "coniūnctiō", Phonetic: "conjūnctiō"},
+    {Word: "coniūnx", Lemmata: "coniūnx", Phonetic: "conjūnx"},
+    {Word: "coniugor", Lemmata: "coniugō", Phonetic: "conjugor"},
+    {Word: "disiungimus", Lemmata: "disiungō", Phonetic: "disjungimus"},
+    {Word: "iniugem", Lemmata: "iniugis", Phonetic: "injugẽ"},
+    {Word: "biiugem", Lemmata: "biiugis", Phonetic: "bijugẽ"},
+    {Word: "biiugum", Lemmata: "biiugis", Phonetic: "bijugũ"},
+    {Word: "subiugat", Lemmata: "subiugō", Phonetic: "subjugat"},
+    {Word: "adiūdicārī", Lemmata: "adiūdicō", Phonetic: "adjūdicārī"},
+    {Word: "adiuvāns", Lemmata: "adiuvō", Phonetic: "adjuvãs"},
+    {Word: "iniūriae", Lemmata: "iniūria", Phonetic: "injūrià"},
+    {Word: "iūsiūrandum", Lemmata: "iūsiūrandum", Phonetic: "jūsjūrandũ"},
+    {Word: "iūrisiūrandī", Lemmata: "iūsiūrandum", Phonetic: "jūrisjūrandī"},
+    {Word: "periūrae", Lemmata: "periūrus", Phonetic: "perjūrà"},
+    {Word: "Iūliam", Lemmata: "Iūlia Iūlius[adj]", Phonetic: "jūliã"},
+    {Word: "iocant", Lemmata: "iocō", Phonetic: "jocant"},
+    {Word: "iambe", Lemmata: "iambus", Phonetic: "iambe"},
+    {Word: "Iāsoniī", Lemmata: "Iāsonius", Phonetic: "iāsoniī"},
+    {Word: "iīs", Lemmata: "is", Phonetic: "iīs"},
+    {Word: "magne", Lemmata: "magnus", Phonetic: "magne"},
+    {Word: "magis", Lemmata: "magis", Phonetic: "magis"},
+    {Word: "maiestātis", Lemmata: "maiestās", Phonetic: "majjestātis"},
+    {Word: "maiōrum", Lemmata: "maiōrēs", Phonetic: "majjōrũ"},
+    {Word: "malō", Lemmata: "malus", Phonetic: "malō"},
+    {Word: "male", Lemmata: "male", Phonetic: "male"},
+    {Word: "aiō", Lemmata: "aiō", Phonetic: "ajjō"},
+    {Word: "aiunt", Lemmata: "aiō", Phonetic: "ajjunt"},
+    {Word: "ait", Lemmata: "aiō", Phonetic: "ait"},
+    {Word: "-que", Lemmata: "-que", Phonetic: "qe"},
+    {Word: "lectiientāculāris", Lemmata: "lectiientāculāris", Phonetic: "lectijentāculāris"},
+    {Word: "Ōsuestriā", Lemmata: "Ōsuestria", Phonetic: "ōsvestriā"},
+    {Word: "Reiciavīcum", Lemmata: "Reiciavīcum", Phonetic: "rejcjavīcũ"},
+    {Word: "kalendae", Lemmata: "kalendae", Phonetic: "calendà"},
+    {Word: "ēheu", Lemmata: "ēheu", Phonetic: "ēh€"},
+    {Word: "meus", Lemmata: "meus", Phonetic: "meus"},
+    {Word: "Orpheus", Lemmata: "Orpheus", Phonetic: "orφ€s"},
+    {Word: "eunt", Lemmata: "eō", Phonetic: "eunt"},
+    {Word: "eundum", Lemmata: "eō", Phonetic: "eundũ"},
+]
+
+const testPhonetic = () => {
+    phoneticTests.forEach(test => {
+        const actual = f.Phonetic(test.Word, test.Lemmata)
+        if (actual === test.Phonetic) {
+            console.log(`Yay! Phonetic(${test.Word}) => ${actual}`)
+        }
+        else {
+            console.error(`Phonetic(${test.Word}) should give ${test.Phonetic} but actually gives ${actual}`)
+        }
+    })
 }
 
 
@@ -399,6 +483,7 @@ const generateJson = () => {
     }
     displayOutput();
     textByGenerateJson.textContent = "Json generated!";
+    testPhonetic();
 }
 
 const displayOutput = () => {
