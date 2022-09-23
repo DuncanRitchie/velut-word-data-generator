@@ -59,7 +59,7 @@ const wordsformFormulae = {
 		'=SUBSTITUTE(IF([@LemmaCount]>4,IF([@LemmaCount]=5,RIGHT([@Lemmata],LEN([@Lemmata])-LEN([@Lemma1]&[@Lemma2]&[@Lemma3]&[@Lemma4])-4),LEFT(RIGHT([@Lemmata],LEN([@Lemmata])-LEN([@Lemma1]&[@Lemma2]&[@Lemma3]&[@Lemma4])-4),FIND(" ",RIGHT([@Lemmata],LEN([@Lemmata])-LEN([@Lemma1]&[@Lemma2]&[@Lemma3]&[@Lemma4])-4))-1)),"")," ",".")',
 	ScansionWithElision:
 		'=IF(OR([@UltimaRhyme]="a",[@UltimaRhyme]="e",[@UltimaRhyme]="i",[@UltimaRhyme]="o",[@UltimaRhyme]="u",[@UltimaRhyme]="y",[@UltimaRhyme]="ā",[@UltimaRhyme]="ē",[@UltimaRhyme]="ī",[@UltimaRhyme]="ō",[@UltimaRhyme]="ū",[@UltimaRhyme]="ӯ",[@UltimaRhyme]="ã",[@UltimaRhyme]="ẽ",[@UltimaRhyme]="ĩ",[@UltimaRhyme]="õ",[@UltimaRhyme]="ũ",[@UltimaRhyme]="ỹ",[@UltimaRhyme]="à",[@UltimaRhyme]="â",[@UltimaRhyme]="é",[@UltimaRhyme]="€",[@UltimaRhyme]="ò",[@UltimaRhyme]="ù"),IF([@SyllableCount]=1,"∅",LEFT([@Scansion],[@SyllableCount]-1)),[@Scansion])',
-	IsFitForDactylic:
+	IsFitForDactyl:
 		'=IF(AND(RIGHT([@Phonetic],1)=RIGHT([@AllConsonants],1),RIGHT([@Scansion],1)="–"),IFERROR(IFERROR(FIND("–⏑–",@reversestr([@Scansion]),1),FIND("⏑⏑⏑",@reversestr([@Scansion]),1))*0,1),IFERROR(IFERROR(FIND("–⏑–",@reversestr([@Scansion]),2),FIND("⏑⏑⏑",@reversestr([@Scansion]),2))*0,1))',
 	LemmaArray:
 		'="["&quote&TEXTJOIN(quote&","&quote,TRUE,wordsform[@[Lemma1]:[Lemma5]])&quote&"]"',

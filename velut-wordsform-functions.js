@@ -1186,7 +1186,7 @@ const unmemoisedFuncs = {
 				f.SyllableCount(word, lemmata) - 1
 			)
 		},
-	IsFitForDactylic:
+	IsFitForDactyl:
 		(word, lemmata) => {
 			const scansionWithElision = f.ScansionWithElision(word, lemmata);
 			if (
