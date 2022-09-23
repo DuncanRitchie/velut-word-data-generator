@@ -1119,32 +1119,30 @@ const unmemoisedFuncs = {
 		},
 	Sort:
 		(word, lemmata) => {
-			return CONCAT(
+			return (
 				SUBSTITUTES(
-					CONCAT(
-						f.RhymeVowels(word, lemmata),
-						"-",
-						SUBSTITUTES(
-							f.NoMacra(f.PerfectRhyme(word, lemmata)),
-							"a","a","e","a","i","a","o","a","u","a","y","a","à","a","â","a","è","a","€","a","ò","a","ù","a","ã","a","ẽ","a","ĩ","a","õ","a","ũ","a","ỹ","a"
-						),
-						"-",
+					f.RhymeVowels(word, lemmata)
+					+ '-'
+					+ SUBSTITUTES(
+						f.NoMacra(f.PerfectRhyme(word, lemmata)),
+						"a","a","e","a","i","a","o","a","u","a","y","a","à","a","â","a","è","a","€","a","ò","a","ù","a","ã","a","ẽ","a","ĩ","a","õ","a","ũ","a","ỹ","a"
+					)
+					+ '-'
+					+ reversestr(
+						f.AllVowels(word, lemmata).substring(0, f.SyllableCount(word, lemmata) - f.Stress(word, lemmata))
+					)
+					+ '-'
+					+ SUBSTITUTES(
 						reversestr(
-							LEFT(f.AllVowels(word, lemmata),LEN(f.AllVowels(word, lemmata))-LEN(f.RhymeVowels(word, lemmata)))
+							f.Phonetic(word, lemmata).substring(0, f.Phonetic(word, lemmata).length - f.PerfectRhyme(word, lemmata).length)
 						),
-						"-",
-						SUBSTITUTES(
-							reversestr(
-								LEFT(f.Phonetic(word, lemmata),LEN(f.Phonetic(word, lemmata))-LEN(f.PerfectRhyme(word, lemmata)))
-							),
-							"a","a","e","a","i","a","o","a","u","a","y","a","à","a","â","a","è","a","€","a","ò","a","ù","a","ã","a","ẽ","a","ĩ","a","õ","a","ũ","a","ỹ","a"
-						)
+						"a","a","e","a","i","a","o","a","u","a","y","a","à","a","â","a","è","a","€","a","ò","a","ù","a","ã","a","ẽ","a","ĩ","a","õ","a","ũ","a","ỹ","a"
 					),
 					"ā","azzzz","ē","ezzzz","ī","izzzz","ō","ozzzz","ū","uzzzz","ȳ","yzzzz","ã","azzzzzz","ẽ","ezzzzzz","ĩ","izzzzzz","õ","ozzzzzz","ũ","uzzzzzz","ỹ","yzzzzzz","à","azzzzzzzz","â","azzzzzzzzzzzz","è","ezzzzzzzz","€","ezzzzzzzzzzzz","ò","ozzzzzzzz","ù","uzzzzzzzz"
-				),
-				"-",
-				LOWER(word),
-				IF(EXACT(word,LOWER(word)), "/", "")
+				)
+				+ '-'
+				+ word.toLowerCase()
+				+ (word === word.toLowerCase() ? '/' : '')
 			);
 		},
 	RepeatWord:
