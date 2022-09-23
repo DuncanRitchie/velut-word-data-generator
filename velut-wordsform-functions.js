@@ -493,7 +493,6 @@ const unmemoisedFuncs = {
 									// Condition 27 in IFS
 									AND(
 										/^i[aeiouyāēīōūȳ]/i.test(word),
-										(console.log(`/^i[aeiouyāēīōūȳ]/i.test(${word}) gives ${/^i[aeiouyāēīōūȳ]/i.test(word)}`) || true),
 										COUNTIF(
 											phoneticExceptions["Vocalic initial i"],
 											f.Lemma1(word, lemmata)
