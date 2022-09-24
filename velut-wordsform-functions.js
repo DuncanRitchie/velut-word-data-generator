@@ -1,19 +1,10 @@
 // Helper functions:
 
-// Eg, SUBSTITUTES('velut', 'e', 'E', 'u', 'U') => 'vElUt'
-const SUBSTITUTES = (text, ...args) => {
-	const oldTexts = args.filter((v, i) => i % 2 === 0);
-	const newTexts = args.filter((v, i) => i % 2 !== 0);
-	let substituted = text;
-	for (let i = 0; i < oldTexts.length; i++) {
-		substituted = substituted.replaceAll(oldTexts[i], newTexts[i]);
-	}
-	return substituted;
-}
 // Eg 'rāia' => 'rājja' because the “i” is consonantal.
 const replaceIntervocalicI = (text) => {
 	return `${text}`.replace(/(?<=[āēīōūȳ])i(?=[aeiouyāēīōūȳ])/gi, 'jj');
 }
+// Eg 'velut' => 'tulev'
 const reverseString = (text) => {
 	return `${text}`.split('').reverse().join('');
 }
@@ -144,16 +135,12 @@ const unmemoisedFuncs = {
 					return 'dènc';
 				}
 				if (['dein', 'deinde', 'proin', 'proindē'].includes(uncompounded)) {
-					return SUBSTITUTES(
-						uncompounded,
-						"dein",
-						"dèn",
-						"proin",
-						"pròn"
-					);
+					return uncompounded
+						.replace('dein', 'dèn')
+						.replace('proin', 'pròn');
 				}
 				if (f.Lemma1(word, lemmata) === "praeeō") {
-					return word.replaceAll('praei', 'prài');
+					return uncompounded.replaceAll('praei', 'prài');
 				}
 				if (
 					f.Lemma1(word, lemmata).startsWith('cui')
@@ -164,13 +151,9 @@ const unmemoisedFuncs = {
 					|| f.Lemma1(word, lemmata) === "nesciōquis"
 					|| f.Lemma1(word, lemmata) === "ūnusquisque"
 				) {
-					return SUBSTITUTES(
-						replaceIntervocalicI(uncompounded),
-						"cuiā",
-						"cùjā",
-						"cui",
-						"cù"
-					);
+					return replaceIntervocalicI(uncompounded)
+						.replaceAll('cuiā', 'cùjā')
+						.replaceAll('cui', 'cù');
 				}
 				if (
 					f.NoMacra(word, lemmata).includes("ngua")
@@ -299,123 +282,66 @@ const unmemoisedFuncs = {
 				return uncompounded;
 			}
 
-			return SUBSTITUTES(
-				(
-					'_'
-					+ replaceIntervocalicI(
-						getPhoneticBeforeGeneralSubstitutions().toLowerCase()
-					)
-					+ '_'
-				),
-				"am_",
-				"ã",
-				"em_",
-				"ẽ",
-				"im_",
-				"ĩ",
-				"om_",
-				"õ",
-				"um_",
-				"ũ",
-				"ym_",
-				"ỹ",
-				"qu",
-				"q",
-				"ds",
-				"ts",
-				"z",
-				"ds",
-				"x",
-				"cs",
-				"bs",
-				"ps",
-				"bt",
-				"pt",
-				"ch",
-				"χ",
-				"ph",
-				"φ",
-				"rh",
-				"r",
-				"th",
-				"θ",
-				"ae",
-				"à",
-				"au",
-				"â",
-				"oe",
-				"ò",
-				"ë",
-				"e",
-				"ï",
-				"i",
-				"ü",
-				"u",
-				"ṻ",
-				"ū",
-				"á",
-				"a",
-				"é",
-				"e",
-				"í",
-				"i",
-				"ó",
-				"o",
-				"ú",
-				"u",
-				"ý",
-				"y",
-				"ḗ",
-				"ē",
-				"āns",
-				"ãs",
-				"ēns",
-				"ẽs",
-				"īns",
-				"ĩs",
-				"ōns",
-				"õs",
-				"ūns",
-				"ũs",
-				"ȳns",
-				"ỹs",
-				"ānf",
-				"ãf",
-				"ēnf",
-				"ẽf",
-				"īnf",
-				"ĩf",
-				"ōnf",
-				"õf",
-				"ūnf",
-				"ũf",
-				"ȳnf",
-				"ỹf",
-				"lectiient",
-				"lectijent",
-				"ōsuestr",
-				"ōsvestr",
-				"reiciav",
-				"rejcjav",
-				"k",
-				"c",
-				"eu",
-				(
+			return (
+				`_${replaceIntervocalicI(getPhoneticBeforeGeneralSubstitutions().toLowerCase())}_`
+				.replaceAll('am_', 'ã')
+				.replaceAll('em_', 'ẽ')
+				.replaceAll('im_', 'ĩ')
+				.replaceAll('om_', 'õ')
+				.replaceAll('um_', 'ũ')
+				.replaceAll('ym_', 'ỹ')
+				.replaceAll('qu', 'q')
+				.replaceAll('ds', 'ts')
+				.replaceAll('z', 'ds')
+				.replaceAll('x', 'cs')
+				.replaceAll('bs', 'ps')
+				.replaceAll('bt', 'pt')
+				.replaceAll('ch', 'χ')
+				.replaceAll('ph', 'φ')
+				.replaceAll('rh', 'r')
+				.replaceAll('th', 'θ')
+				.replaceAll('ae', 'à')
+				.replaceAll('au', 'â')
+				.replaceAll('oe', 'ò')
+				.replaceAll('ë', 'e')
+				.replaceAll('ï', 'i')
+				.replaceAll('ü', 'u')
+				.replaceAll('ṻ', 'ū')
+				.replaceAll('á', 'a')
+				.replaceAll('é', 'e')
+				.replaceAll('í', 'i')
+				.replaceAll('ó', 'o')
+				.replaceAll('ú', 'u')
+				.replaceAll('ý', 'y')
+				.replaceAll('ḗ', 'ē')
+				.replaceAll('āns', 'ãs')
+				.replaceAll('ēns', 'ẽs')
+				.replaceAll('īns', 'ĩs')
+				.replaceAll('ōns', 'õs')
+				.replaceAll('ūns', 'ũs')
+				.replaceAll('ȳns', 'ỹs')
+				.replaceAll('ānf', 'ãf')
+				.replaceAll('ēnf', 'ẽf')
+				.replaceAll('īnf', 'ĩf')
+				.replaceAll('ōnf', 'õf')
+				.replaceAll('ūnf', 'ũf')
+				.replaceAll('ȳnf', 'ỹf')
+				.replaceAll('lectiient', 'lectijent')
+				.replaceAll('ōsuestr', 'ōsvestr')
+				.replaceAll('reiciav', 'rejcjav')
+				.replaceAll('k', 'c')
+				.replaceAll('eu', (
 					phoneticExceptions["Diphthong eu"].includes(f.Lemma1(word, lemmata)) > 0
-					? "€"
-					: "eu"
-				),
-				"_eu",
-				"_€",
-				"_€nd",
-				"eund",
-				"_€nt",
-				"eunt",
-				"eu_",
-				"€",
-				"_",
-				""
-			)
+						? '€'
+						: 'eu'
+					)
+				)
+				.replaceAll('_eu', '_€')
+				.replaceAll('_€nd', 'eund')
+				.replaceAll('_€nt', 'eunt')
+				.replaceAll('eu_', '€')
+				.replaceAll('_', '')
+			);
 		},
 	EncliticPhonetic:
 		(word, lemmata) => {
@@ -561,8 +487,14 @@ const unmemoisedFuncs = {
 					|| f.Lemma1(word, lemmata).endsWith("ium[n]")
 				)
 				&& (
-					SUBSTITUTES(word,"á","a","é","e","í","i","ó","o","ú","u","ý","y")
-					== f.Lemma1(word, lemmata).replace(/\[[^\]]+\]/, '').replace(/...$/, 'ī')
+					(word
+						.replaceAll('á', 'a')
+						.replaceAll('é', 'e')
+						.replaceAll('í', 'i')
+						.replaceAll('ó', 'o')
+						.replaceAll('ú', 'u')
+						.replaceAll('ý', 'y')
+					) == f.Lemma1(word, lemmata).replace(/\[[^\]]+\]/, '').replace(/...$/, 'ī')
 				)
 			) {
 				return 2;
@@ -859,26 +791,76 @@ const unmemoisedFuncs = {
 	Sort:
 		(word, lemmata) => {
 			return (
-				SUBSTITUTES(
+				(
 					f.RhymeVowels(word, lemmata)
 					+ '-'
-					+ SUBSTITUTES(
-						f.NoMacra(f.PerfectRhyme(word, lemmata)),
-						"a","a","e","a","i","a","o","a","u","a","y","a","à","a","â","a","è","a","€","a","ò","a","ù","a","ã","a","ẽ","a","ĩ","a","õ","a","ũ","a","ỹ","a"
+					+ (f.NoMacra(f.PerfectRhyme(word, lemmata))
+						.replaceAll('a', 'a')
+						.replaceAll('e', 'a')
+						.replaceAll('i', 'a')
+						.replaceAll('o', 'a')
+						.replaceAll('u', 'a')
+						.replaceAll('y', 'a')
+						.replaceAll('à', 'a')
+						.replaceAll('â', 'a')
+						.replaceAll('è', 'a')
+						.replaceAll('€', 'a')
+						.replaceAll('ò', 'a')
+						.replaceAll('ù', 'a')
+						.replaceAll('ã', 'a')
+						.replaceAll('ẽ', 'a')
+						.replaceAll('ĩ', 'a')
+						.replaceAll('õ', 'a')
+						.replaceAll('ũ', 'a')
+						.replaceAll('ỹ', 'a')
 					)
 					+ '-'
 					+ reverseString(
 						f.AllVowels(word, lemmata).substring(0, f.SyllableCount(word, lemmata) - f.Stress(word, lemmata))
 					)
 					+ '-'
-					+ SUBSTITUTES(
+					+ (
 						reverseString(
 							f.Phonetic(word, lemmata).substring(0, f.Phonetic(word, lemmata).length - f.PerfectRhyme(word, lemmata).length)
-						),
-						"a","a","e","a","i","a","o","a","u","a","y","a","à","a","â","a","è","a","€","a","ò","a","ù","a","ã","a","ẽ","a","ĩ","a","õ","a","ũ","a","ỹ","a"
-					),
-					"ā","azzzz","ē","ezzzz","ī","izzzz","ō","ozzzz","ū","uzzzz","ȳ","yzzzz","ã","azzzzzz","ẽ","ezzzzzz","ĩ","izzzzzz","õ","ozzzzzz","ũ","uzzzzzz","ỹ","yzzzzzz","à","azzzzzzzz","â","azzzzzzzzzzzz","è","ezzzzzzzz","€","ezzzzzzzzzzzz","ò","ozzzzzzzz","ù","uzzzzzzzz"
-				)
+						)
+						.replaceAll('a', 'a')
+						.replaceAll('e', 'a')
+						.replaceAll('i', 'a')
+						.replaceAll('o', 'a')
+						.replaceAll('u', 'a')
+						.replaceAll('y', 'a')
+						.replaceAll('à', 'a')
+						.replaceAll('â', 'a')
+						.replaceAll('è', 'a')
+						.replaceAll('€', 'a')
+						.replaceAll('ò', 'a')
+						.replaceAll('ù', 'a')
+						.replaceAll('ã', 'a')
+						.replaceAll('ẽ', 'a')
+						.replaceAll('ĩ', 'a')
+						.replaceAll('õ', 'a')
+						.replaceAll('ũ', 'a')
+						.replaceAll('ỹ', 'a')
+					)
+					)
+				.replaceAll('ā', 'azzzz')
+				.replaceAll('ē', 'ezzzz')
+				.replaceAll('ī', 'izzzz')
+				.replaceAll('ō', 'ozzzz')
+				.replaceAll('ū', 'uzzzz')
+				.replaceAll('ȳ', 'yzzzz')
+				.replaceAll('ã', 'azzzzzz')
+				.replaceAll('ẽ', 'ezzzzzz')
+				.replaceAll('ĩ', 'izzzzzz')
+				.replaceAll('õ', 'ozzzzzz')
+				.replaceAll('ũ', 'uzzzzzz')
+				.replaceAll('ỹ', 'yzzzzzz')
+				.replaceAll('à', 'azzzzzzzz')
+				.replaceAll('â', 'azzzzzzzzzzzz')
+				.replaceAll('è', 'ezzzzzzzz')
+				.replaceAll('€', 'ezzzzzzzzzzzz')
+				.replaceAll('ò', 'ozzzzzzzz')
+				.replaceAll('ù', 'uzzzzzzzz')
 				+ '-'
 				+ word.toLowerCase()
 				+ (word === word.toLowerCase() ? '/' : '')
