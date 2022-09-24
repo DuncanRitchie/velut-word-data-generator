@@ -130,17 +130,26 @@ const generateJson = () => {
 		//// Skip empty lines.
 		if (allInputRows[i] === '') { continue; }
 
-		const rowOfValues = allInputRows[i].split('\t');
-		const [word, lemmata, ...rest] = rowOfValues;
-		const resultsForLine = {};
+		const inputRow = allInputRows[i].trim()
+		//// The first appearance of whitespace in the row is where the split is between the word & lemmata.
+		const positionOfWordLemmataSplit = /\s/.exec(inputRow)?.index;
 
-		functionNames.forEach(functionName => {
-			resultsForLine[functionName] = wordsformFunctions[functionName](word, lemmata);
-		})
+		if (positionOfWordLemmataSplit) {
+			const word = inputRow.substring(0, positionOfWordLemmataSplit).trim();
+			const lemmata = inputRow.substring(positionOfWordLemmataSplit).trim();
+			const resultsForLine = {};
 
-		output(resultsForLine);
-		addToWordsArray(word, lemmata);
-		clearMemoisationCache();
+			functionNames.forEach(functionName => {
+				resultsForLine[functionName] = wordsformFunctions[functionName](word, lemmata);
+			})
+
+			output(resultsForLine);
+			addToWordsArray(word, lemmata);
+			clearMemoisationCache();
+		}
+		else {
+			console.error(`Parsing error: Cannot pull a word and lemmata out of ${inputRow}`);
+		}
 	}
 	displayOutput();
 	textByGenerateJson.textContent = 'Json generated!';
