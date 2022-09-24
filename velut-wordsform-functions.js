@@ -13,7 +13,7 @@ const SUBSTITUTES = (text, ...args) => {
 const itojj = (text) => {
 	return `${text}`.replace(/(?<=[āēīōūȳ])i(?=[aeiouyāēīōūȳ])/gi, 'jj');
 }
-const reversestr = (text) => {
+const reverseString = (text) => {
 	return `${text}`.split('').reverse().join('');
 }
 
@@ -720,12 +720,12 @@ const unmemoisedFuncs = {
 					+ f.EcclesPerfectRhyme(word, lemmata)
 						.replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a')
 					+ '-'
-					+ reversestr(
+					+ reverseString(
 						f.EcclesVowels(word, lemmata)
 							.substring(0, f.EcclesVowels(word, lemmata).length - f.EcclesRhymeVowels(word, lemmata).length)
 					)
 					+ '-'
-					+ reversestr(
+					+ reverseString(
 						f.EcclesPhonetic(word, lemmata)
 							.substring(0, f.EcclesPhonetic(word, lemmata).length - f.EcclesPerfectRhyme(word, lemmata).length)
 					).replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a')
@@ -866,12 +866,12 @@ const unmemoisedFuncs = {
 						"a","a","e","a","i","a","o","a","u","a","y","a","à","a","â","a","è","a","€","a","ò","a","ù","a","ã","a","ẽ","a","ĩ","a","õ","a","ũ","a","ỹ","a"
 					)
 					+ '-'
-					+ reversestr(
+					+ reverseString(
 						f.AllVowels(word, lemmata).substring(0, f.SyllableCount(word, lemmata) - f.Stress(word, lemmata))
 					)
 					+ '-'
 					+ SUBSTITUTES(
-						reversestr(
+						reverseString(
 							f.Phonetic(word, lemmata).substring(0, f.Phonetic(word, lemmata).length - f.PerfectRhyme(word, lemmata).length)
 						),
 						"a","a","e","a","i","a","o","a","u","a","y","a","à","a","â","a","è","a","€","a","ò","a","ù","a","ã","a","ẽ","a","ĩ","a","õ","a","ũ","a","ỹ","a"
