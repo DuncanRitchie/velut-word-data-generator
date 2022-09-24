@@ -14,20 +14,6 @@ const SUBSTITUTES = (text, ...args) => {
 const itojj = (text) => {
 	return `${text}`.replace(/(?<=[āēīōūȳ])i(?=[aeiouyāēīōūȳ])/gi, 'jj');
 }
-const IFS = (...args) => {
-	const conditions = args.filter((v, i) => i % 2 === 0);
-	const returns = args.filter((v, i) => i % 2 !== 0);
-	for (let i = 0; i < conditions.length; i++) {
-		if (conditions[i] === true) {
-			return returns[i];
-		}
-		if (conditions[i] === false) {
-			continue;
-		}
-		console.error(`Value of ${conditions[i]} was passed into IFS as a condition`);
-	}
-	console.error('Ran out of conditions in IFS');
-}
 const OR = (...args) => {
 	return args.reduce((previous, current) => previous || current);
 }
