@@ -384,6 +384,7 @@ const testPhonetic = () => {
 
 const stressTests = [
 	{Word: "-que", Lemmata: "-que", Stress: 2},
+	{Word: "abdōmine", Lemmata: "abdōmen", Stress: 3},
 	{Word: "addūc", Lemmata: "addūcō", Stress: 1},
 	{Word: "ai", Lemmata: "ai", Stress: 1},
 	{Word: "dominī", Lemmata: "dominus", Stress: 3},
@@ -406,7 +407,7 @@ const stressTests = [
 ]
 
 const testStress = () => {
-	existingWords.push({Word: 'Latīnus', Lemmata: 'Latīnus'}, {Word: 'lingua', Lemmata: 'lingua'});
+	existingWords.push({word: 'Latīnus', lemmata: 'Latīnus'}, {word: 'lingua', lemmata: 'lingua'});
 	stressTests.forEach(test => {
 		const actual = f.Stress(test.Word, test.Lemmata)
 		if (actual === test.Stress) {

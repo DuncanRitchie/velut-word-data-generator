@@ -374,10 +374,11 @@ const unmemoisedFuncs = {
 		},
 	AllVowels:
 		(word, lemmata) => {
-			if (f.Scansion(word, lemmata) === EMPTY || word[0] === '-') {
-				return EMPTY;
-			}
-			return f.Phonetic(word, lemmata).replace(/[bcdfghjklmnpqrstvxzχφθ]/g, '');
+			const emptyIfNeeded
+				= f.Scansion(word, lemmata) === EMPTY || word.startsWith('-')
+				? EMPTY
+				: '';
+			return emptyIfNeeded + f.Phonetic(word, lemmata).replace(/[bcdfghjklmnpqrstvxzχφθ]/g, '');
 		},
 	SyllableCount:
 		(word, lemmata) => {
@@ -597,10 +598,11 @@ const unmemoisedFuncs = {
 		},
 	EcclesVowels:
 		(word, lemmata) => {
-			if (word.startsWith('-')) {
-				return EMPTY;
-			}
-			return f.EcclesPhonetic(word, lemmata)
+			const emptyIfNeeded
+				= (word.Scansion === EMPTY || word.startsWith('-'))
+				? EMPTY
+				: '';
+			return emptyIfNeeded + f.EcclesPhonetic(word, lemmata)
 				.replace(/[bcdghjklmnpqrstvxz]/g, '');
 		},
 	EcclesRhymeVowels:
@@ -778,7 +780,7 @@ const unmemoisedFuncs = {
 	NoMacra:
 		(word, lemmata) => {
 			// Function from https://ricardometring.com/javascript-replace-special-characters
-			return word.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+			return word.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/-/g, '');
 		},
 	NoMacraLowerCase:
 		(word, lemmata) => {
