@@ -82,11 +82,11 @@ const unmemoisedFuncs = {
 			if (existingWords.some(record => record.word === wordMinusPossibleEnclitic)) {
 				return wordMinusPossibleEnclitic;
 			}
-			if (["á","é","í","ó","ú","ý","ḗ"].some(acute => wordMinusPossibleEnclitic.includes(acute))) {
+			if (['á','é','í','ó','ú','ý','ḗ'].some(acute => wordMinusPossibleEnclitic.includes(acute))) {
 				const removeAcutes = (word) => {
-					return word.replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ý","y").replaceAll("ḗ","ē");
+					return word.replaceAll('á','a').replaceAll('é','e').replaceAll('í','i').replaceAll('ó','o').replaceAll('ú','u').replaceAll('ý','y').replaceAll('ḗ','ē');
 				}
-				const wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis = removeAcutes(wordMinusPossibleEnclitic).replaceAll("ü","u");
+				const wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis = removeAcutes(wordMinusPossibleEnclitic).replaceAll('ü','u');
 				if (existingWords.some(record => record.word === wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis)) {
 					return wordMinusPossibleEncliticWithoutAcutesOrUDiaeresis;
 				}
@@ -107,7 +107,7 @@ const unmemoisedFuncs = {
 		(word, lemmata) => {
 			const getPhoneticBeforeGeneralSubstitutions = () => {
 				const uncompounded = f.Uncompounded(word, lemmata);
-				if (uncompounded === "ai") {
+				if (uncompounded === 'ai') {
 					return 'à';
 				}
 				if (uncompounded === 'ei') {
@@ -139,42 +139,42 @@ const unmemoisedFuncs = {
 						.replace('dein', 'dèn')
 						.replace('proin', 'pròn');
 				}
-				if (f.Lemma1(word, lemmata) === "praeeō") {
+				if (f.Lemma1(word, lemmata) === 'praeeō') {
 					return uncompounded.replaceAll('praei', 'prài');
 				}
 				if (
 					f.Lemma1(word, lemmata).startsWith('cui')
 					|| f.Lemma1(word, lemmata).startsWith('quis')
 					|| f.Lemma1(word, lemmata).startsWith('quī')
-					|| f.Lemma1(word, lemmata) === "aliquis"
-					|| f.Lemma1(word, lemmata) === "ecquis"
-					|| f.Lemma1(word, lemmata) === "nesciōquis"
-					|| f.Lemma1(word, lemmata) === "ūnusquisque"
+					|| f.Lemma1(word, lemmata) === 'aliquis'
+					|| f.Lemma1(word, lemmata) === 'ecquis'
+					|| f.Lemma1(word, lemmata) === 'nesciōquis'
+					|| f.Lemma1(word, lemmata) === 'ūnusquisque'
 				) {
 					return replaceIntervocalicI(uncompounded)
 						.replaceAll('cuiā', 'cùjā')
 						.replaceAll('cui', 'cù');
 				}
 				if (
-					f.NoMacra(word, lemmata).includes("ngua")
-					|| f.NoMacra(word, lemmata).includes("ngue")
-					|| f.NoMacra(word, lemmata).includes("ngui")
-					|| f.NoMacra(word, lemmata).includes("nguo")
-					|| f.NoMacra(word, lemmata).includes("nguu")
+					f.NoMacra(word, lemmata).includes('ngua')
+					|| f.NoMacra(word, lemmata).includes('ngue')
+					|| f.NoMacra(word, lemmata).includes('ngui')
+					|| f.NoMacra(word, lemmata).includes('nguo')
+					|| f.NoMacra(word, lemmata).includes('nguu')
 				) {
 					return uncompounded.replace('ngu', 'ngv');
 				}
 				if (
-					f.Lemma1(word, lemmata).includes("suād")
-					|| f.Lemma1(word, lemmata).includes("suās")
-					|| f.Lemma1(word, lemmata).includes("suāv")
+					f.Lemma1(word, lemmata).includes('suād')
+					|| f.Lemma1(word, lemmata).includes('suās')
+					|| f.Lemma1(word, lemmata).includes('suāv')
 				) {
 					return uncompounded.replace('suā', 'svā');
 				}
 				if (word.startsWith('Eduard')) {
 					return uncompounded.replace('Eduard', 'edvard');
 				}
-				if (f.Lemma1(word, lemmata).toLowerCase().includes("suē")) {
+				if (f.Lemma1(word, lemmata).toLowerCase().includes('suē')) {
 					return uncompounded
 						.replace('suē', 'svē')
 						.replace('Suē', 'Svē')
@@ -183,7 +183,7 @@ const unmemoisedFuncs = {
 						.replace('suī', 'svī')
 						.replace('suu', 'svu');
 				}
-				if (f.Lemma1(word, lemmata) === "urgueō") {
+				if (f.Lemma1(word, lemmata) === 'urgueō') {
 					return uncompounded.replaceAll('urgu', 'urgv');
 				}
 				if ((
@@ -193,23 +193,23 @@ const unmemoisedFuncs = {
 					|| f.Lemma1(word, lemmata).endsWith('iectus')
 					|| f.Lemma1(word, lemmata).endsWith('iectē')
 					|| [
-						"abiciō",
-						"adiciō",
-						"circumiciō",
-						"coniciō",
-						"dēiciō",
-						"disiciō",
-						"ēiciō",
-						"iniciō",
-						"intericiō",
-						"obiciō",
-						"periciō",
-						"praeiciō",
-						"reiciō",
-						"subiciō",
-						"trāiciō",
-						"obex",
-						"subicēs",
+						'abiciō',
+						'adiciō',
+						'circumiciō',
+						'coniciō',
+						'dēiciō',
+						'disiciō',
+						'ēiciō',
+						'iniciō',
+						'intericiō',
+						'obiciō',
+						'periciō',
+						'praeiciō',
+						'reiciō',
+						'subiciō',
+						'trāiciō',
+						'obex',
+						'subicēs',
 					].includes(f.Lemma1(word, lemmata))
 				)) {
 					return uncompounded
@@ -227,10 +227,10 @@ const unmemoisedFuncs = {
 					return uncompounded.replace('disi', 'disj');
 				}
 				if (
-					f.Lemma1(word, lemmata) === "iniugis"
-					|| f.Lemma1(word, lemmata) === "biiugis"
-					|| f.Lemma1(word, lemmata) === "biiugus"
-					|| f.Lemma1(word, lemmata) === "subiugō"
+					f.Lemma1(word, lemmata) === 'iniugis'
+					|| f.Lemma1(word, lemmata) === 'biiugis'
+					|| f.Lemma1(word, lemmata) === 'biiugus'
+					|| f.Lemma1(word, lemmata) === 'subiugō'
 				) {
 					return uncompounded.replaceAll('iug', 'jug');
 				}
@@ -243,32 +243,32 @@ const unmemoisedFuncs = {
 				if (uncompounded.startsWith('iniūr')) {
 					return uncompounded.replace('iniūr', 'injūr');
 				}
-				if (f.Lemma1(word, lemmata) === "iūsiūrandum") {
+				if (f.Lemma1(word, lemmata) === 'iūsiūrandum') {
 					return uncompounded.replaceAll('iū', 'jū');
 				}
-				if (f.Lemma1(word, lemmata) === "periūrus") {
+				if (f.Lemma1(word, lemmata) === 'periūrus') {
 					return uncompounded.replace('periūr', 'perjūr');
 				}
 				if ((
 					/^i[aeiouyāēīōūȳ]/i.test(word)
-					&& !phoneticExceptions["Vocalic initial i"].includes(f.Lemma1(word, lemmata))
-					&& uncompounded !== "iīs"
+					&& !phoneticExceptions['Vocalic initial i'].includes(f.Lemma1(word, lemmata))
+					&& uncompounded !== 'iīs'
 				)) {
 					return uncompounded.replace(/^i/i, 'j');
 				}
 				if ((
-					["magnus", "magis", "maiestās", "maiōrēs"]
+					['magnus', 'magis', 'maiestās', 'maiōrēs']
 						.includes(f.Lemma1(word, lemmata))
 					|| (
 						f.NoMacra(
 							f.Lemma1(word, lemmata)
-						) === "aio"
+						) === 'aio'
 						&& ['a','e','i','o','u','y'].includes(f.NoMacra(word, lemmata).substring(2, 3))
 					)
 				)) {
 					return uncompounded.replaceAll('ai', 'ajj');
 				}
-				if (["malus", "male"]
+				if (['malus', 'male']
 					.includes(f.Lemma1(word, lemmata))
 				) {
 					return uncompounded.replaceAll('ei', 'ejj');
@@ -331,7 +331,7 @@ const unmemoisedFuncs = {
 				.replaceAll('reiciav', 'rejcjav')
 				.replaceAll('k', 'c')
 				.replaceAll('eu', (
-					phoneticExceptions["Diphthong eu"].includes(f.Lemma1(word, lemmata)) > 0
+					phoneticExceptions['Diphthong eu'].includes(f.Lemma1(word, lemmata)) > 0
 						? '€'
 						: 'eu'
 					)
@@ -401,33 +401,33 @@ const unmemoisedFuncs = {
 			}
 			// These other words are stressed on the ultima.
 			if ([
-				"abhinc",
-				"adhūc",
-				"Antiās",
-				"Arpīnās",
-				"Asprēnās",
-				"Fīdēnās",
-				"illāc",
-				"illīc",
-				"illinc",
-				"illūc",
-				"istīc",
-				"Maecēnās",
-				"nostrās",
-				"posthāc",
-				"Samnīs",
-				"satin",
-				"Suffēnās",
-				"tantōn",
-				"viden",
-				"vidēn",
+				'abhinc',
+				'adhūc',
+				'Antiās',
+				'Arpīnās',
+				'Asprēnās',
+				'Fīdēnās',
+				'illāc',
+				'illīc',
+				'illinc',
+				'illūc',
+				'istīc',
+				'Maecēnās',
+				'nostrās',
+				'posthāc',
+				'Samnīs',
+				'satin',
+				'Suffēnās',
+				'tantōn',
+				'viden',
+				'vidēn',
 			].includes(word)) {
 				return 1;
 			}
 			// Some irregular imperatives have ultima stress.
-			if (f.Phonetic(word, lemmata).endsWith("dīc")
-			|| f.Phonetic(word, lemmata).endsWith("dūc")
-			|| f.Phonetic(word, lemmata).endsWith("fac")) {
+			if (f.Phonetic(word, lemmata).endsWith('dīc')
+			|| f.Phonetic(word, lemmata).endsWith('dūc')
+			|| f.Phonetic(word, lemmata).endsWith('fac')) {
 				return 1;
 			}
 			// Any other word of two syllables.
@@ -436,11 +436,11 @@ const unmemoisedFuncs = {
 			}
 			// “-inde” behaves as an enclitic, moving stress to the antepenult.
 			if ([
-				"deïnde",
-				"exindē",
-				"perinde",
-				"proïndē",
-				"subinde",
+				'deïnde',
+				'exindē',
+				'perinde',
+				'proïndē',
+				'subinde',
 			].includes(word)) {
 				return 3;
 			}
@@ -454,38 +454,38 @@ const unmemoisedFuncs = {
 			}
 			// More encliticized words (not ending in the regular -que -ne -ve).
 			if ([
-				"agedum",
-				"egomet",
-				"ibidem",
-				"meamet",
-				"satine",
-				"suamet",
-				"ubinam",
+				'agedum',
+				'egomet',
+				'ibidem',
+				'meamet',
+				'satine',
+				'suamet',
+				'ubinam',
 			].includes(word)) {
 				return 2;
 			}
 			// I use acutes to mark stress in words like ‘domínĭ’, to differentiate from homographs stressed on the antepenult.
 			if (
-				f.Uncompounded(word, lemmata).includes("á")
-				|| f.Uncompounded(word, lemmata).includes("é")
-				|| f.Uncompounded(word, lemmata).includes("í")
-				|| f.Uncompounded(word, lemmata).includes("ó")
-				|| f.Uncompounded(word, lemmata).includes("ú")
-				|| f.Uncompounded(word, lemmata).includes("ý")
+				f.Uncompounded(word, lemmata).includes('á')
+				|| f.Uncompounded(word, lemmata).includes('é')
+				|| f.Uncompounded(word, lemmata).includes('í')
+				|| f.Uncompounded(word, lemmata).includes('ó')
+				|| f.Uncompounded(word, lemmata).includes('ú')
+				|| f.Uncompounded(word, lemmata).includes('ý')
 			) {
 				return 2;
 			}
 			// More contractions such as ‘imperī’ from ‘imperium’, where I haven’t used an acute.
 			if (
 				(
-					f.Lemma1(word, lemmata).endsWith("ius")
-					|| f.Lemma1(word, lemmata).endsWith("ïus")
-					|| f.Lemma1(word, lemmata).endsWith("ium")
-					|| f.Lemma1(word, lemmata).endsWith("ius[prn]")
-					|| f.Lemma1(word, lemmata).endsWith("ius[adj]")
-					|| f.Lemma1(word, lemmata).endsWith("ius[n]")
-					|| f.Lemma1(word, lemmata).endsWith("ium[prn]")
-					|| f.Lemma1(word, lemmata).endsWith("ium[n]")
+					f.Lemma1(word, lemmata).endsWith('ius')
+					|| f.Lemma1(word, lemmata).endsWith('ïus')
+					|| f.Lemma1(word, lemmata).endsWith('ium')
+					|| f.Lemma1(word, lemmata).endsWith('ius[prn]')
+					|| f.Lemma1(word, lemmata).endsWith('ius[adj]')
+					|| f.Lemma1(word, lemmata).endsWith('ius[n]')
+					|| f.Lemma1(word, lemmata).endsWith('ium[prn]')
+					|| f.Lemma1(word, lemmata).endsWith('ium[n]')
 				)
 				&& (
 					(word
@@ -570,31 +570,31 @@ const unmemoisedFuncs = {
 				.replace(/ō/g, 'o')
 				.replace(/ū/g, 'u')
 				.replace(/ȳ/g, 'y')
-				.replaceAll("ihi","iki")
-				.replaceAll("òè","ojej")
-				.replaceAll("à","e")
-				.replaceAll("èn","ein")
-				.replaceAll("è","ej")
-				.replaceAll("ò","e")
-				.replaceAll("ù","uj")
-				.replaceAll("y","i")
-				.replaceAll("ã.","am")
-				.replaceAll("ẽ.","em")
-				.replaceAll("ĩ.","im")
-				.replaceAll("õ.","om")
-				.replaceAll("ũ.","um")
-				.replaceAll("ỹ.","ym")
-				.replaceAll("ã","an")
-				.replaceAll("ẽ","en")
-				.replaceAll("ĩ","in")
-				.replaceAll("õ","on")
-				.replaceAll("ũ","un")
-				.replaceAll("ỹ","yn")
-				.replaceAll("χ","c")
-				.replaceAll("φ","f")
-				.replaceAll("θ","t")
-				.replaceAll("h","")
-				.replaceAll(".","");
+				.replaceAll('ihi','iki')
+				.replaceAll('òè','ojej')
+				.replaceAll('à','e')
+				.replaceAll('èn','ein')
+				.replaceAll('è','ej')
+				.replaceAll('ò','e')
+				.replaceAll('ù','uj')
+				.replaceAll('y','i')
+				.replaceAll('ã.','am')
+				.replaceAll('ẽ.','em')
+				.replaceAll('ĩ.','im')
+				.replaceAll('õ.','om')
+				.replaceAll('ũ.','um')
+				.replaceAll('ỹ.','ym')
+				.replaceAll('ã','an')
+				.replaceAll('ẽ','en')
+				.replaceAll('ĩ','in')
+				.replaceAll('õ','on')
+				.replaceAll('ũ','un')
+				.replaceAll('ỹ','yn')
+				.replaceAll('χ','c')
+				.replaceAll('φ','f')
+				.replaceAll('θ','t')
+				.replaceAll('h','')
+				.replaceAll('.','');
 		},
 	EcclesVowels:
 		(word, lemmata) => {
@@ -713,7 +713,7 @@ const unmemoisedFuncs = {
 		},
 	ScansionWithElision:
 		(word, lemmata) => {
-			if (!"aeiouyāēīōūӯãẽĩõũỹàâé€òù".includes(f.UltimaRhyme(word, lemmata))
+			if (!'aeiouyāēīōūӯãẽĩõũỹàâé€òù'.includes(f.UltimaRhyme(word, lemmata))
 			) {
 				return f.Scansion(word, lemmata);
 			}
