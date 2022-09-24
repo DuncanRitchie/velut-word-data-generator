@@ -33,7 +33,7 @@
 		</div>
 
 		<section>
-			<h2>Test</h2>
+			<h2>Testing</h2>
 			<p>
 				Open your browser’s console, then click “Run tests”. The tests confirm that the behaviour of my data-generating functions is as I expect.
 			</p>
@@ -43,7 +43,7 @@
 		<section>
 			<h2>About</h2>
 			<p>
-				This is a webpage that generates data for my Latin rhyming dictionary, <a href="https://www.velut.co.uk/" title="velut — a Latin rhyming dictionary">velut</a>; specifically it generates the “words” data. For each word and corresponding list of lemmata, this generates fields such as the phonetic representation, the number of syllables, the rhyming-part, and strings that words are sorted on. The resultant Json can be downloaded (or copied to the clipboard). Once it’s on my hard drive, I have a script to upload it to the MongoDB database that the velut website uses.
+				This is a webpage that can generate data for my Latin rhyming dictionary, <a href="https://www.velut.co.uk/" title="velut — a Latin rhyming dictionary">velut</a>; specifically it generates the “words” data. For each word and corresponding list of lemmata, this generates fields such as the phonetic representation, the number of syllables, the rhyming-part, and strings that words are sorted on. The resultant Json can be downloaded (or copied to the clipboard). Once it’s on my hard drive, I have a script to upload it to the MongoDB database that the velut website uses.
 			</p>
 
 			<h3>Input and output format</h3>
@@ -65,7 +65,27 @@
 			</p>
 
 			<p>
-				I haven’t yet checked the output of the Word Data Generator against the data I already have from Excel, apart from the sample data. So I expect some bugs will have been introduced in my attempts to re-write my Excel formulae in JavaScript. When I’m confident that this page gives the same output as my Excel formulae, for all the Latin words I have, I will then stop using the “wordsform” sheet.
+				I don’t yet use the Word Data Generator, for three reasons:
+			</p>
+
+			<ol>
+				<li>
+					I haven’t yet checked the output of the Word Data Generator against all the data I already have from Excel. So I expect some bugs will have been introduced in my attempts to re-write my Excel formulae as JavaScript functions.
+					Having said that, I have tested all my JavaScript functions against some words, and I’ve further tested the two fiddliest functions (<code>Phonetic</code> and <code>Stress</code>) against a lot of the words that could throw them.
+					(Click the “Run tests” button to see these tests running in your browser’s console.)
+					So I expect that there’ll be very few bugs remaining, if any.
+				</li>
+				<li>
+					If I were to run all my Latin words (more than 120 thousand) through this at once, my browser would freeze.
+					I need to devise some strategy for splitting the data into batches, or indeed re-think the whole idea of having the Word Data Generator as a webpage.
+				</li>
+				<li>
+					Much of my Excel file still relies on me having all the data in Excel — not in the Json format that this page produces.
+				</li>
+			</ol>
+
+			<p>
+				When I’m confident that this page gives the same output as my Excel formulae, for all the Latin words I have, and when enough of the rest of the Excel file is obsolete that I can stop storing all my data there in Excel, I will then stop using the “wordsform” sheet.
 			</p>
 
 			<p>
