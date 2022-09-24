@@ -8,7 +8,7 @@ const SUBSTITUTES = (text, ...args) => {
 	let substituted = text;
 	for (let i = 0; i < oldTexts.length; i++) {
 		substituted = substituted.replaceAll(oldTexts[i], newTexts[i]);
-		}
+	}
 	return substituted;
 }
 const itojj = (text) => {
@@ -16,9 +16,6 @@ const itojj = (text) => {
 }
 const RIGHT = (text, characterCount) => {
 	return `${text}`.substring(`${text}`.length - characterCount);
-}
-const REPLACE = (oldText, startNum, numChars, newText) => {
-	return `${oldText}`.substring(0, startNum - 1) + newText + `${oldText}`.substring(startNum + numChars - 1);
 }
 const reversestr = (text) => {
 	return `${text}`.split('').reverse().join('');
@@ -243,37 +240,11 @@ const unmemoisedFuncs = {
 						.replaceAll('ic', 'jic')
 						.replaceAll('rej', 'rèj');
 				}
-				if (uncompounded.startsWith('coniū')) {
-					return REPLACE(
-						uncompounded,
-						1,
-						5,
-						"conjū"
-					);
+				if (uncompounded.startsWith('coniū') || uncompounded.startsWith('coniu')) {
+					return uncompounded.replace('coni', 'conj');
 				}
-				if (uncompounded.startsWith('coniu')) {
-					return REPLACE(
-						uncompounded.toLowerCase(),
-						1,
-						5,
-						"conju"
-					);
-				}
-				if (uncompounded.startsWith('disiu')) {
-					return REPLACE(
-						uncompounded.toLowerCase(),
-						1,
-						5,
-						"disju"
-					);
-				}
-				if (uncompounded.startsWith('disiū')) {
-					return REPLACE(
-						uncompounded.toLowerCase(),
-						1,
-						5,
-						"disjū"
-					);
+				if (uncompounded.startsWith('disiū') || uncompounded.startsWith('disiu')) {
+					return uncompounded.replace('disi', 'disj');
 				}
 				if (
 					f.Lemma1(word, lemmata) === "iniugis"
@@ -287,37 +258,16 @@ const unmemoisedFuncs = {
 					uncompounded.startsWith('adiu')
 					|| uncompounded.startsWith('adiū')
 				) {
-					return REPLACE(
-						uncompounded,
-						1,
-						3,
-						"adj"
-					);
+					return uncompounded.replace('adi', 'adj');
 				}
 				if (uncompounded.startsWith('iniūr')) {
-					return REPLACE(
-						uncompounded,
-						1,
-						5,
-						"injūr"
-					);
+					return uncompounded.replace('iniūr', 'injūr');
 				}
 				if (f.Lemma1(word, lemmata) === "iūsiūrandum") {
-					return SUBSTITUTES(
-						uncompounded,
-						"iūr",
-						"jūr",
-						"iūs",
-						"jūs"
-					);
+					return uncompounded.replaceAll('iū', 'jū');
 				}
 				if (f.Lemma1(word, lemmata) === "periūrus") {
-					return REPLACE(
-						uncompounded,
-						4,
-						1,
-						"j"
-					);
+					return uncompounded.replace('periūr', 'perjūr');
 				}
 				if ((
 					/^i[aeiouyāēīōūȳ]/i.test(word)
@@ -614,8 +564,8 @@ const unmemoisedFuncs = {
 					|| f.Lemma1(word, lemmata).endsWith("ium[n]")
 				)
 				&& (
-					reversestr(SUBSTITUTES(word,"á","a","é","e","í","i","ó","o","ú","u","ý","y"))
-					== REPLACE(reversestr(SUBSTITUTES(f.Lemma1(word, lemmata),"[n]","","[prn]","","[adj]","")), 1, 3, "ī")
+					SUBSTITUTES(word,"á","a","é","e","í","i","ó","o","ú","u","ý","y")
+					== f.Lemma1(word, lemmata).replace(/\[[^\]]+\]/, '').replace(/...$/, 'ī')
 				)
 			) {
 				return 2;
