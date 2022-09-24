@@ -1,5 +1,7 @@
 const buttonTest = document.getElementById("test");
 
+//// Data to use in tests:
+
 const expectedOutputCoveringAllFunctions = [
 	{
 		"Ord": 1,
@@ -295,7 +297,7 @@ const expectedOutputCoveringAllFunctions = [
 		"Sort": "∅e-qa----que/"
 	}
 ]
-	
+
 const phoneticTests = [
 	{Word: "ai", Lemmata: "ai", Phonetic: "à"},
 	{Word: "ei", Lemmata: "ei", Phonetic: "è"},
@@ -374,18 +376,6 @@ const phoneticTests = [
 	{Word: "peius", Lemmata: "malus male", Phonetic: "pejjus"},
 ]
 
-const testPhonetic = () => {
-	phoneticTests.forEach(test => {
-		const actual = f.Phonetic(test.Word, test.Lemmata)
-		if (actual === test.Phonetic) {
-			console.log(`Yay! Phonetic(${test.Word}) => ${actual}`)
-		}
-		else {
-			console.error(`Phonetic(${test.Word}) should give ${test.Phonetic} but actually gives ${actual}`)
-		}
-	})
-}
-
 const stressTests = [
 	{Word: "-que", Lemmata: "-que", Stress: 2},
 	{Word: "abdōmine", Lemmata: "abdōmen", Stress: 3},
@@ -410,8 +400,26 @@ const stressTests = [
 	{Word: "ūndēcentēsimus", Lemmata: "ūndēcentēsimus", Stress: 3},
 ]
 
+//// Tests looping over the above arrays:
+
+const testPhonetic = () => {
+	phoneticTests.forEach(test => {
+		const actual = f.Phonetic(test.Word, test.Lemmata)
+		if (actual === test.Phonetic) {
+			console.log(`Yay! Phonetic(${test.Word}) => ${actual}`)
+		}
+		else {
+			console.error(`Phonetic(${test.Word}) should give ${test.Phonetic} but actually gives ${actual}`)
+		}
+	})
+}
+
 const testStress = () => {
-	existingWords.push({word: 'Latīnus', lemmata: 'Latīnus'}, {word: 'lingua', lemmata: 'lingua'});
+	//// Encliticized words will be recognised as such if the unencliticized words are in `existingWords`.
+	existingWords.push(
+		{word: 'Latīnus', lemmata: 'Latīnus'},
+		{word: 'lingua', lemmata: 'lingua'},
+	);
 	stressTests.forEach(test => {
 		const actual = f.Stress(test.Word, test.Lemmata)
 		if (actual === test.Stress) {
@@ -423,9 +431,7 @@ const testStress = () => {
 	})
 }
 
-testAllFunctions = () => {
-	clearWordsArray();
-
+const testAllFunctions = () => {
 	for (const wordObject of expectedOutputCoveringAllFunctions) {
 		const word = wordObject.Word;
 		const lemmata = wordObject.Lemmata;
@@ -456,14 +462,23 @@ testAllFunctions = () => {
 	}
 }
 
+//// Event-listener:
+
 buttonTest.addEventListener("click", ()=>{
-	testAllFunctions();
-	testPhonetic();
-	testStress();
+	clearWordsArray();
+
+	testAllFunctions(),
+	clearWordsArray();
+
+	testPhonetic(),
+	clearWordsArray();
+
+	testStress()
+	clearWordsArray();
 });
 
 
-// This isn’t used because the Generator produces Json, not tab-delimited data.
+//// This isn’t used because the Generator produces Json, not tab-delimited data.
 const expectedTabbedOutputFromSampleData =
 `Ord	Word	Lemmata	Length	AllConsonants	Uncompounded	Phonetic	Scansion	AllVowels	SyllableCount	Stress	UltimaRhyme	RhymeVowels	PerfectRhyme	RhymeConsonants	Ultima	RhymeVowelsAndUltimaCoda	EcclesPhonetic	EcclesVowels	EcclesRhymeVowels	EcclesRhymeVowelsAndUltimaCoda	EcclesPerfectRhyme	EcclesSort	LemmaCount	Lemma1	Lemma2	Lemma3	Lemma4	Lemma5	ScansionWithElision	IsFitForDactyl	LemmaArray	IsLemma	IsNonLemma	DuplicateWords	NewLemmata	NoMacra	NoMacraLowerCase	AlphOrderNoMacra	Sort
 89780	vocābulōrum	vocābulum	11	vcblrm	vocābulōrum	vocābulōrũ	⏑–⏑––	oāuōũ	5	2	ũ	ōũ	ōrũ	aram	'2 ũ	ōũ	vocabulorum	oauou	ou	oum	orum	ou-aram-uao-labacav-vocazzzzbulozzzzrum/	1	vocābulum					⏑–⏑–	0	["vocābulum"]	0	1			vocabulorum	vocabulorum	abclmooruuv	ozzzzuzzzzzz-ara-uazzzzo-labazzzzcav-vocābulōrum/
