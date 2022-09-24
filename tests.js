@@ -444,7 +444,7 @@ testAllFunctions = () => {
 				console.log(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but the function hasn’t been written`);
 			}
 			else if (JSON.stringify(actualOutput) === JSON.stringify(expectedOutput)) {
-				console.log(`Yay for ${functionName}(${word}, ${lemmata})!`);
+				console.log(`Yay! ${functionName}(${word}, ${lemmata}) => ${expectedOutput}`);
 			}
 			else {
 				console.error({for: `${functionName}(${word}, ${lemmata})`, expected: expectedOutput, actual: actualOutput});
