@@ -218,44 +218,31 @@ const unmemoisedFuncs = {
 								f.Lemma1(word, lemmata) === "urgueō",
 								f.Uncompounded(word, lemmata).replaceAll('urgu', 'urgv'),
 								// Condition 17 in IFS
-								OR(
-									RIGHT(
-										f.Lemma1(word, lemmata),
-										5
-									) === "iaceō",
-									RIGHT(
-										f.Lemma1(word, lemmata),
-										5
-									) === "iectō",
-									RIGHT(
-										f.Lemma1(word, lemmata),
-										5
-									) === "iaciō",
-									RIGHT(
-										f.Lemma1(word, lemmata),
-										6
-									) === "iectus",
-									RIGHT(
-										f.Lemma1(word, lemmata),
-										5
-									) === "iectē",
-									f.Lemma1(word, lemmata) === "abiciō",
-									f.Lemma1(word, lemmata) === "adiciō",
-									f.Lemma1(word, lemmata) === "circumiciō",
-									f.Lemma1(word, lemmata) === "coniciō",
-									f.Lemma1(word, lemmata) === "dēiciō",
-									f.Lemma1(word, lemmata) === "disiciō",
-									f.Lemma1(word, lemmata) === "ēiciō",
-									f.Lemma1(word, lemmata) === "iniciō",
-									f.Lemma1(word, lemmata) === "intericiō",
-									f.Lemma1(word, lemmata) === "obiciō",
-									f.Lemma1(word, lemmata) === "periciō",
-									f.Lemma1(word, lemmata) === "praeiciō",
-									f.Lemma1(word, lemmata) === "reiciō",
-									f.Lemma1(word, lemmata) === "subiciō",
-									f.Lemma1(word, lemmata) === "trāiciō",
-									f.Lemma1(word, lemmata) === "obex",
-									f.Lemma1(word, lemmata) === "subicēs"
+								(
+									f.Lemma1(word, lemmata).endsWith('iaceō')
+									|| f.Lemma1(word, lemmata).endsWith('iectō')
+									|| f.Lemma1(word, lemmata).endsWith('iaciō')
+									|| f.Lemma1(word, lemmata).endsWith('iectus')
+									|| f.Lemma1(word, lemmata).endsWith('iectē')
+									|| [
+										"abiciō",
+										"adiciō",
+										"circumiciō",
+										"coniciō",
+										"dēiciō",
+										"disiciō",
+										"ēiciō",
+										"iniciō",
+										"intericiō",
+										"obiciō",
+										"periciō",
+										"praeiciō",
+										"reiciō",
+										"subiciō",
+										"trāiciō",
+										"obex",
+										"subicēs",
+									].includes(f.Lemma1(word, lemmata))
 								),
 								f.Uncompounded(word, lemmata)
 									.replace('iēc', 'jēc')
