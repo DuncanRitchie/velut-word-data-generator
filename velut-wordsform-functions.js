@@ -40,9 +40,6 @@ const REPLACE = (oldText, startNum, numChars, newText) => {
 const AND = (...args) => {
 	return args.reduce((previous, current) => previous && current);
 }
-const IF = (condition, trueReturn, falseReturn) => {
-	return condition ? trueReturn : falseReturn;
-}
 const reversestr = (text) => {
 	return `${text}`.split('').reverse().join('');
 }
@@ -471,10 +468,10 @@ const unmemoisedFuncs = {
 					"k",
 					"c",
 					"eu",
-					IF(
-						phoneticExceptions["Diphthong eu"].includes(f.Lemma1(word, lemmata)) > 0,
-						"€",
-						"eu"
+					(
+						phoneticExceptions["Diphthong eu"].includes(f.Lemma1(word, lemmata)) > 0
+						? "€"
+						: "eu"
 					),
 					"_eu",
 					"_€",
@@ -487,10 +484,10 @@ const unmemoisedFuncs = {
 					"_",
 					""
 				)
-				+ IF(
-					word.length === f.Uncompounded(word, lemmata).length,
-					"",
-					RIGHT(
+				+ (
+					word.length === f.Uncompounded(word, lemmata).length
+					? ''
+					: RIGHT(
 						word.replaceAll('qu', 'q'),
 						2
 					)
