@@ -92,8 +92,6 @@ const warnOfEmptyOutput = () => {
 	textByCopyToClipboard.textContent = "Nothing to copy or download!";
 }
 
-let tableName = "custom"; //// "custom", "lemmata", "words".
-
 const functionNames = Object.keys(wordsSchema);
 
 //// `outputArray` gets modified by `generateJson` and displayed in the second text-area by `displayOutput`.
@@ -163,7 +161,7 @@ const copyToClipboard = () => {
 const download = () => {
 	let a = document.createElement('a');
 	a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textareaOutput.value.replace(/\n/g, "\r\n")));;
-	a.setAttribute('download', tableName + "_mongo.json");
+	a.setAttribute('download', 'words_mongo.json');
 	document.body.appendChild(a);
 	a.click();
 	document.body.removeChild(a);
