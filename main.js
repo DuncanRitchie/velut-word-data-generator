@@ -363,6 +363,11 @@ const phoneticTests = [
 	{Word: "Orpheus", Lemmata: "Orpheus", Phonetic: "orφ€s"},
 	{Word: "eunt", Lemmata: "eō", Phonetic: "eunt"},
 	{Word: "eundum", Lemmata: "eō", Phonetic: "eundũ"},
+	{Word: "eius", Lemmata: "is", Phonetic: "ejjus"},
+	{Word: "maius", Lemmata: "magnus magis", Phonetic: "majjus"},
+	{Word: "peior", Lemmata: "malus male", Phonetic: "pejjor"},
+	{Word: "peiōribus", Lemmata: "malus male", Phonetic: "pejjōribus"},
+	{Word: "peius", Lemmata: "malus male", Phonetic: "pejjus"},
 ]
 
 const testPhonetic = () => {

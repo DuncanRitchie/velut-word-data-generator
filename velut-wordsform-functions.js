@@ -412,7 +412,7 @@ const unmemoisedFuncs = {
 								f.Uncompounded(word, lemmata).replace(/^i/i, 'j'),
 								// Condition 28 in IFS
 								(
-									["magnus", "magis", "maiestās", "maiōrēs", "malus", "male"]
+									["magnus", "magis", "maiestās", "maiōrēs"]
 										.includes(f.Lemma1(word, lemmata))
 									|| (
 										f.NoMacra(
@@ -425,11 +425,22 @@ const unmemoisedFuncs = {
 									f.Uncompounded(word, lemmata),
 									"ai",
 									"ajj"
-								// Condition 29 in IFS
 								),
+								// Condition 29 in IFS
+								["malus", "male"]
+									.includes(f.Lemma1(word, lemmata)),
+								SUBSTITUTE(
+									f.Uncompounded(word, lemmata),
+									"ei",
+									"ejj"
+								),
+								// Condition 30 in IFS
+								word.includes('eius') && word.replace('eius', 'is') === f.Lemma1(word, lemmata),
+								f.Uncompounded(word, lemmata).replace('eius', 'ejjus'),
+								// Condition 31 in IFS
 								word.startsWith('-'),
 								'',
-								// Condition 30 in IFS
+								// Condition 32 in IFS
 								1 === 1,
 								f.Uncompounded(word, lemmata)
 							).toLowerCase()
