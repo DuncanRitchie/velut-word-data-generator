@@ -1,7 +1,7 @@
 const buttonTest = document.getElementById("test");
 
-const expectedOutputFromSampleData = {
-	"vocābulōrum": {
+const expectedOutputCoveringAllFunctions = [
+	{
 		"Ord": 1,
 		"Word": "vocābulōrum",
 		"Lemmata": "vocābulum",
@@ -44,7 +44,7 @@ const expectedOutputFromSampleData = {
 		"Sort": "ozzzzuzzzzzz-ara-uazzzzo-labazzzzcav-vocābulōrum/",
 		"RepeatWord": "vocābulōrum",
 	},
-	"excellentium": {
+	{
 		"Ord": 2,
 		"Word": "excellentium",
 		"Lemmata": "excellēns excellō",
@@ -76,7 +76,7 @@ const expectedOutputFromSampleData = {
 		"Lemma3": null,
 		"Lemma4": null,
 		"Lemma5": null,
-		"LemmaArray": ["excellēns","excellō"],
+		"LemmaArray": ["excellēns", "excellō"],
 		"IsLemma": 0,
 		"IsNonLemma": 1,
 		"DuplicateWords": null,
@@ -87,7 +87,7 @@ const expectedOutputFromSampleData = {
 		"Sort": "eiuzzzzzz-antaa-ee-llacsca-excellentium/",
 		"RepeatWord": "excellentium",
 	},
-	"Latīnōrum": {
+	{
 		"Ord": 3,
 		"Word": "Latīnōrum",
 		"Lemmata": "Latīnus[prn] Latīnus[adj]",
@@ -119,7 +119,7 @@ const expectedOutputFromSampleData = {
 		"Lemma3": null,
 		"Lemma4": null,
 		"Lemma5": null,
-		"LemmaArray": ["Latīnus[prn]","Latīnus[adj]"],
+		"LemmaArray": ["Latīnus[prn]", "Latīnus[adj]"],
 		"IsLemma": 0,
 		"IsNonLemma": 1,
 		"DuplicateWords": null,
@@ -130,7 +130,7 @@ const expectedOutputFromSampleData = {
 		"Sort": "ozzzzuzzzzzz-ara-izzzza-nizzzztal-latīnōrum",
 		"RepeatWord": "Latīnōrum",
 	},
-	"ūtilēs": {
+	{
 		"Ord": 4,
 		"Word": "ūtilēs",
 		"Lemmata": "ūtilis",
@@ -173,7 +173,7 @@ const expectedOutputFromSampleData = {
 		"Sort": "uzzzziezzzz-atalas---ūtilēs/",
 		"RepeatWord": "ūtilēs",
 	},
-	"tabulae": {
+	{
 		"Ord": 5,
 		"Word": "tabulae",
 		"Lemmata": "tabula",
@@ -216,7 +216,7 @@ const expectedOutputFromSampleData = {
 		"Sort": "auazzzzzzzz-abala--t-tabulae/",
 		"RepeatWord": "tabulae",
 	},
-	"Iūlia": {
+	{
 		"Ord": 6,
 		"Word": "Iūlia",
 		"Lemmata": "Iūlia Iūlius[adj]",
@@ -242,7 +242,12 @@ const expectedOutputFromSampleData = {
 		"EcclesPerfectRhyme": "ulia",
 		"EcclesSort": "uia-alaa--j-iuzzzzlia",
 		"LemmaCount": 2,
-		"LemmaArray": ["Iūlia","Iūlius[adj]"],
+		"Lemma1": "Iūlia",
+		"Lemma2": "Iūlius[adj]",
+		"Lemma3": null,
+		"Lemma4": null,
+		"Lemma5": null,
+		"LemmaArray": ["Iūlia", "Iūlius[adj]"],
 		"IsLemma": 1,
 		"IsNonLemma": 1,
 		"NoMacra": "Iulia",
@@ -250,7 +255,7 @@ const expectedOutputFromSampleData = {
 		"AlphOrderNoMacra": "aiilu",
 		"Sort": "uzzzzia-alaa--j-iūlia"
 	},
-	"-que": {
+	{
 		"Ord": 7,
 		"Word": "-que",
 		"Lemmata": "-que",
@@ -276,6 +281,11 @@ const expectedOutputFromSampleData = {
 		"EcclesPerfectRhyme": "qe",
 		"EcclesSort": "∅e-qa----que/",
 		"LemmaCount": 1,
+		"Lemma1": "-que",
+		"Lemma2": null,
+		"Lemma3": null,
+		"Lemma4": null,
+		"Lemma5": null,
 		"LemmaArray": ["-que"],
 		"IsLemma": 1,
 		"IsNonLemma": 0,
@@ -284,7 +294,7 @@ const expectedOutputFromSampleData = {
 		"AlphOrderNoMacra": "equ",
 		"Sort": "∅e-qa----que/"
 	}
-}
+]
 	
 const phoneticTests = [
 	{Word: "ai", Lemmata: "ai", Phonetic: "à"},
@@ -415,11 +425,13 @@ const testStress = () => {
 
 testAllFunctions = () => {
 	clearWordsArray();
-	for (const word of Object.keys(expectedOutputFromSampleData)) {
-		const lemmata = expectedOutputFromSampleData[word].Lemmata;
+
+	for (const wordObject of expectedOutputCoveringAllFunctions) {
+		const word = wordObject.Word;
+		const lemmata = wordObject.Lemmata;
 
 		functionNames.forEach(functionName => {
-			const expectedOutput = expectedOutputFromSampleData[word][functionName];
+			const expectedOutput = wordObject[functionName];
 			const actualOutput = wordsformFunctions[functionName](word, lemmata);
 
 			if (expectedOutput === undefined && actualOutput === "") {
