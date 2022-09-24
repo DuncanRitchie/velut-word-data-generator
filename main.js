@@ -71,11 +71,6 @@ tabulae	tabula
 
 //// Functions used in `generateJson`:
 
-const getLastKey = (schema) => {
-	const keys = Object.keys(schema);
-	return keys[keys.length - 1];
-}
-
 const clearTextMessages = () => {
 	textByGenerateJson.textContent = "";
 	textByCopyToClipboard.textContent = "";
