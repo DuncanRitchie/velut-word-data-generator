@@ -1,11 +1,6 @@
-// A load of Excel functions recreated in JavaScript:
+// A load of Excel functions recreated in JavaScript,
+// and some of my own:
 
-const SUBSTITUTE = (text, oldText, newText) => {
-	return text.replaceAll(oldText, newText);
-}
-const SUBSTITUTEONCE = (text, oldText, newText) => {
-	return text.replace(oldText, newText);
-}
 // Eg, SUBSTITUTES('velut', 'e', 'E', 'u', 'U') => 'vElUt'
 const SUBSTITUTES = (text, ...args) => {
 	const oldTexts = args.filter((v, i) => i % 2 === 0);
@@ -183,11 +178,7 @@ const unmemoisedFuncs = {
 								),
 								// Condition 10 in IFS
 								f.Lemma1(word, lemmata) === "praeeō",
-								SUBSTITUTE(
-									word,
-									"praei",
-									"prài"
-								),
+								word.replaceAll('praei', 'prài'),
 								// Condition 11 in IFS
 								f.Lemma1(word, lemmata).startsWith('cui')
 									|| f.Lemma1(word, lemmata).startsWith('quis')
@@ -211,57 +202,27 @@ const unmemoisedFuncs = {
 									|| f.NoMacra(word, lemmata).includes("ngui")
 									|| f.NoMacra(word, lemmata).includes("nguo")
 									|| f.NoMacra(word, lemmata).includes("nguu"),
-								SUBSTITUTEONCE(
-									f.Uncompounded(word, lemmata),
-									"ngu",
-									"ngv",
-								),
+								f.Uncompounded(word, lemmata).replace('ngu', 'ngv'),
 								// Condition 13 in IFS
 								f.Lemma1(word, lemmata).includes("suād")
 									|| f.Lemma1(word, lemmata).includes("suās")
 									|| f.Lemma1(word, lemmata).includes("suāv"),
-								SUBSTITUTEONCE(
-									f.Uncompounded(word, lemmata),
-									"suā",
-									"svā",
-								),
+								f.Uncompounded(word, lemmata).replace('suā', 'svā'),
 								// Condition 14 in IFS
 								word.startsWith('Eduard'),
 								f.Uncompounded(word, lemmata).replace('Eduard', 'edvard'),
 								// Condition 15 in IFS
 								f.Lemma1(word, lemmata).toLowerCase().includes("suē"),
-								SUBSTITUTEONCE(
-									SUBSTITUTEONCE(
-										SUBSTITUTEONCE(
-											SUBSTITUTEONCE(
-												SUBSTITUTEONCE(
-													SUBSTITUTEONCE(
-														f.Uncompounded(word, lemmata),
-														"suē",
-														"svē",
-													),
-													"Suē",
-													"Svē",
-												),
-												"sue",
-												"sve",
-											),
-											"sui",
-											"svi",
-										),
-										"suī",
-										"svī",
-									),
-									"suu",
-									"svu",
-								),
+								f.Uncompounded(word, lemmata)
+									.replace('suē', 'svē')
+									.replace('Suē', 'Svē')
+									.replace('sue', 'sve')
+									.replace('sui', 'svi')
+									.replace('suī', 'svī')
+									.replace('suu', 'svu'),
 								// Condition 16 in IFS
 								f.Lemma1(word, lemmata) === "urgueō",
-								SUBSTITUTE(
-									f.Uncompounded(word, lemmata),
-									"urgu",
-									"urgv"
-								),
+								f.Uncompounded(word, lemmata).replaceAll('urgu', 'urgv'),
 								// Condition 17 in IFS
 								OR(
 									RIGHT(
@@ -302,31 +263,13 @@ const unmemoisedFuncs = {
 									f.Lemma1(word, lemmata) === "obex",
 									f.Lemma1(word, lemmata) === "subicēs"
 								),
-								SUBSTITUTE(
-									SUBSTITUTE(
-										SUBSTITUTE(
-											SUBSTITUTEONCE(
-												SUBSTITUTEONCE(
-													SUBSTITUTEONCE(
-														f.Uncompounded(word, lemmata),
-														"iēc",
-														"jēc",
-													),
-													"iec",
-													"jec",
-												),
-												"iac",
-												"jac",
-											),
-											"bex",
-											"bjex"
-										),
-										"ic",
-										"jic"
-									),
-									"rej",
-									"rèj"
-								),
+								f.Uncompounded(word, lemmata)
+									.replace('iēc', 'jēc')
+									.replace('iec', 'jec')
+									.replace('iac', 'jac')
+									.replaceAll('bex', 'bjex')
+									.replaceAll('ic', 'jic')
+									.replaceAll('rej', 'rèj'),
 								// Condition 18 in IFS
 								f.Uncompounded(word, lemmata).startsWith('coniū'),
 								REPLACE(
@@ -364,11 +307,7 @@ const unmemoisedFuncs = {
 									|| f.Lemma1(word, lemmata) === "biiugis"
 									|| f.Lemma1(word, lemmata) === "biiugus"
 									|| f.Lemma1(word, lemmata) === "subiugō",
-								SUBSTITUTE(
-									f.Uncompounded(word, lemmata),
-									"iug",
-									"jug"
-								),
+								f.Uncompounded(word, lemmata).replaceAll('iug', 'jug'),
 								// Condition 23 in IFS
 								f.Uncompounded(word, lemmata).startsWith('adiu')
 									|| f.Uncompounded(word, lemmata).startsWith('adiū'),
@@ -421,19 +360,11 @@ const unmemoisedFuncs = {
 										&& ['a','e','i','o','u','y'].includes(f.NoMacra(word, lemmata).substring(2, 3))
 									)
 								),
-								SUBSTITUTE(
-									f.Uncompounded(word, lemmata),
-									"ai",
-									"ajj"
-								),
+								f.Uncompounded(word, lemmata).replaceAll('ai', 'ajj'),
 								// Condition 29 in IFS
 								["malus", "male"]
 									.includes(f.Lemma1(word, lemmata)),
-								SUBSTITUTE(
-									f.Uncompounded(word, lemmata),
-									"ei",
-									"ejj"
-								),
+								f.Uncompounded(word, lemmata).replaceAll('ei', 'ejj'),
 								// Condition 30 in IFS
 								word.includes('eius') && word.replace('eius', 'is') === f.Lemma1(word, lemmata),
 								f.Uncompounded(word, lemmata).replace('eius', 'ejjus'),
@@ -560,11 +491,7 @@ const unmemoisedFuncs = {
 					word.length === f.Uncompounded(word, lemmata).length,
 					"",
 					RIGHT(
-						SUBSTITUTE(
-							word,
-							"qu",
-							"q"
-						),
+						word.replaceAll('qu', 'q'),
 						2
 					)
 				)
