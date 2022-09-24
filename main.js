@@ -382,6 +382,42 @@ const testPhonetic = () => {
 	})
 }
 
+const stressTests = [
+	{Word: "-que", Lemmata: "-que", Stress: 2},
+	{Word: "addūc", Lemmata: "addūcō", Stress: 1},
+	{Word: "ai", Lemmata: "ai", Stress: 1},
+	{Word: "dominī", Lemmata: "dominus", Stress: 3},
+	{Word: "domínī", Lemmata: "dominium", Stress: 2},
+	{Word: "illīc", Lemmata: "illīc", Stress: 1},
+	{Word: "imperī", Lemmata: "imperium", Stress: 2},
+	{Word: "Latīnitās", Lemmata: "Latīnitās", Stress: 3},
+	{Word: "Latīnus", Lemmata: "Latīnus[prn] Latīnus[adj]", Stress: 2},
+	{Word: "Latīnusque", Lemmata: "Latīnus[prn] Latīnus[adj]", Stress: 2},
+	{Word: "lingua", Lemmata: "lingua", Stress: 2},
+	{Word: "linguaque", Lemmata: "lingua", Stress: 2},
+	{Word: "mōns", Lemmata: "mōns", Stress: 1},
+	{Word: "proïndē", Lemmata: "proïndē", Stress: 3},
+	{Word: "Quīntilī", Lemmata: "Quīntilius[prn]", Stress: 2},
+	{Word: "satin", Lemmata: "satis", Stress: 1},
+	{Word: "st", Lemmata: "st sum", Stress: 0},
+	{Word: "suamet", Lemmata: "suamet", Stress: 2},
+	{Word: "tandem", Lemmata: "tandem", Stress: 2},
+	{Word: "ūndēcentēsimus", Lemmata: "ūndēcentēsimus", Stress: 3},
+]
+
+const testStress = () => {
+	existingWords.push({Word: 'Latīnus', Lemmata: 'Latīnus'}, {Word: 'lingua', Lemmata: 'lingua'});
+	stressTests.forEach(test => {
+		const actual = f.Stress(test.Word, test.Lemmata)
+		if (actual === test.Stress) {
+			console.log(`Yay! Stress(${test.Word}) => ${actual}`)
+		}
+		else {
+			console.error(`Stress(${test.Word}) should give ${test.Stress} but actually gives ${actual}`)
+		}
+	})
+}
+
 
 //// Functions used in `generateJson`:
 
@@ -489,6 +525,7 @@ const generateJson = () => {
 	displayOutput();
 	textByGenerateJson.textContent = "Json generated!";
 	testPhonetic();
+	testStress();
 }
 
 const displayOutput = () => {
