@@ -10,7 +10,8 @@ const SUBSTITUTES = (text, ...args) => {
 	}
 	return substituted;
 }
-const itojj = (text) => {
+// Eg 'rāia' => 'rājja' because the “i” is consonantal.
+const replaceIntervocalicI = (text) => {
 	return `${text}`.replace(/(?<=[āēīōūȳ])i(?=[aeiouyāēīōūȳ])/gi, 'jj');
 }
 const reverseString = (text) => {
@@ -164,7 +165,7 @@ const unmemoisedFuncs = {
 					|| f.Lemma1(word, lemmata) === "ūnusquisque"
 				) {
 					return SUBSTITUTES(
-						itojj(uncompounded),
+						replaceIntervocalicI(uncompounded),
 						"cuiā",
 						"cùjā",
 						"cui",
@@ -301,7 +302,7 @@ const unmemoisedFuncs = {
 			return SUBSTITUTES(
 				(
 					'_'
-					+ itojj(
+					+ replaceIntervocalicI(
 						getPhoneticBeforeGeneralSubstitutions().toLowerCase()
 					)
 					+ '_'
