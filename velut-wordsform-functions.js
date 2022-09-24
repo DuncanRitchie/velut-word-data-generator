@@ -495,7 +495,7 @@ const unmemoisedFuncs = {
 						.replaceAll('ó', 'o')
 						.replaceAll('ú', 'u')
 						.replaceAll('ý', 'y')
-					) == f.Lemma1(word, lemmata).replace(/\[[^\]]+\]/, '').replace(/...$/, 'ī')
+					) === f.Lemma1(word, lemmata).replace(/\[[^\]]+\]/, '').replace(/...$/, 'ī')
 				)
 			) {
 				return 2;

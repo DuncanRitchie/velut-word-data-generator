@@ -508,7 +508,7 @@ const generateJson = () => {
 	//// For each line of values in the input...
 	for (let i = 0; i < countRows; i++) {
 		//// Skip empty lines.
-		if (allInputRows[i] == "") { continue; }
+		if (allInputRows[i] === "") { continue; }
 
 		const rowOfValues = allInputRows[i].split("\t");
 		const [word, lemmata, ...rest] = rowOfValues;
