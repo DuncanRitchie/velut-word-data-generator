@@ -1,5 +1,4 @@
-// A load of Excel functions recreated in JavaScript,
-// and some of my own:
+// Helper functions:
 
 // Eg, SUBSTITUTES('velut', 'e', 'E', 'u', 'U') => 'vElUt'
 const SUBSTITUTES = (text, ...args) => {
@@ -13,9 +12,6 @@ const SUBSTITUTES = (text, ...args) => {
 }
 const itojj = (text) => {
 	return `${text}`.replace(/(?<=[āēīōūȳ])i(?=[aeiouyāēīōūȳ])/gi, 'jj');
-}
-const RIGHT = (text, characterCount) => {
-	return `${text}`.substring(`${text}`.length - characterCount);
 }
 const reversestr = (text) => {
 	return `${text}`.split('').reverse().join('');
@@ -587,7 +583,8 @@ const unmemoisedFuncs = {
 			if (f.Scansion(word, lemmata) === EMPTY) {
 				return EMPTY;
 			}
-			return RIGHT(f.AllVowels(word, lemmata), f.Stress(word, lemmata));
+			return f.AllVowels(word, lemmata)
+				.substring(f.SyllableCount(word, lemmata) - f.Stress(word, lemmata));
 		},
 	PerfectRhyme:
 		(word, lemmata) => {
@@ -681,7 +678,8 @@ const unmemoisedFuncs = {
 			if (f.Scansion(word, lemmata) === EMPTY) {
 				return EMPTY;
 			}
-			return RIGHT(f.EcclesVowels(word, lemmata), f.Stress(word, lemmata));
+			return f.EcclesVowels(word, lemmata)
+				.substring(f.SyllableCount(word, lemmata) - f.Stress(word, lemmata));
 		},
 	EcclesRhymeVowelsAndUltimaCoda:
 		(word, lemmata) => {
