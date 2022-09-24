@@ -1,60 +1,60 @@
-const buttonClearInputs = document.getElementById("clear-inputs");
-const buttonLoadSampleData = document.getElementById("load-sample-data");
-const textareaInput = document.getElementById("textarea-input");
-const textByGenerateJson = document.getElementById("text-by-generate-json");
-const buttonGenerateJson = document.getElementById("generate-json");
-const textareaOutput = document.getElementById("textarea-output");
-const textByCopyToClipboard = document.getElementById("text-by-copy-to-clipboard");
-const buttonCopyToClipboard = document.getElementById("copy-to-clipboard");
-const buttonDownload = document.getElementById("download");
+const buttonClearInputs = document.getElementById('clear-inputs');
+const buttonLoadSampleData = document.getElementById('load-sample-data');
+const textareaInput = document.getElementById('textarea-input');
+const textByGenerateJson = document.getElementById('text-by-generate-json');
+const buttonGenerateJson = document.getElementById('generate-json');
+const textareaOutput = document.getElementById('textarea-output');
+const textByCopyToClipboard = document.getElementById('text-by-copy-to-clipboard');
+const buttonCopyToClipboard = document.getElementById('copy-to-clipboard');
+const buttonDownload = document.getElementById('download');
 
-textareaOutput.value = "";
+textareaOutput.value = '';
 
 
 //// Schema. Commented-out properties will not be used.
 
 const wordsSchema = {
-	Ord: "int",
-	Word: "string",
-	// Lemmata: "string",
-	Length: "int",
-	AllConsonants: "string",
-	Uncompounded: "string",
-	Phonetic: "string",
-	Scansion: "string",
-	ScansionWithElision: "string",
-	IsFitForDactyl: "int",
-	AllVowels: "string",
-	SyllableCount: "int",
-	Stress: "int",
-	UltimaRhyme: "string",
-	RhymeVowels: "string",
-	PerfectRhyme: "string",
-	RhymeConsonants: "string",
-	// Ultima: "string",
-	RhymeVowelsAndUltimaCoda: "string",
-	EcclesPhonetic: "string",
-	EcclesVowels: "string",
-	EcclesRhymeVowels: "string",
-	EcclesRhymeVowelsAndUltimaCoda: "string",
-	EcclesPerfectRhyme: "string",
-	EcclesSort: "string",
-	LemmaCount: "int",
-	// Lemma1: "string",
-	// Lemma2: "string",
-	// Lemma3: "string",
-	// Lemma4: "string",
-	// Lemma5: "string",
-	LemmaArray: "array",
-	IsLemma: "int",
-	IsNonLemma: "int",
-	// DuplicateWords: "string",
-	// NewLemmata: "string",
-	NoMacra: "string",
-	NoMacraLowerCase: "string",
-	AlphOrderNoMacra: "string",
-	Sort: "string",
-	// RepeatWord: "string",
+	Ord: 'int',
+	Word: 'string',
+	// Lemmata: 'string',
+	Length: 'int',
+	AllConsonants: 'string',
+	Uncompounded: 'string',
+	Phonetic: 'string',
+	Scansion: 'string',
+	ScansionWithElision: 'string',
+	IsFitForDactyl: 'int',
+	AllVowels: 'string',
+	SyllableCount: 'int',
+	Stress: 'int',
+	UltimaRhyme: 'string',
+	RhymeVowels: 'string',
+	PerfectRhyme: 'string',
+	RhymeConsonants: 'string',
+	// Ultima: 'string',
+	RhymeVowelsAndUltimaCoda: 'string',
+	EcclesPhonetic: 'string',
+	EcclesVowels: 'string',
+	EcclesRhymeVowels: 'string',
+	EcclesRhymeVowelsAndUltimaCoda: 'string',
+	EcclesPerfectRhyme: 'string',
+	EcclesSort: 'string',
+	LemmaCount: 'int',
+	// Lemma1: 'string',
+	// Lemma2: 'string',
+	// Lemma3: 'string',
+	// Lemma4: 'string',
+	// Lemma5: 'string',
+	LemmaArray: 'array',
+	IsLemma: 'int',
+	IsNonLemma: 'int',
+	// DuplicateWords: 'string',
+	// NewLemmata: 'string',
+	NoMacra: 'string',
+	NoMacraLowerCase: 'string',
+	AlphOrderNoMacra: 'string',
+	Sort: 'string',
+	// RepeatWord: 'string',
 };
 
 
@@ -72,24 +72,24 @@ tabulae	tabula
 //// Functions used in `generateJson`:
 
 const clearTextMessages = () => {
-	textByGenerateJson.textContent = "";
-	textByCopyToClipboard.textContent = "";
+	textByGenerateJson.textContent = '';
+	textByCopyToClipboard.textContent = '';
 }
 
 const clearInputs = () => {
-	textareaInput.value = "";
-	textareaOutput.value = "";
+	textareaInput.value = '';
+	textareaOutput.value = '';
 	clearTextMessages();
 }
 
 const warnOfEmptyInput = () => {
 	clearTextMessages();
-	textByGenerateJson.textContent = "Nothing to generate Json from!";
+	textByGenerateJson.textContent = 'Nothing to generate Json from!';
 }
 
 const warnOfEmptyOutput = () => {
 	clearTextMessages();
-	textByCopyToClipboard.textContent = "Nothing to copy or download!";
+	textByCopyToClipboard.textContent = 'Nothing to copy or download!';
 }
 
 const functionNames = Object.keys(wordsSchema);
@@ -120,17 +120,17 @@ const output = (jsonObject) => {
 const generateJson = () => {
 	clearTextMessages();
 	clearWordsArray();
-	textByGenerateJson.textContent = "Generating Json, please wait...";
+	textByGenerateJson.textContent = 'Generating Json, please wait...';
 	outputArray.length = 0; // Clear the output in case there’s anything from previous runs.
-	const allInputRows = textareaInput.value.split("\n");
+	const allInputRows = textareaInput.value.split('\n');
 	const countRows = allInputRows.length;
 
 	//// For each line of values in the input...
 	for (let i = 0; i < countRows; i++) {
 		//// Skip empty lines.
-		if (allInputRows[i] === "") { continue; }
+		if (allInputRows[i] === '') { continue; }
 
-		const rowOfValues = allInputRows[i].split("\t");
+		const rowOfValues = allInputRows[i].split('\t');
 		const [word, lemmata, ...rest] = rowOfValues;
 		const resultsForLine = {};
 
@@ -143,24 +143,24 @@ const generateJson = () => {
 		clearMemoisationCache();
 	}
 	displayOutput();
-	textByGenerateJson.textContent = "Json generated!";
+	textByGenerateJson.textContent = 'Json generated!';
 }
 
 const displayOutput = () => {
-	textareaOutput.value = outputArray.join("\n");
+	textareaOutput.value = outputArray.join('\n');
 }
 
 const copyToClipboard = () => {
 	clearTextMessages();
-	textByCopyToClipboard.textContent = "Copying to clipboard...";
+	textByCopyToClipboard.textContent = 'Copying to clipboard...';
 	textareaOutput.select();
-	document.execCommand("copy");
-	textByCopyToClipboard.textContent = "Copied!";
+	document.execCommand('copy');
+	textByCopyToClipboard.textContent = 'Copied!';
 }
 
 const download = () => {
 	let a = document.createElement('a');
-	a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textareaOutput.value.replace(/\n/g, "\r\n")));;
+	a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textareaOutput.value.replace(/\n/g, '\r\n')));;
 	a.setAttribute('download', 'words_mongo.json');
 	document.body.appendChild(a);
 	a.click();
@@ -171,17 +171,17 @@ const download = () => {
 
 //// Event listeners.
 
-buttonClearInputs.addEventListener("click", ()=>{
+buttonClearInputs.addEventListener('click', ()=>{
 	clearInputs();
 });
 
-buttonLoadSampleData.addEventListener("click", ()=>{
+buttonLoadSampleData.addEventListener('click', ()=>{
 	textareaInput.value = sampleData;
 	clearTextMessages();
 });
 
-buttonGenerateJson.addEventListener("click", ()=>{
-	if (textareaInput.value === "") {
+buttonGenerateJson.addEventListener('click', ()=>{
+	if (textareaInput.value === '') {
 		warnOfEmptyInput();
 	}
 	else {
@@ -189,8 +189,8 @@ buttonGenerateJson.addEventListener("click", ()=>{
 	}
 });
 
-buttonCopyToClipboard.addEventListener("click", ()=>{
-	if (textareaOutput.value === "") {
+buttonCopyToClipboard.addEventListener('click', ()=>{
+	if (textareaOutput.value === '') {
 		warnOfEmptyOutput();
 	}
 	else {
@@ -198,8 +198,8 @@ buttonCopyToClipboard.addEventListener("click", ()=>{
 	}
 });
 
-buttonDownload.addEventListener("click", ()=>{
-	if (textareaOutput.value === "") {
+buttonDownload.addEventListener('click', ()=>{
+	if (textareaOutput.value === '') {
 		warnOfEmptyOutput();
 	}
 	else {
