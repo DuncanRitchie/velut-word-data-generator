@@ -7,6 +7,7 @@ const textareaOutput = document.getElementById("textarea-output");
 const textByCopyToClipboard = document.getElementById("text-by-copy-to-clipboard");
 const buttonCopyToClipboard = document.getElementById("copy-to-clipboard");
 const buttonDownload = document.getElementById("download");
+const buttonTest = document.getElementById("test");
 
 textareaOutput.value = "";
 
@@ -525,8 +526,6 @@ const generateJson = () => {
 	}
 	displayOutput();
 	textByGenerateJson.textContent = "Json generated!";
-	testPhonetic();
-	testStress();
 }
 
 const displayOutput = () => {
@@ -588,4 +587,9 @@ buttonDownload.addEventListener("click", ()=>{
 	else {
 		download();
 	}
+});
+
+buttonTest.addEventListener("click", ()=>{
+	testPhonetic();
+	testStress();
 });
