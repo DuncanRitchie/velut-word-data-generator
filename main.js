@@ -291,6 +291,74 @@ const expectedOutputFromSampleData = {
   "AlphOrderNoMacra": "aabeltu",
   "Sort": "auazzzzzzzz-abala--t-tabulae/",
   "RepeatWord": "tabulae",
+},
+"Iūlia": {
+	"Ord": 6,
+	"Word": "Iūlia",
+	"Lemmata": "Iūlia Iūlius[adj]",
+	"Length": 5,
+	"AllConsonants": "l",
+	"Uncompounded": "Iūlia",
+	"Phonetic": "jūlia",
+	"Scansion": "–⏑⏑",
+	"ScansionWithElision": "–⏑",
+	"IsFitForDactyl": 1,
+	"AllVowels": "ūia",
+	"SyllableCount": 3,
+	"Stress": 3,
+	"UltimaRhyme": "a",
+	"RhymeVowels": "ūia",
+	"PerfectRhyme": "ūlia",
+	"RhymeConsonants": "alaa",
+	"RhymeVowelsAndUltimaCoda": "ūia",
+	"EcclesPhonetic": "julia",
+	"EcclesVowels": "uia",
+	"EcclesRhymeVowels": "uia",
+	"EcclesRhymeVowelsAndUltimaCoda": "uia",
+	"EcclesPerfectRhyme": "ulia",
+	"EcclesSort": "uia-alaa--j-iuzzzzlia",
+	"LemmaCount": 2,
+	"LemmaArray": ["Iūlia","Iūlius[adj]"],
+	"IsLemma": 1,
+	"IsNonLemma": 1,
+	"NoMacra": "Iulia",
+	"NoMacraLowerCase": "iulia",
+	"AlphOrderNoMacra": "aiilu",
+	"Sort": "uzzzzia-alaa--j-iūlia"
+},
+"-que": {
+	"Ord": 7,
+	"Word": "-que",
+	"Lemmata": "-que",
+	"Length": 4,
+	"AllConsonants": "q",
+	"Uncompounded": "∅",
+	"Phonetic": "qe",
+	"Scansion": "⏑",
+	"ScansionWithElision": "∅",
+	"IsFitForDactyl": 1,
+	"AllVowels": "∅e",
+	"SyllableCount": 1,
+	"Stress": 2,
+	"UltimaRhyme": "e",
+	"RhymeVowels": "∅e",
+	"PerfectRhyme": "qe",
+	"RhymeConsonants": "qa",
+	"RhymeVowelsAndUltimaCoda": "∅e",
+	"EcclesPhonetic": "qe",
+	"EcclesVowels": "∅e",
+	"EcclesRhymeVowels": "∅e",
+	"EcclesRhymeVowelsAndUltimaCoda": "∅e",
+	"EcclesPerfectRhyme": "qe",
+	"EcclesSort": "∅e-qa----que/",
+	"LemmaCount": 1,
+	"LemmaArray": ["-que"],
+	"IsLemma": 1,
+	"IsNonLemma": 0,
+	"NoMacra": "que",
+	"NoMacraLowerCase": "que",
+	"AlphOrderNoMacra": "equ",
+	"Sort": "∅e-qa----que/"}
 }
 
 const phoneticTests = [
@@ -423,25 +491,34 @@ const testStress = () => {
 
 //// Functions used in `generateJson`:
 
-const checkResult = (word, lemmata, functionName) => {
-	if (expectedOutputFromSampleData[word]) {
-		const expectedOutput = expectedOutputFromSampleData[word][functionName];
-		const actualOutput = wordsformFunctions[functionName](word, lemmata);
-		if (expectedOutput === undefined && actualOutput === "") {
-			console.warn(`Neither the function nor the expected value has been defined for ${functionName}(${word}, ${lemmata})`);
-		}
-		else if (expectedOutput === undefined) {
-			console.warn(`${functionName}(${word}, ${lemmata}) gives ${actualOutput} but the expected value hasn’t been defined`);
-		}
-		else if (actualOutput === "") {
-			console.log(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but the function hasn’t been written`);
-		}
-		else if (JSON.stringify(actualOutput) === JSON.stringify(expectedOutput)) {
-			console.log(`Yay for ${functionName}(${word}, ${lemmata})!`);
-		}
-		else {
-			console.error({for: `${functionName}(${word}, ${lemmata})`, expected: expectedOutput, actual: actualOutput});
-		}
+testAllFunctions = () => {
+	clearWordsArray();
+	for (const word of Object.keys(expectedOutputFromSampleData)) {
+		const lemmata = expectedOutputFromSampleData[word].Lemmata;
+
+		functionNames.forEach(functionName => {
+			const expectedOutput = expectedOutputFromSampleData[word][functionName];
+			const actualOutput = wordsformFunctions[functionName](word, lemmata);
+
+			if (expectedOutput === undefined && actualOutput === "") {
+				console.warn(`Neither the function nor the expected value has been defined for ${functionName}(${word}, ${lemmata})`);
+			}
+			else if (expectedOutput === undefined) {
+				console.warn(`${functionName}(${word}, ${lemmata}) gives ${actualOutput} but the expected value hasn’t been defined`);
+			}
+			else if (actualOutput === "") {
+				console.log(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but the function hasn’t been written`);
+			}
+			else if (JSON.stringify(actualOutput) === JSON.stringify(expectedOutput)) {
+				console.log(`Yay for ${functionName}(${word}, ${lemmata})!`);
+			}
+			else {
+				console.error({for: `${functionName}(${word}, ${lemmata})`, expected: expectedOutput, actual: actualOutput});
+			}
+		});
+
+		addToWordsArray(word, lemmata);
+		clearMemoisationCache();
 	}
 }
 
@@ -517,7 +594,6 @@ const generateJson = () => {
 
 		functionNames.forEach(functionName => {
 			resultsForLine[functionName] = wordsformFunctions[functionName](word, lemmata);
-			checkResult(word, lemmata, functionName);
 		})
 
 		output(resultsForLine);
@@ -590,6 +666,7 @@ buttonDownload.addEventListener("click", ()=>{
 });
 
 buttonTest.addEventListener("click", ()=>{
+	testAllFunctions();
 	testPhonetic();
 	testStress();
 });
