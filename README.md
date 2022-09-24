@@ -6,7 +6,7 @@ This is a webpage that generates data for my Latin rhyming dictionary, [velut](h
 
 ## Input
 
-Each line of input must be a word, a tab, and the space-separated list of lemmata. For example:
+Each line of input must be a word, whitespace, and the space-separated list of lemmata. For example:
 
 ```txt
 vocābulōrum	vocābulum
@@ -58,7 +58,7 @@ Although the velut website uses a MongoDB database, and this page produces Json 
 
 One of the differences between the “wordsform” sheet and this Word Data Generator is that in the sheet the output data are in Excel cells, but in the generator they’re in Json format. Copying data from Excel makes them tab-delimited. To convert the tab-delimited data to Json, I use my [Json Generator](https://github.com/DuncanRitchie/velut-json-generator), which is a separate webpage. But I’ll hopefully have less need of that in the future, because the data from the Word Data Generator are already in Json format.
 
-I haven’t yet checked the output of the Word Data Generator against the data I already have from Excel, apart from the sample data. So I expect some bugs will have been introduced in my attempts to re-write my Excel formulae in JavaScript. When I’m confident that this page gives the same output as my Excel formulae, for all the Latin words I have, I will then stop using the “wordsform” sheet.
+I haven’t yet checked the output of the Word Data Generator against the data I already have from Excel, apart from the sample data. So I expect some bugs will have been introduced in my attempts to re-write my Excel formulae in JavaScript. When I’m confident that this page gives the same output as my Excel formulae, for all the Latin words I have, and when I’m willing for Excel to no longer be the “single source of truth” for velut data, I will then stop using the “wordsform” sheet.
 
 It’s all part of my long-term project of converting my Excel file into websites and webpages that are easier to share and maintain. I’m very much in a transition period of using the Excel file for some things and my newer websites/webpages for others. But the Word Data Generator is another step in the process. At the moment, the whole velut project is very convoluted; in the future, it won’t be as bad.
 
@@ -69,5 +69,6 @@ _If you’re not me, you’re unlikely to have much use for the Word Data Genera
 - [Full list of fields and their Excel formulae](https://github.com/DuncanRitchie/velut-word-data-generator/blob/main/velut-wordsform-formulae.js)
 - [The same formulae but ported to JavaScript](https://github.com/DuncanRitchie/velut-word-data-generator/blob/main/velut-wordsform-functions.js)
 - [List of exemptions to phonetic rules](https://github.com/DuncanRitchie/velut-word-data-generator/blob/main/velut-phonetic-exceptions.js)
+- [Tests](https://github.com/DuncanRitchie/velut-word-data-generator/blob/main/tests.js) which can be run from the [webpage](https://www.duncanritchie.co.uk/velut-word-data-generator/)
 - [velut website](https://www.velut.co.uk)
 - [My personal website](https://www.duncanritchie.co.uk)
