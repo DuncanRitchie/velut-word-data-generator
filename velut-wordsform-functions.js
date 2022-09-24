@@ -125,364 +125,371 @@ const unmemoisedFuncs = {
 			}
 			return word;
 		},
+	Enclitic:
+		(word, lemmata) => {
+			if (word.length === f.Uncompounded(word, lemmata).length) {
+				return '';
+			}
+			if (word.endsWith('que')) { return 'que'; }
+			if (word.endsWith('ne')) { return 'ne'; }
+			if (word.endsWith('ve')) { return 've'; }
+			console.error('Uncompounded is different to Word but Word doesn’t end with an enclitic.');
+		},
+	UncompoundedPhonetic:
+		(word, lemmata) => {
+			return SUBSTITUTES(
+				(
+					'_'
+					+ itojj(
+						IFS(
+							// Condition 0 in IFS
+							f.Uncompounded(word, lemmata) === "ai",
+							"à",
+							// Condition 1 in IFS
+							f.Uncompounded(word, lemmata) === "ei",
+							"è",
+							// Condition 2 in IFS
+							f.Uncompounded(word, lemmata) === "eia",
+							"èa",
+							// Condition 3 in IFS
+							f.Uncompounded(word, lemmata) === "hei",
+							"hè",
+							// Condition 4 in IFS
+							f.Uncompounded(word, lemmata) === "heia",
+							"hèa",
+							// Condition 5 in IFS
+							f.Uncompounded(word, lemmata) === "hoc",
+							"hocc",
+							// Condition 6 in IFS
+							f.Uncompounded(word, lemmata) === "oi",
+							"ò",
+							// Condition 7 in IFS
+							f.Uncompounded(word, lemmata) === "oiei",
+							"òè",
+							// Condition 8 in IFS
+							f.Uncompounded(word, lemmata) === "dehinc",
+							"dènc",
+							// Condition 9 in IFS
+							['dein', 'deinde', 'proin', 'proindē'].includes(f.Uncompounded(word, lemmata)),
+							SUBSTITUTES(
+								f.Uncompounded(word, lemmata),
+								"dein",
+								"dèn",
+								"proin",
+								"pròn"
+							),
+							// Condition 10 in IFS
+							f.Lemma1(word, lemmata) === "praeeō",
+							word.replaceAll('praei', 'prài'),
+							// Condition 11 in IFS
+							f.Lemma1(word, lemmata).startsWith('cui')
+								|| f.Lemma1(word, lemmata).startsWith('quis')
+								|| f.Lemma1(word, lemmata).startsWith('quī')
+								|| f.Lemma1(word, lemmata) === "aliquis"
+								|| f.Lemma1(word, lemmata) === "ecquis"
+								|| f.Lemma1(word, lemmata) === "nesciōquis"
+								|| f.Lemma1(word, lemmata) === "ūnusquisque",
+							SUBSTITUTES(
+								itojj(
+									f.Uncompounded(word, lemmata)
+								),
+								"cuiā",
+								"cùjā",
+								"cui",
+								"cù"
+							),
+							// Condition 12 in IFS
+							f.NoMacra(word, lemmata).includes("ngua")
+								|| f.NoMacra(word, lemmata).includes("ngue")
+								|| f.NoMacra(word, lemmata).includes("ngui")
+								|| f.NoMacra(word, lemmata).includes("nguo")
+								|| f.NoMacra(word, lemmata).includes("nguu"),
+							f.Uncompounded(word, lemmata).replace('ngu', 'ngv'),
+							// Condition 13 in IFS
+							f.Lemma1(word, lemmata).includes("suād")
+								|| f.Lemma1(word, lemmata).includes("suās")
+								|| f.Lemma1(word, lemmata).includes("suāv"),
+							f.Uncompounded(word, lemmata).replace('suā', 'svā'),
+							// Condition 14 in IFS
+							word.startsWith('Eduard'),
+							f.Uncompounded(word, lemmata).replace('Eduard', 'edvard'),
+							// Condition 15 in IFS
+							f.Lemma1(word, lemmata).toLowerCase().includes("suē"),
+							f.Uncompounded(word, lemmata)
+								.replace('suē', 'svē')
+								.replace('Suē', 'Svē')
+								.replace('sue', 'sve')
+								.replace('sui', 'svi')
+								.replace('suī', 'svī')
+								.replace('suu', 'svu'),
+							// Condition 16 in IFS
+							f.Lemma1(word, lemmata) === "urgueō",
+							f.Uncompounded(word, lemmata).replaceAll('urgu', 'urgv'),
+							// Condition 17 in IFS
+							(
+								f.Lemma1(word, lemmata).endsWith('iaceō')
+								|| f.Lemma1(word, lemmata).endsWith('iectō')
+								|| f.Lemma1(word, lemmata).endsWith('iaciō')
+								|| f.Lemma1(word, lemmata).endsWith('iectus')
+								|| f.Lemma1(word, lemmata).endsWith('iectē')
+								|| [
+									"abiciō",
+									"adiciō",
+									"circumiciō",
+									"coniciō",
+									"dēiciō",
+									"disiciō",
+									"ēiciō",
+									"iniciō",
+									"intericiō",
+									"obiciō",
+									"periciō",
+									"praeiciō",
+									"reiciō",
+									"subiciō",
+									"trāiciō",
+									"obex",
+									"subicēs",
+								].includes(f.Lemma1(word, lemmata))
+							),
+							f.Uncompounded(word, lemmata)
+								.replace('iēc', 'jēc')
+								.replace('iec', 'jec')
+								.replace('iac', 'jac')
+								.replaceAll('bex', 'bjex')
+								.replaceAll('ic', 'jic')
+								.replaceAll('rej', 'rèj'),
+							// Condition 18 in IFS
+							f.Uncompounded(word, lemmata).startsWith('coniū'),
+							REPLACE(
+								f.Uncompounded(word, lemmata),
+								1,
+								5,
+								"conjū"
+							),
+							// Condition 19 in IFS
+							f.Uncompounded(word, lemmata).startsWith('coniu'),
+							REPLACE(
+								f.Uncompounded(word, lemmata).toLowerCase(),
+								1,
+								5,
+								"conju"
+							),
+							// Condition 20 in IFS
+							f.Uncompounded(word, lemmata).startsWith('disiu'),
+							REPLACE(
+								f.Uncompounded(word, lemmata).toLowerCase(),
+								1,
+								5,
+								"disju"
+							),
+							// Condition 21 in IFS
+							f.Uncompounded(word, lemmata).startsWith('disiū'),
+							REPLACE(
+								f.Uncompounded(word, lemmata).toLowerCase(),
+								1,
+								5,
+								"disjū"
+							),
+							// Condition 22 in IFS
+							f.Lemma1(word, lemmata) === "iniugis"
+								|| f.Lemma1(word, lemmata) === "biiugis"
+								|| f.Lemma1(word, lemmata) === "biiugus"
+								|| f.Lemma1(word, lemmata) === "subiugō",
+							f.Uncompounded(word, lemmata).replaceAll('iug', 'jug'),
+							// Condition 23 in IFS
+							f.Uncompounded(word, lemmata).startsWith('adiu')
+								|| f.Uncompounded(word, lemmata).startsWith('adiū'),
+							REPLACE(
+								f.Uncompounded(word, lemmata),
+								1,
+								3,
+								"adj"
+							),
+							// Condition 24 in IFS
+							f.Uncompounded(word, lemmata).startsWith('iniūr'),
+							REPLACE(
+								f.Uncompounded(word, lemmata),
+								1,
+								5,
+								"injūr"
+							),
+							// Condition 25 in IFS
+							f.Lemma1(word, lemmata) === "iūsiūrandum",
+							SUBSTITUTES(
+								f.Uncompounded(word, lemmata),
+								"iūr",
+								"jūr",
+								"iūs",
+								"jūs"
+							),
+							// Condition 26 in IFS
+							f.Lemma1(word, lemmata) === "periūrus",
+							REPLACE(
+								f.Uncompounded(word, lemmata),
+								4,
+								1,
+								"j"
+							),
+							// Condition 27 in IFS
+							(
+								/^i[aeiouyāēīōūȳ]/i.test(word)
+								&& !phoneticExceptions["Vocalic initial i"].includes(f.Lemma1(word, lemmata))
+								&& f.Uncompounded(word, lemmata) !== "iīs"
+							),
+							f.Uncompounded(word, lemmata).replace(/^i/i, 'j'),
+							// Condition 28 in IFS
+							(
+								["magnus", "magis", "maiestās", "maiōrēs"]
+									.includes(f.Lemma1(word, lemmata))
+								|| (
+									f.NoMacra(
+										f.Lemma1(word, lemmata)
+									) === "aio"
+									&& ['a','e','i','o','u','y'].includes(f.NoMacra(word, lemmata).substring(2, 3))
+								)
+							),
+							f.Uncompounded(word, lemmata).replaceAll('ai', 'ajj'),
+							// Condition 29 in IFS
+							["malus", "male"]
+								.includes(f.Lemma1(word, lemmata)),
+							f.Uncompounded(word, lemmata).replaceAll('ei', 'ejj'),
+							// Condition 30 in IFS
+							word.includes('eius') && word.replace('eius', 'is') === f.Lemma1(word, lemmata),
+							f.Uncompounded(word, lemmata).replace('eius', 'ejjus'),
+							// Condition 31 in IFS
+							word.startsWith('-'),
+							'',
+							// Condition 32 in IFS
+							1 === 1,
+							f.Uncompounded(word, lemmata)
+						).toLowerCase()
+					)
+					+ '_'
+				),
+				"am_",
+				"ã",
+				"em_",
+				"ẽ",
+				"im_",
+				"ĩ",
+				"om_",
+				"õ",
+				"um_",
+				"ũ",
+				"ym_",
+				"ỹ",
+				"qu",
+				"q",
+				"ds",
+				"ts",
+				"z",
+				"ds",
+				"x",
+				"cs",
+				"bs",
+				"ps",
+				"bt",
+				"pt",
+				"ch",
+				"χ",
+				"ph",
+				"φ",
+				"rh",
+				"r",
+				"th",
+				"θ",
+				"ae",
+				"à",
+				"au",
+				"â",
+				"oe",
+				"ò",
+				"ë",
+				"e",
+				"ï",
+				"i",
+				"ü",
+				"u",
+				"ṻ",
+				"ū",
+				"á",
+				"a",
+				"é",
+				"e",
+				"í",
+				"i",
+				"ó",
+				"o",
+				"ú",
+				"u",
+				"ý",
+				"y",
+				"ḗ",
+				"ē",
+				"āns",
+				"ãs",
+				"ēns",
+				"ẽs",
+				"īns",
+				"ĩs",
+				"ōns",
+				"õs",
+				"ūns",
+				"ũs",
+				"ȳns",
+				"ỹs",
+				"ānf",
+				"ãf",
+				"ēnf",
+				"ẽf",
+				"īnf",
+				"ĩf",
+				"ōnf",
+				"õf",
+				"ūnf",
+				"ũf",
+				"ȳnf",
+				"ỹf",
+				"lectiient",
+				"lectijent",
+				"ōsuestr",
+				"ōsvestr",
+				"reiciav",
+				"rejcjav",
+				"k",
+				"c",
+				"eu",
+				(
+					phoneticExceptions["Diphthong eu"].includes(f.Lemma1(word, lemmata)) > 0
+					? "€"
+					: "eu"
+				),
+				"_eu",
+				"_€",
+				"_€nd",
+				"eund",
+				"_€nt",
+				"eunt",
+				"eu_",
+				"€",
+				"_",
+				""
+			)
+		},
+	EncliticPhonetic:
+		(word, lemmata) => {
+			return f.Enclitic(word, lemmata).replace('qu', 'q');
+		},
 	Phonetic:
 		(word, lemmata) => {
-
-			const formula = (
-				SUBSTITUTES(
-					(
-						'_'
-						+ itojj(
-							IFS(
-								// Condition 0 in IFS
-								f.Uncompounded(word, lemmata) === "ai",
-								"à",
-								// Condition 1 in IFS
-								f.Uncompounded(word, lemmata) === "ei",
-								"è",
-								// Condition 2 in IFS
-								f.Uncompounded(word, lemmata) === "eia",
-								"èa",
-								// Condition 3 in IFS
-								f.Uncompounded(word, lemmata) === "hei",
-								"hè",
-								// Condition 4 in IFS
-								f.Uncompounded(word, lemmata) === "heia",
-								"hèa",
-								// Condition 5 in IFS
-								f.Uncompounded(word, lemmata) === "hoc",
-								"hocc",
-								// Condition 6 in IFS
-								f.Uncompounded(word, lemmata) === "oi",
-								"ò",
-								// Condition 7 in IFS
-								f.Uncompounded(word, lemmata) === "oiei",
-								"òè",
-								// Condition 8 in IFS
-								f.Uncompounded(word, lemmata) === "dehinc",
-								"dènc",
-								// Condition 9 in IFS
-								['dein', 'deinde', 'proin', 'proindē'].includes(f.Uncompounded(word, lemmata)),
-								SUBSTITUTES(
-									f.Uncompounded(word, lemmata),
-									"dein",
-									"dèn",
-									"proin",
-									"pròn"
-								),
-								// Condition 10 in IFS
-								f.Lemma1(word, lemmata) === "praeeō",
-								word.replaceAll('praei', 'prài'),
-								// Condition 11 in IFS
-								f.Lemma1(word, lemmata).startsWith('cui')
-									|| f.Lemma1(word, lemmata).startsWith('quis')
-									|| f.Lemma1(word, lemmata).startsWith('quī')
-									|| f.Lemma1(word, lemmata) === "aliquis"
-									|| f.Lemma1(word, lemmata) === "ecquis"
-									|| f.Lemma1(word, lemmata) === "nesciōquis"
-									|| f.Lemma1(word, lemmata) === "ūnusquisque",
-								SUBSTITUTES(
-									itojj(
-										f.Uncompounded(word, lemmata)
-									),
-									"cuiā",
-									"cùjā",
-									"cui",
-									"cù"
-								),
-								// Condition 12 in IFS
-								f.NoMacra(word, lemmata).includes("ngua")
-									|| f.NoMacra(word, lemmata).includes("ngue")
-									|| f.NoMacra(word, lemmata).includes("ngui")
-									|| f.NoMacra(word, lemmata).includes("nguo")
-									|| f.NoMacra(word, lemmata).includes("nguu"),
-								f.Uncompounded(word, lemmata).replace('ngu', 'ngv'),
-								// Condition 13 in IFS
-								f.Lemma1(word, lemmata).includes("suād")
-									|| f.Lemma1(word, lemmata).includes("suās")
-									|| f.Lemma1(word, lemmata).includes("suāv"),
-								f.Uncompounded(word, lemmata).replace('suā', 'svā'),
-								// Condition 14 in IFS
-								word.startsWith('Eduard'),
-								f.Uncompounded(word, lemmata).replace('Eduard', 'edvard'),
-								// Condition 15 in IFS
-								f.Lemma1(word, lemmata).toLowerCase().includes("suē"),
-								f.Uncompounded(word, lemmata)
-									.replace('suē', 'svē')
-									.replace('Suē', 'Svē')
-									.replace('sue', 'sve')
-									.replace('sui', 'svi')
-									.replace('suī', 'svī')
-									.replace('suu', 'svu'),
-								// Condition 16 in IFS
-								f.Lemma1(word, lemmata) === "urgueō",
-								f.Uncompounded(word, lemmata).replaceAll('urgu', 'urgv'),
-								// Condition 17 in IFS
-								(
-									f.Lemma1(word, lemmata).endsWith('iaceō')
-									|| f.Lemma1(word, lemmata).endsWith('iectō')
-									|| f.Lemma1(word, lemmata).endsWith('iaciō')
-									|| f.Lemma1(word, lemmata).endsWith('iectus')
-									|| f.Lemma1(word, lemmata).endsWith('iectē')
-									|| [
-										"abiciō",
-										"adiciō",
-										"circumiciō",
-										"coniciō",
-										"dēiciō",
-										"disiciō",
-										"ēiciō",
-										"iniciō",
-										"intericiō",
-										"obiciō",
-										"periciō",
-										"praeiciō",
-										"reiciō",
-										"subiciō",
-										"trāiciō",
-										"obex",
-										"subicēs",
-									].includes(f.Lemma1(word, lemmata))
-								),
-								f.Uncompounded(word, lemmata)
-									.replace('iēc', 'jēc')
-									.replace('iec', 'jec')
-									.replace('iac', 'jac')
-									.replaceAll('bex', 'bjex')
-									.replaceAll('ic', 'jic')
-									.replaceAll('rej', 'rèj'),
-								// Condition 18 in IFS
-								f.Uncompounded(word, lemmata).startsWith('coniū'),
-								REPLACE(
-									f.Uncompounded(word, lemmata),
-									1,
-									5,
-									"conjū"
-								),
-								// Condition 19 in IFS
-								f.Uncompounded(word, lemmata).startsWith('coniu'),
-								REPLACE(
-									f.Uncompounded(word, lemmata).toLowerCase(),
-									1,
-									5,
-									"conju"
-								),
-								// Condition 20 in IFS
-								f.Uncompounded(word, lemmata).startsWith('disiu'),
-								REPLACE(
-									f.Uncompounded(word, lemmata).toLowerCase(),
-									1,
-									5,
-									"disju"
-								),
-								// Condition 21 in IFS
-								f.Uncompounded(word, lemmata).startsWith('disiū'),
-								REPLACE(
-									f.Uncompounded(word, lemmata).toLowerCase(),
-									1,
-									5,
-									"disjū"
-								),
-								// Condition 22 in IFS
-								f.Lemma1(word, lemmata) === "iniugis"
-									|| f.Lemma1(word, lemmata) === "biiugis"
-									|| f.Lemma1(word, lemmata) === "biiugus"
-									|| f.Lemma1(word, lemmata) === "subiugō",
-								f.Uncompounded(word, lemmata).replaceAll('iug', 'jug'),
-								// Condition 23 in IFS
-								f.Uncompounded(word, lemmata).startsWith('adiu')
-									|| f.Uncompounded(word, lemmata).startsWith('adiū'),
-								REPLACE(
-									f.Uncompounded(word, lemmata),
-									1,
-									3,
-									"adj"
-								),
-								// Condition 24 in IFS
-								f.Uncompounded(word, lemmata).startsWith('iniūr'),
-								REPLACE(
-									f.Uncompounded(word, lemmata),
-									1,
-									5,
-									"injūr"
-								),
-								// Condition 25 in IFS
-								f.Lemma1(word, lemmata) === "iūsiūrandum",
-								SUBSTITUTES(
-									f.Uncompounded(word, lemmata),
-									"iūr",
-									"jūr",
-									"iūs",
-									"jūs"
-								),
-								// Condition 26 in IFS
-								f.Lemma1(word, lemmata) === "periūrus",
-								REPLACE(
-									f.Uncompounded(word, lemmata),
-									4,
-									1,
-									"j"
-								),
-								// Condition 27 in IFS
-								(
-									/^i[aeiouyāēīōūȳ]/i.test(word)
-									&& !phoneticExceptions["Vocalic initial i"].includes(f.Lemma1(word, lemmata))
-									&& f.Uncompounded(word, lemmata) !== "iīs"
-								),
-								f.Uncompounded(word, lemmata).replace(/^i/i, 'j'),
-								// Condition 28 in IFS
-								(
-									["magnus", "magis", "maiestās", "maiōrēs"]
-										.includes(f.Lemma1(word, lemmata))
-									|| (
-										f.NoMacra(
-											f.Lemma1(word, lemmata)
-										) === "aio"
-										&& ['a','e','i','o','u','y'].includes(f.NoMacra(word, lemmata).substring(2, 3))
-									)
-								),
-								f.Uncompounded(word, lemmata).replaceAll('ai', 'ajj'),
-								// Condition 29 in IFS
-								["malus", "male"]
-									.includes(f.Lemma1(word, lemmata)),
-								f.Uncompounded(word, lemmata).replaceAll('ei', 'ejj'),
-								// Condition 30 in IFS
-								word.includes('eius') && word.replace('eius', 'is') === f.Lemma1(word, lemmata),
-								f.Uncompounded(word, lemmata).replace('eius', 'ejjus'),
-								// Condition 31 in IFS
-								word.startsWith('-'),
-								'',
-								// Condition 32 in IFS
-								1 === 1,
-								f.Uncompounded(word, lemmata)
-							).toLowerCase()
-						)
-						+ '_'
-					),
-					"am_",
-					"ã",
-					"em_",
-					"ẽ",
-					"im_",
-					"ĩ",
-					"om_",
-					"õ",
-					"um_",
-					"ũ",
-					"ym_",
-					"ỹ",
-					"qu",
-					"q",
-					"ds",
-					"ts",
-					"z",
-					"ds",
-					"x",
-					"cs",
-					"bs",
-					"ps",
-					"bt",
-					"pt",
-					"ch",
-					"χ",
-					"ph",
-					"φ",
-					"rh",
-					"r",
-					"th",
-					"θ",
-					"ae",
-					"à",
-					"au",
-					"â",
-					"oe",
-					"ò",
-					"ë",
-					"e",
-					"ï",
-					"i",
-					"ü",
-					"u",
-					"ṻ",
-					"ū",
-					"á",
-					"a",
-					"é",
-					"e",
-					"í",
-					"i",
-					"ó",
-					"o",
-					"ú",
-					"u",
-					"ý",
-					"y",
-					"ḗ",
-					"ē",
-					"āns",
-					"ãs",
-					"ēns",
-					"ẽs",
-					"īns",
-					"ĩs",
-					"ōns",
-					"õs",
-					"ūns",
-					"ũs",
-					"ȳns",
-					"ỹs",
-					"ānf",
-					"ãf",
-					"ēnf",
-					"ẽf",
-					"īnf",
-					"ĩf",
-					"ōnf",
-					"õf",
-					"ūnf",
-					"ũf",
-					"ȳnf",
-					"ỹf",
-					"lectiient",
-					"lectijent",
-					"ōsuestr",
-					"ōsvestr",
-					"reiciav",
-					"rejcjav",
-					"k",
-					"c",
-					"eu",
-					(
-						phoneticExceptions["Diphthong eu"].includes(f.Lemma1(word, lemmata)) > 0
-						? "€"
-						: "eu"
-					),
-					"_eu",
-					"_€",
-					"_€nd",
-					"eund",
-					"_€nt",
-					"eunt",
-					"eu_",
-					"€",
-					"_",
-					""
-				)
-				+ (
-					word.length === f.Uncompounded(word, lemmata).length
-					? ''
-					: RIGHT(
-						word.replaceAll('qu', 'q'),
-						2
-					)
-				)
-			);
-
 			if (word === '') {
 				return '_';
 			}
-
-			return formula;
+			return (
+				f.UncompoundedPhonetic(word, lemmata)
+				+ f.EncliticPhonetic(word, lemmata)
+			);
 		},
 	Scansion:
 		(word, lemmata) => {
