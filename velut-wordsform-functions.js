@@ -14,9 +14,6 @@ const SUBSTITUTES = (text, ...args) => {
 const itojj = (text) => {
 	return `${text}`.replace(/(?<=[āēīōūȳ])i(?=[aeiouyāēīōūȳ])/gi, 'jj');
 }
-const OR = (...args) => {
-	return args.reduce((previous, current) => previous || current);
-}
 const RIGHT = (text, characterCount) => {
 	return `${text}`.substring(`${text}`.length - characterCount);
 }
