@@ -37,9 +37,6 @@ const RIGHT = (text, characterCount) => {
 const REPLACE = (oldText, startNum, numChars, newText) => {
 	return `${oldText}`.substring(0, startNum - 1) + newText + `${oldText}`.substring(startNum + numChars - 1);
 }
-const AND = (...args) => {
-	return args.reduce((previous, current) => previous && current);
-}
 const reversestr = (text) => {
 	return `${text}`.split('').reverse().join('');
 }
@@ -340,10 +337,10 @@ const unmemoisedFuncs = {
 									"j"
 								),
 								// Condition 27 in IFS
-								AND(
-									/^i[aeiouyāēīōūȳ]/i.test(word),
-									!phoneticExceptions["Vocalic initial i"].includes(f.Lemma1(word, lemmata)),
-									f.Uncompounded(word, lemmata) !== "iīs"
+								(
+									/^i[aeiouyāēīōūȳ]/i.test(word)
+									&& !phoneticExceptions["Vocalic initial i"].includes(f.Lemma1(word, lemmata))
+									&& f.Uncompounded(word, lemmata) !== "iīs"
 								),
 								f.Uncompounded(word, lemmata).replace(/^i/i, 'j'),
 								// Condition 28 in IFS
