@@ -94,7 +94,7 @@ const warnOfEmptyOutput = () => {
 
 const functionNames = Object.keys(wordsSchema);
 
-//// `outputArray` gets modified by `generateJson` and displayed in the second text-area by `displayOutput`.
+//// `outputArray` gets modified by `convertInputToOutputData` inside `generateJson` and displayed in the second text-area by `displayOutput`.
 
 let outputArray = [];
 
@@ -115,14 +115,8 @@ const output = (jsonObject) => {
 }
 
 
-//// Functions called by buttons:
-
-const generateJson = () => {
-	clearTextMessages();
-	clearWordsArray();
-	textByGenerateJson.textContent = 'Generating Json, please wait...';
+const convertInputToOutputData = (allInputRows) => {
 	outputArray.length = 0; // Clear the output in case there’s anything from previous runs.
-	const allInputRows = textareaInput.value.split('\n');
 	const countRows = allInputRows.length;
 
 	//// For each line of values in the input...
@@ -151,6 +145,18 @@ const generateJson = () => {
 			console.error(`Parsing error: Cannot pull a word and lemmata out of ${inputRow}`);
 		}
 	}
+}
+
+//// Functions called by buttons:
+
+const generateJson = () => {
+	clearTextMessages();
+	clearWordsArray();
+	textByGenerateJson.textContent = 'Generating Json, please wait...';
+	const allInputRows = textareaInput.value.split('\n');
+
+	convertInputToOutputData(allInputRows);
+
 	displayOutput();
 	textByGenerateJson.textContent = 'Json generated!';
 }
