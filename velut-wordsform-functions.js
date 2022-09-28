@@ -603,7 +603,7 @@ const unmemoisedFuncs = {
 				? EMPTY
 				: '';
 			return emptyIfNeeded + f.EcclesPhonetic(word, lemmata)
-				.replace(/[bcdghjklmnpqrstvxz]/g, '');
+				.replace(/[bcdfghjklmnpqrstvxz]/g, '');
 		},
 	EcclesRhymeVowels:
 		(word, lemmata) => {
