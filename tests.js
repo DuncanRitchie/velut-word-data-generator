@@ -317,9 +317,9 @@ const phoneticTests = [
 	{Word: 'praeeō', Lemmata: 'praeeō', Phonetic: 'pràeō'},
 	{Word: 'praeit', Lemmata: 'praeeō', Phonetic: 'pràit'},
 	{Word: 'cui', Lemmata: 'quī quis', Phonetic: 'cù'},
-	{Word: 'alicuius', Lemmata: 'aliquis', Phonetic: 'alicùus'},
+	{Word: 'alicuius', Lemmata: 'aliquis', Phonetic: 'alicùjus'},
 	{Word: 'eccui', Lemmata: 'ecquis', Phonetic: 'eccù'},
-	{Word: 'nesciōcuius', Lemmata: 'nesciōquis', Phonetic: 'nesciōcùus'},
+	{Word: 'nesciōcuius', Lemmata: 'nesciōquis', Phonetic: 'nesciōcùjus'},
 	{Word: 'ūnīcuique', Lemmata: 'ūnusquisque', Phonetic: 'ūnīcùqe'},
 	{Word: 'anguis', Lemmata: 'anguis', Phonetic: 'angvis'},
 	{Word: 'lingua', Lemmata: 'lingua', Phonetic: 'lingva'},
@@ -371,11 +371,11 @@ const phoneticTests = [
 	{Word: 'Orpheus', Lemmata: 'Orpheus', Phonetic: 'orφ€s'},
 	{Word: 'eunt', Lemmata: 'eō', Phonetic: 'eunt'},
 	{Word: 'eundum', Lemmata: 'eō', Phonetic: 'eundũ'},
-	{Word: 'eius', Lemmata: 'is', Phonetic: 'ejjus'},
+	{Word: 'eius', Lemmata: 'is', Phonetic: 'èjus'},
 	{Word: 'maius', Lemmata: 'magnus magis', Phonetic: 'majjus'},
-	{Word: 'peior', Lemmata: 'malus male', Phonetic: 'pejjor'},
-	{Word: 'peiōribus', Lemmata: 'malus male', Phonetic: 'pejjōribus'},
-	{Word: 'peius', Lemmata: 'malus male', Phonetic: 'pejjus'},
+	{Word: 'peior', Lemmata: 'malus male', Phonetic: 'pèjor'},
+	{Word: 'peiōribus', Lemmata: 'malus male', Phonetic: 'pèjōribus'},
+	{Word: 'peius', Lemmata: 'malus male', Phonetic: 'pèjus'},
 ]
 
 const stressTests = [
@@ -417,11 +417,8 @@ const testPhonetic = () => {
 }
 
 const testStress = () => {
-	//// Encliticized words will be recognised as such if the unencliticized words are in `existingWords`.
-	existingWords.push(
-		{word: 'Latīnus', lemmata: 'Latīnus'},
-		{word: 'lingua', lemmata: 'lingua'},
-	);
+	//// Encliticized words will be recognised as such if the unencliticized words are in `allWordsOnlyWord`.
+	allWordsOnlyWord.push('Latīnus', 'lingua');
 	stressTests.forEach(test => {
 		const actual = f.Stress(test.Word, test.Lemmata)
 		if (actual === test.Stress) {
