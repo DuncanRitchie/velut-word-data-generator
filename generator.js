@@ -1143,105 +1143,104 @@ const convertInputToOutputData = (allInputRows) => {
 
 if (typeof require !== 'undefined') {
 
-const fs = require('fs');
+	const fs = require('fs');
 
-const runAllWords = () => {
+	const runAllWords = () => {
 
-	const inputFileUrl =
-		'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Excel/words/velut-words-word-and-lemmata.txt';
-	const outputFileUrl =
-		'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words-from-generator_mongo.json';
-	const expectedOutputFileUrl =
-		'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words_mongo.json';
+		const inputFileUrl =
+			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Excel/words/velut-words-word-and-lemmata.txt';
+		const outputFileUrl =
+			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words-from-generator_mongo.json';
+		const expectedOutputFileUrl =
+			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words_mongo.json';
 
-	try {
-		console.time('generatingOutput');
+		try {
+			console.time('generatingOutput');
 
-		const data = fs.readFileSync(inputFileUrl, 'utf8');
-		const inputRows = data.split('\r\n');
-		const expectedOutput = fs.readFileSync(expectedOutputFileUrl, 'utf8');
-		const expectedOutputRows = expectedOutput.split('\r\n');
-		allWordsOnlyWord = expectedOutputRows
-			.filter((row) => row.startsWith('"Word": '))
-			.map((row) => row.substring(9, row.length - 2));
-		const outputRows = convertInputToOutputData(inputRows);
-		const output = outputRows.join('\n');
-		fs.writeFileSync(outputFileUrl, output);
-		console.log('Done! See your file at ' + outputFileUrl);
-		console.timeEnd('generatingOutput');
+			const data = fs.readFileSync(inputFileUrl, 'utf8');
+			const inputRows = data.split('\r\n');
+			const expectedOutput = fs.readFileSync(expectedOutputFileUrl, 'utf8');
+			const expectedOutputRows = expectedOutput.split('\r\n');
+			allWordsOnlyWord = expectedOutputRows
+				.filter((row) => row.startsWith('"Word": '))
+				.map((row) => row.substring(9, row.length - 2));
+			const outputRows = convertInputToOutputData(inputRows);
+			const output = outputRows.join('\n');
+			fs.writeFileSync(outputFileUrl, output);
+			console.log('Done! See your file at ' + outputFileUrl);
+			console.timeEnd('generatingOutput');
 
-		const checkAgainstExpected = () => {
-			console.time('checkingOutput');
+			const checkAgainstExpected = () => {
+				console.time('checkingOutput');
 
-			let errorCount = 0;
-			let lastWordSeen = '';
-			for (
-				let i = 0;
-				i < outputRows.length && i < expectedOutputRows.length;
-				i++
-			) {
-				if (outputRows[i].startsWith('"Word":')) {
-					lastWordSeen = outputRows[i];
+				let errorCount = 0;
+				let lastWordSeen = '';
+				for (
+					let i = 0;
+					i < outputRows.length && i < expectedOutputRows.length;
+					i++
+				) {
+					if (outputRows[i].startsWith('"Word":')) {
+						lastWordSeen = outputRows[i];
+					}
+
+					if (outputRows[i] === expectedOutputRows[i]) {
+						// console.log('Yay!');
+					} else {
+						// if (
+						// 	// !outputRows[i].startsWith('"Scansion"')
+						// 	!lastWordSeen.startsWith('"Word": "coic') &&
+						// 	!lastWordSeen.startsWith('"Word": "caelit') &&
+						// 	!lastWordSeen.startsWith('"Word": "coiēns"') &&
+						// 	!lastWordSeen.startsWith('"Word": "conlātaque"') &&
+						// 	!lastWordSeen.startsWith('"Word": "deiēns"') &&
+						// 	!lastWordSeen.startsWith('"Word": "dein"') &&
+						// 	!lastWordSeen.startsWith('"Word": "deinde"') &&
+						// 	!lastWordSeen.startsWith('"Word": "hymenaeus"') &&
+						// 	!lastWordSeen.startsWith('"Word": "ignōrātiō') &&
+						// 	!lastWordSeen.startsWith('"Word": "introiēns"') &&
+						// 	!lastWordSeen.startsWith('"Word": "iūsiūrandum"') &&
+						// 	!lastWordSeen.startsWith('"Word": "īnspectemque"') &&
+						// 	!lastWordSeen.startsWith('"Word": "nūmin') &&
+						// 	!lastWordSeen.includes('nf') &&
+						// 	!lastWordSeen.includes('ifer') &&
+						// 	!lastWordSeen.includes('iger') &&
+						// 	!outputRows[i].startsWith('"LemmaCount"') &&
+						// 	!outputRows[i].startsWith('"IsFitForDactyl"') &&
+						// 	!outputRows[i].startsWith('"Uncompounded"')
+						// 	// !outputRows[i].startsWith('"RhymeConsonants"')
+						// ) {
+						errorCount++;
+						console.error({
+							message: `Mismatch at line ${i}`,
+							excelSays: expectedOutputRows[i],
+							javascriptSays: outputRows[i],
+							for: lastWordSeen,
+						});
+						// }
+					}
 				}
+				console.warn(`There were ${errorCount} mismatches.`);
 
-				if (outputRows[i] === expectedOutputRows[i]) {
-					// console.log('Yay!');
-				} else {
-					// if (
-					// 	// !outputRows[i].startsWith('"Scansion"')
-					// 	!lastWordSeen.startsWith('"Word": "coic') &&
-					// 	!lastWordSeen.startsWith('"Word": "caelit') &&
-					// 	!lastWordSeen.startsWith('"Word": "coiēns"') &&
-					// 	!lastWordSeen.startsWith('"Word": "conlātaque"') &&
-					// 	!lastWordSeen.startsWith('"Word": "deiēns"') &&
-					// 	!lastWordSeen.startsWith('"Word": "dein"') &&
-					// 	!lastWordSeen.startsWith('"Word": "deinde"') &&
-					// 	!lastWordSeen.startsWith('"Word": "hymenaeus"') &&
-					// 	!lastWordSeen.startsWith('"Word": "ignōrātiō') &&
-					// 	!lastWordSeen.startsWith('"Word": "introiēns"') &&
-					// 	!lastWordSeen.startsWith('"Word": "iūsiūrandum"') &&
-					// 	!lastWordSeen.startsWith('"Word": "īnspectemque"') &&
-					// 	!lastWordSeen.startsWith('"Word": "nūmin') &&
-					// 	!lastWordSeen.includes('nf') &&
-					// 	!lastWordSeen.includes('ifer') &&
-					// 	!lastWordSeen.includes('iger') &&
-					// 	!outputRows[i].startsWith('"LemmaCount"') &&
-					// 	!outputRows[i].startsWith('"IsFitForDactyl"') &&
-					// 	!outputRows[i].startsWith('"Uncompounded"')
-					// 	// !outputRows[i].startsWith('"RhymeConsonants"')
-					// ) {
-					errorCount++;
-					console.error({
-						message: `Mismatch at line ${i}`,
-						excelSays: expectedOutputRows[i],
-						javascriptSays: outputRows[i],
-						for: lastWordSeen,
-					});
-					// }
-				}
-			}
-			console.warn(`There were ${errorCount} mismatches.`);
+				console.timeEnd('checkingOutput');
+			};
 
-			console.timeEnd('checkingOutput');
-		};
+			checkAgainstExpected();
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
-		checkAgainstExpected();
-	} catch (err) {
-		console.error(err);
-	}
-};
+	runAllWords();
 
-runAllWords();
-
-// console.log(f.EcclesVowels('st', 'st sum'));
-// console.log(f.EcclesSort('st', 'st sum'));
-// console.log(f.Sort('st', 'st sum'));
-// console.log(f.EcclesPhonetic('dehinc', 'dehinc'));
-// console.log(f.EcclesPhonetic('dein', 'dein'));
-// console.log(f.EcclesPhonetic('deinde', 'deinde'));
-// console.log(f.Stress('Rhódane', 'Rhodanus'));
-// console.log(f.Stress('dominī', 'dominus'));
-// console.log(f.Stress('domínī', 'dominus'));
-// console.log(f.Stress('domínī', 'dominium'));
-
+	// console.log(f.EcclesVowels('st', 'st sum'));
+	// console.log(f.EcclesSort('st', 'st sum'));
+	// console.log(f.Sort('st', 'st sum'));
+	// console.log(f.EcclesPhonetic('dehinc', 'dehinc'));
+	// console.log(f.EcclesPhonetic('dein', 'dein'));
+	// console.log(f.EcclesPhonetic('deinde', 'deinde'));
+	// console.log(f.Stress('Rhódane', 'Rhodanus'));
+	// console.log(f.Stress('dominī', 'dominus'));
+	// console.log(f.Stress('domínī', 'dominus'));
+	// console.log(f.Stress('domínī', 'dominium'));
 }
