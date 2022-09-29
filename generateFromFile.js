@@ -1140,9 +1140,13 @@ const convertInputToOutputData = (allInputRows) => {
 	return outputAsArray;
 };
 
+
+if (typeof require !== 'undefined') {
+
 const fs = require('fs');
 
 const runAllWords = () => {
+
 	const inputFileUrl =
 		'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Excel/words/velut-words-word-and-lemmata.txt';
 	const outputFileUrl =
@@ -1239,3 +1243,5 @@ runAllWords();
 // console.log(f.Stress('dominī', 'dominus'));
 // console.log(f.Stress('domínī', 'dominus'));
 // console.log(f.Stress('domínī', 'dominium'));
+
+}

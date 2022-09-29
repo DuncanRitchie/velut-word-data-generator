@@ -1,3 +1,5 @@
+//// DOM elements
+
 const buttonClearInputs = document.getElementById('clear-inputs');
 const buttonLoadSampleData = document.getElementById('load-sample-data');
 const textareaInput = document.getElementById('textarea-input');
@@ -9,53 +11,6 @@ const buttonCopyToClipboard = document.getElementById('copy-to-clipboard');
 const buttonDownload = document.getElementById('download');
 
 textareaOutput.value = '';
-
-
-//// Schema. Commented-out properties will not be used.
-
-const wordsSchema = {
-	Ord: 'int',
-	Word: 'string',
-	// Lemmata: 'string',
-	Length: 'int',
-	AllConsonants: 'string',
-	Uncompounded: 'string',
-	Phonetic: 'string',
-	Scansion: 'string',
-	ScansionWithElision: 'string',
-	IsFitForDactyl: 'int',
-	AllVowels: 'string',
-	SyllableCount: 'int',
-	Stress: 'int',
-	UltimaRhyme: 'string',
-	RhymeVowels: 'string',
-	PerfectRhyme: 'string',
-	RhymeConsonants: 'string',
-	// Ultima: 'string',
-	RhymeVowelsAndUltimaCoda: 'string',
-	EcclesPhonetic: 'string',
-	EcclesVowels: 'string',
-	EcclesRhymeVowels: 'string',
-	EcclesRhymeVowelsAndUltimaCoda: 'string',
-	EcclesPerfectRhyme: 'string',
-	EcclesSort: 'string',
-	LemmaCount: 'int',
-	// Lemma1: 'string',
-	// Lemma2: 'string',
-	// Lemma3: 'string',
-	// Lemma4: 'string',
-	// Lemma5: 'string',
-	LemmaArray: 'array',
-	IsLemma: 'int',
-	IsNonLemma: 'int',
-	// DuplicateWords: 'string',
-	// NewLemmata: 'string',
-	NoMacra: 'string',
-	NoMacraLowerCase: 'string',
-	AlphOrderNoMacra: 'string',
-	Sort: 'string',
-	// RepeatWord: 'string',
-};
 
 
 //// Sample data the user can load if they don’t have my Excel file:
@@ -92,60 +47,6 @@ const warnOfEmptyOutput = () => {
 	textByCopyToClipboard.textContent = 'Nothing to copy or download!';
 }
 
-const functionNames = Object.keys(wordsSchema);
-
-//// `outputArray` gets modified by `convertInputToOutputData` inside `generateJson` and displayed in the second text-area by `displayOutput`.
-
-let outputArray = [];
-
-const output = (jsonObject) => {
-	outputArray.push('{');
-	//// Convert the object to an array of key–value pairs.
-	const asEntries = Object.entries(jsonObject);
-	let i = 0;
-	//// Key–value pairs before the last pair is output as `"key": "value",` with a comma.
-	for (; i < asEntries.length - 1; i++) {
-		outputArray.push(`"${asEntries[i][0]}": ${JSON.stringify(asEntries[i][1])},`);
-	}
-	//// The last key–value pair is output as `"key": "value"` without the trailing comma.
-	for (; i < asEntries.length; i++) {
-		outputArray.push(`"${asEntries[i][0]}": ${JSON.stringify(asEntries[i][1])}`);
-	}
-	outputArray.push('}');
-}
-
-
-const convertInputToOutputData = (allInputRows) => {
-	outputArray.length = 0; // Clear the output in case there’s anything from previous runs.
-	const countRows = allInputRows.length;
-
-	//// For each line of values in the input...
-	for (let i = 0; i < countRows; i++) {
-		//// Skip empty lines.
-		if (allInputRows[i] === '') { continue; }
-
-		const inputRow = allInputRows[i].trim()
-		//// The first appearance of whitespace in the row is where the split is between the word & lemmata.
-		const positionOfWordLemmataSplit = /\s/.exec(inputRow)?.index;
-
-		if (positionOfWordLemmataSplit) {
-			const word = inputRow.substring(0, positionOfWordLemmataSplit).trim();
-			const lemmata = inputRow.substring(positionOfWordLemmataSplit).trim();
-			const resultsForLine = {};
-
-			functionNames.forEach(functionName => {
-				resultsForLine[functionName] = wordsformFunctions[functionName](word, lemmata);
-			})
-
-			output(resultsForLine);
-			addToWordsArray(word, lemmata);
-			clearMemoisationCache();
-		}
-		else {
-			console.error(`Parsing error: Cannot pull a word and lemmata out of ${inputRow}`);
-		}
-	}
-}
 
 //// Functions called by buttons:
 
@@ -162,7 +63,7 @@ const generateJson = () => {
 }
 
 const displayOutput = () => {
-	textareaOutput.value = outputArray.join('\n');
+	textareaOutput.value = outputAsArray.join('\n');
 }
 
 const copyToClipboard = () => {
