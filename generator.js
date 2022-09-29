@@ -1,3 +1,24 @@
+////
+//// This file is very long.
+//// It is used from the HTML page, or can be run by itself in Node.
+//// It has a section at the end that only runs in Node.
+//// The Node-only section reads from a hardcoded filepath, writes to a second
+//// hardcoded filepath, and compares the output to a third hardcoded filepath.
+////
+//// Contents:
+//// - Schema of output data
+//// - Constants and helper functions
+//// - Object of functions replacing the fields in the `wordsform` sheet of the velut Excel file
+//// - Same object of functions, but memoised
+//// - Functions for building the output Json
+//// - Node-only code
+////
+
+
+////
+//// Schema of output data:
+////
+
 const wordsSchema = {
 	Ord: 'int',
 	Word: 'string',
@@ -41,6 +62,11 @@ const wordsSchema = {
 	Sort: 'string',
 	// RepeatWord: 'string',
 };
+
+
+////
+//// Constants and helper functions:
+////
 
 const phoneticExceptions = {
 	'Diphthong eu': [
@@ -112,8 +138,6 @@ const phoneticExceptions = {
 	],
 };
 
-// Helper functions:
-
 // Eg 'rāia' => 'rājja' because the “i” is consonantal.
 const replaceIntervocalicI = (text) => {
 	return `${text}`.replace(/(?<=[āēīōūȳ])i(?=[aeiouyāēīōūȳ])/gi, 'jj');
@@ -146,7 +170,7 @@ const LONG = '–';
 // A dactylic hexameter fits the regex /–(–|⏑⏑)–(–|⏑⏑)–(–|⏑⏑)–(–|⏑⏑)–⏑⏑–[–⏑]/
 // Another way of writing that is /(––|–⏑⏑){4}–⏑⏑–[–⏑]/
 // `allValidHexameters` is all the possible variations.
-// The last syllable is excluded because IsFitForDactyl
+// However, the last syllable is excluded, because IsFitForDactyl
 // ignores the last syllable of the word it tests,
 // but this would need to be included in the line.
 const allValidHexameters = (() => {
@@ -177,7 +201,10 @@ const clearMemoisationCache = () => {
 	}
 };
 
-// Functions replacing the fields in `wordsform` sheet.
+
+////
+//// Functions replacing the fields in `wordsform` sheet:
+////
 
 const unmemoisedFuncs = {
 	Ord: (word, lemmata) => {
@@ -1062,7 +1089,11 @@ const unmemoisedFuncs = {
 	},
 };
 
-// Object with the same shape as `unmemoisedFuncs`, but all the functions are memoised.
+
+////
+//// Object with the same shape as `unmemoisedFuncs`, but all the functions are memoised:
+////
+
 const wordsformFunctionsMemoised = Object.entries(unmemoisedFuncs).reduce(
 	(memoisedFuncs, [currentFuncName, currentFunc]) => {
 		memoisedFuncs[currentFuncName] = (word, lemmata) =>
@@ -1076,10 +1107,14 @@ const wordsformFunctionsMemoised = Object.entries(unmemoisedFuncs).reduce(
 const f = wordsformFunctionsMemoised;
 const wordsformFunctions = wordsformFunctionsMemoised;
 
-const functionNames = Object.keys(wordsSchema);
 
-//// `outputArray` gets modified by `convertInputToOutputData` inside `generateJson` and displayed in the second text-area by `displayOutput`.
+////
+//// Functions for building the output Json:
+////
 
+//// `outputAsArray` gets modified by `convertInputToOutputData` inside `generateJson`
+//// and either gets displayed in the second text-area by `displayOutput` (in web.js)
+//// or gets written to a file (in the Node-only section).
 let outputAsArray = [];
 
 const output = (jsonObject) => {
@@ -1100,6 +1135,8 @@ const output = (jsonObject) => {
 	}
 	push('}');
 };
+
+const functionNames = Object.keys(wordsSchema);
 
 const convertInputToOutputData = (allInputRows) => {
 	outputAsArray.length = 0; // Clear the output in case there’s anything from previous runs.
@@ -1122,10 +1159,7 @@ const convertInputToOutputData = (allInputRows) => {
 			const resultsForLine = {};
 
 			functionNames.forEach((functionName) => {
-				resultsForLine[functionName] = wordsformFunctions[functionName](
-					word,
-					lemmata
-				);
+				resultsForLine[functionName] = f[functionName](word, lemmata);
 			});
 
 			output(resultsForLine);
@@ -1140,6 +1174,10 @@ const convertInputToOutputData = (allInputRows) => {
 	return outputAsArray;
 };
 
+
+////
+//// Code that only runs in Node:
+////
 
 if (typeof require !== 'undefined') {
 
