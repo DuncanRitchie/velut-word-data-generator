@@ -753,8 +753,6 @@ const unmemoisedFuncs = {
 			.replaceAll('ihi', 'iki')
 			.replaceAll('òè', 'ojej')
 			.replaceAll('à', 'e')
-			.replaceAll('dèn', 'dein')
-			.replaceAll('èn', 'ein')
 			.replaceAll('è', 'ej')
 			.replaceAll('ò', 'e')
 			.replaceAll('ù', 'uj')

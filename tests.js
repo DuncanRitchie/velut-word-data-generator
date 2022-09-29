@@ -409,9 +409,12 @@ const extraTests = [
 	{word: 'st',     lemmata: 'st sum', func: 'EcclesVowels',   expected: '∅'         },
 	{word: 'st',     lemmata: 'st sum', func: 'EcclesSort',     expected: '-st---st/' },
 	{word: 'st',     lemmata: 'st sum', func: 'Sort',           expected: '-st---st/' },
-	{word: 'dehinc', lemmata: 'dehinc', func: 'EcclesPhonetic', expected: 'deinc'     },
-	{word: 'dein',   lemmata: 'dein'  , func: 'EcclesPhonetic', expected: 'dein'      },
-	{word: 'deinde', lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'deinde'    },
+	{word: 'dehinc', lemmata: 'dehinc', func: 'EcclesPhonetic', expected: 'dejnc'     },
+	{word: 'dein',   lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'dejn'      },
+	{word: 'deinde', lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'dejnde'    },
+	{word: 'dehïnc', lemmata: 'dehinc', func: 'EcclesPhonetic', expected: 'deinc'     },
+	{word: 'deïn',   lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'dein'      },
+	{word: 'deïnde', lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'deinde'    },
 ]
 
 
