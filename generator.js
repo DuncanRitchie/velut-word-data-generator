@@ -1270,15 +1270,4 @@ if (typeof require !== 'undefined') {
 	};
 
 	runAllWords();
-
-	// console.log(f.EcclesVowels('st', 'st sum'));
-	// console.log(f.EcclesSort('st', 'st sum'));
-	// console.log(f.Sort('st', 'st sum'));
-	// console.log(f.EcclesPhonetic('dehinc', 'dehinc'));
-	// console.log(f.EcclesPhonetic('dein', 'dein'));
-	// console.log(f.EcclesPhonetic('deinde', 'deinde'));
-	// console.log(f.Stress('Rhódane', 'Rhodanus'));
-	// console.log(f.Stress('dominī', 'dominus'));
-	// console.log(f.Stress('domínī', 'dominus'));
-	// console.log(f.Stress('domínī', 'dominium'));
 }

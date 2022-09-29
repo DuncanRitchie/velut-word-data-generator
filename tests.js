@@ -395,12 +395,25 @@ const stressTests = [
 	{Word: 'mōns', Lemmata: 'mōns', Stress: 1},
 	{Word: 'proïndē', Lemmata: 'proïndē', Stress: 3},
 	{Word: 'Quīntilī', Lemmata: 'Quīntilius[prn]', Stress: 2},
+	{Word: 'Rhoda', Lemmata: 'Rhoda', Stress: 2},
+	{Word: 'Rhodane', Lemmata: 'Rhoda', Stress: 2},
+	{Word: 'Rhódane', Lemmata: 'Rhodanus', Stress: 3},
 	{Word: 'satin', Lemmata: 'satis', Stress: 1},
 	{Word: 'st', Lemmata: 'st sum', Stress: 0},
 	{Word: 'suamet', Lemmata: 'suamet', Stress: 2},
 	{Word: 'tandem', Lemmata: 'tandem', Stress: 2},
 	{Word: 'ūndēcentēsimus', Lemmata: 'ūndēcentēsimus', Stress: 3},
 ]
+
+const extraTests = [
+	{word: 'st',     lemmata: 'st sum', func: 'EcclesVowels',   expected: '∅'         },
+	{word: 'st',     lemmata: 'st sum', func: 'EcclesSort',     expected: '-st---st/' },
+	{word: 'st',     lemmata: 'st sum', func: 'Sort',           expected: '-st---st/' },
+	{word: 'dehinc', lemmata: 'dehinc', func: 'EcclesPhonetic', expected: 'deinc'     },
+	{word: 'dein',   lemmata: 'dein'  , func: 'EcclesPhonetic', expected: 'dein'      },
+	{word: 'deinde', lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'deinde'    },
+]
+
 
 //// Tests looping over the above arrays:
 
@@ -418,7 +431,7 @@ const testPhonetic = () => {
 
 const testStress = () => {
 	//// Encliticized words will be recognised as such if the unencliticized words are in `allWordsOnlyWord`.
-	allWordsOnlyWord.push('Latīnus', 'lingua');
+	allWordsOnlyWord.push('Latīnus', 'lingua', 'Rhoda');
 	stressTests.forEach(test => {
 		const actual = f.Stress(test.Word, test.Lemmata)
 		if (actual === test.Stress) {
@@ -426,6 +439,18 @@ const testStress = () => {
 		}
 		else {
 			console.error(`Stress(${test.Word}) should give ${test.Stress} but actually gives ${actual}`)
+		}
+	})
+}
+
+const doExtraTests = () => {
+	extraTests.forEach(test => {
+		const actual = f[test.func](test.word, test.lemmata)
+		if (actual === test.expected) {
+			console.log(`Yay! ${test.func}(${test.word}) => ${actual}`)
+		}
+		else {
+			console.error(`${test.func}(${test.word}) should give ${test.expected} but actually gives ${actual}`)
 		}
 	})
 }
@@ -473,6 +498,9 @@ buttonTest.addEventListener('click', ()=>{
 	clearWordsArray();
 
 	testStress()
+	clearWordsArray();
+
+	doExtraTests()
 	clearWordsArray();
 });
 
