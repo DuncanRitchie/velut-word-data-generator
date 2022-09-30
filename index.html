@@ -42,11 +42,27 @@
 
 		<section>
 			<h2>About</h2>
+
 			<p>
-				This is a webpage that can generate data for my Latin rhyming dictionary, <a href="https://www.velut.co.uk/" title="velut — a Latin rhyming dictionary">velut</a>; specifically it generates the “words” data. For each word and corresponding list of lemmata, this generates fields such as the phonetic representation, the number of syllables, the rhyming-part, and strings that words are sorted on. The resultant Json can be downloaded (or copied to the clipboard). Once it’s on my hard drive, I have a script to upload it to the MongoDB database that the velut website uses.
+				<em>Note: If you’re not me, you’re unlikely to have much use for this Word Data Generator.</em>
+			</p>
+
+			<p>
+				The Word Data Generator generates the data for my Latin rhyming dictionary, <a href="https://www.velut.co.uk/">velut</a>; specifically it generates the “words” data. For each word and corresponding list of lemmata, this generates fields such as the phonetic representation, the number of syllables, the rhyming-part, and strings that words are sorted on.
+			</p>
+
+			<p>
+				This webpage is nice for showing you what the generator does.
+				You can input several words (and the lemma or lemmata for each) in the first box, click “Generate Json”, and see the output in the second box.
+				The resultant Json can be downloaded or copied to the clipboard.
+			</p>
+
+			<p>
+				But the generator can also be used by simply running <a href="https://github.com/DuncanRitchie/velut-word-data-generator/blob/main/generator.js">one JavaScript file named generator.js</a> in Node, outside of the browser. If it’s running in Node, it reads from a hardcoded filepath and saves its output to another hardcoded filepath. Once the output is on my hard drive, I have a script to upload it to the MongoDB database that the velut website uses.
 			</p>
 
 			<h3>Input and output format</h3>
+
 			<p>
 				Each line of input must be a word, whitespace, and the space-separated list of lemmata.
 				The “Load sample” button will give you some examples; the examples use a tab for the whitespace between the word and the lemmata, because you get tabs when pasting from Excel cells.
@@ -57,46 +73,126 @@
 				The Json generated does not have commas separating the objects, or square brackets around the entire array. This is not the standard Json format, but is the format required by mongoimport (which is the tool my script uses to import into the database).
 			</p>
 
-			<h3>The velut Excel file & how I’m getting rid of it</h3>
+			<h3>The velut Excel file & how I’ve replaced parts of it</h3>
+
 			<p>
 				Although the velut website uses a MongoDB database, and this page produces Json data for the MongoDB database, I privately have a large Excel file for generating and storing the data in velut. This webpage is intended to replace a sheet called “wordsform” in that Excel file. The sheet can generate all the data from words and lemmata entered into the second and third columns — which is why the second and third fields of the output are Word and Lemmata, the two columns that don’t have Excel formulae.
 			</p>
 
 			<p>
-				One of the differences between the “wordsform” sheet and this Word Data Generator is that in the sheet the output data are in Excel cells, but in the generator they’re in Json format. Copying data from Excel makes them tab-delimited. To convert the tab-delimited data to Json, I use my <a href="https://www.duncanritchie.co.uk/velut-json-generator">Json Generator</a>, which is a separate webpage. But I’ll hopefully have less need of that in the future, because the data from the Word Data Generator are already in Json format.
+				One of the differences between the “wordsform” sheet and this Word Data Generator is that in the sheet the output data are in Excel cells, but in the generator they’re in Json format. Copying data from Excel makes them tab-delimited. To convert the tab-delimited data to Json, I use my <a href="https://www.duncanritchie.co.uk/velut-json-generator">Json Generator</a>, which is a separate webpage. But I have less need of that than when I didn’t have this Word Data Generator, because the data from this are already in Json format. (The Json Generator is still useful for other sheets in the Excel file.)
 			</p>
 
 			<p>
-				I don’t yet use the Word Data Generator, for three reasons:
+				The benefit of running generator.js in Node is that I can process all my Latin words (more than 120 thousand), in about twenty seconds. If I tried in the browser for that quantity of data, my browser would freeze, unsurprisingly! Likewise, Excel would probably crash if I tried to use the “wordsform” sheet to regenerate all the data.
 			</p>
 
-			<ol>
-				<li>
-					I haven’t yet checked the output of the Word Data Generator against all the data I already have from Excel. So I expect some bugs will have been introduced in my attempts to re-write my Excel formulae as JavaScript functions.
-					Having said that, I have tested all my JavaScript functions against some words, and I’ve further tested the two fiddliest functions (<code>Phonetic</code> and <code>Stress</code>) against a lot of the words that could befuddle them.
-					(Click the “Run tests” button to see these tests running in your browser’s console.)
-					So I expect that there’ll be very few bugs remaining, if any.
-				</li>
-				<li>
-					If I were to run all my Latin words (more than 120 thousand) through this at once, my browser would freeze.
-					I need to devise some strategy for splitting the data into batches, or indeed re-think the whole idea of having the Word Data Generator as a webpage.
-				</li>
-				<li>
-					Much of my Excel file still relies on me having all the data in Excel — not in the Json format that this page produces.
-				</li>
-			</ol>
+			<h3>Checking the output for all words</h3>
 
 			<p>
-				When I’m confident that this page gives the same output as my Excel formulae, for all the Latin words I have, and when enough of the rest of the Excel file is obsolete that I can stop storing all my data there in Excel, I will then stop using the “wordsform” sheet.
+				I can also use Node to check the output against all the “words” data I already have from Excel. The code for this check is at <a href="https://github.com/DuncanRitchie/velut-word-data-generator/blob/1af8383b0f15510010ee86467c2c725f3027c9a5/generator.js#L1177">the end of generator.js</a>. Everything matches, except for some cases where I had bugs in the Excel which I have corrected in the JavaScript. These changes of behaviour are listed in the next section.
+			</p>
+
+			<h3>Behaviour changes between my Excel and JavaScript code</h3>
+
+			<p>
+				Some changes would have been noticeable because of inaccuracies on the pages on the velut website for these words.
+				For example, <i lang="la">coiēns</i> was scanned as <samp>––</samp> instead of <samp>⏑⏑–</samp>.
+			</p>
+
+			<ul>
+				<li>
+					Present participles of compounds of <i lang="la">eō</i> that have “i” between two vowels (<i lang="la">coiēns</i>, <i lang="la">deiēns</i>, <i lang="la">introiēns</i>) should have the “i” as vocalic, I believe.
+					But in my Excel file, this “i” was treated as consonantal.
+					(Compare with <i lang="la">iēns</i>, where both my Excel formulae and my JavaScript functions correctly handle the initial vowel.)
+				</li>
+
+				<li>
+					<i lang="la">iūsiūrandum</i> has both “i”s consonantal. My Excel formulae had kept the first “i” as a vowel (as if it were <i lang="la">ïūsjūrandum</i> instead of <i lang="la">jūsjūrandum</i>).
+				</li>
+			</ul>
+
+			<p>
+				Other bug-fixes do not change anything displayed on the velut website.
+				But I wanted all the code here to be correct, even when not (yet) used directly.
+			</p>
+
+			<ul>
+				<li>
+					Forms of <i lang="la">coiciō</i> beginning with “coic-” are now treated as if they have “cojic-” at their start.
+					This doesn’t really affect anything — the first syllable is still short.
+					(Contrast with <i lang="la">coniciō</i>, pronounced <i lang="la">conjiciō</i>, with a long first syllable.)
+				</li>
+
+				<li>
+					My Excel formula for <code>RhymeConsonants</code> interpreted “nf” as “mf”. This is because (at least for classical Latin according to velut) you don’t pronounce “-m” at the end of a word, or “-n-” between a vowel and “f” or “s”, but the previous vowel becomes nasalised. The bug was in how the phonetic value of a word got converted back into the consonants as written.
+				</li>
+
+				<li>
+					My Excel formula for <code>IsFitForDactyl</code> was meant to determine whether a word could fit into a dactylic hexameter.
+					But the formula I wrote was too simplistic and it was wrong for many words.
+					The JavaScript version is (to my knowledge) reasonable for all words.
+					The velut website has never used <code>IsFitForDactyl</code> and it doesn’t affect other functions.
+				</li>
+			</ul>
+
+			<aside>
+				(Caveat: Words like <i lang="la">lūcubrās</i> contain a short vowel followed by a “mūta cum liquidā” consonant-pairing.
+				This combination can give a short or a long syllable in Latin poetry.
+				In velut, however, it is always short because only one scansion is generated per word.
+				So <code>Scansion</code> gives <samp>–⏑–</samp> and <code>IsFitForDactyl</code> gives <samp>0</samp> for <i lang="la">lūcubrās</i>, though in reality the word could be scanned as <samp>–––</samp> and fit in a hexameter.)
+			</aside>
+
+			<h3>Behaviour I might change in the future</h3>
+
+			<p>
+				Excel (and my lack of formal training in software development) led to me doing some things with the Word Data Generator that I wouldn’t have done if I hadn’t used Excel to create velut.
+			</p>
+
+			<ul>
+				<li>
+					You might expect the functions <code>IsLemma</code>, <code>IsNonLemma</code>, and <code>IsFitForDactyl</code> to give simple booleans, <samp>true</samp> or <samp>false</samp>.
+					But they give <samp>1</samp> or <samp>0</samp> instead.
+					The word <i lang="la">false</i> is valid in Latin, and I didn’t want Excel converting it to a boolean in whatever columns it might appear.
+					Similarly, <i lang="la">falsē</i> also becomes a boolean, despite the macron.
+					And my phonetic representation of <i lang="la">truae</i> in ecclesiastical pronunciation is <samp>true</samp>.
+					So I decided that I shouldn’t let <samp>TRUE</samp>/<samp>FALSE</samp> appear in the “words” data (in any column, for simplicity’s sake).
+					<br>(Extra technical note: These fields are not used on the velut website. But if they were, they would be treated correctly as boolean. I use Mongoose to connect to the database, and I’ve specified in the Mongoose schema that these fields are boolean, so it would convert from <samp>1</samp>/<samp>0</samp> to <samp>true</samp>/<samp>false</samp> automatically.)
+				</li>
+
+				<li>
+					The <code>Ord</code> function gives a serial number to each word, starting at one.
+					I named it years ago as an abbreviation of “ordinal”.
+					If I were starting from scratch, I’d probably call it “Id”, and start it from zero.
+				</li>
+			</ul>
+
+			<h3>Testing in the browser</h3>
+
+			<p>
+				If you’re not me, you won’t have access to all the input data, nor will you have access to the data from Excel that I compare the output to in Node. But you can run some tests yourself in your browser’s console by clicking the “Run tests” button above. These tests run the following:
+			</p>
+			<ul>
+				<li>all my JavaScript functions against some words,</li>
+				<li>the two fiddliest functions (<code>Phonetic</code> and <code>Stress</code>) against a lot of the words that could befuddle them, and</li>
+				<li>a couple more functions against a few words.</li>
+			</ul>
+
+			<h3>My current workflow for managing velut</h3>
+
+			<p>
+				The Word Data Generator is reliable enough that I’ve begun using it for real. The velut website uses the data generated.
+			</p>
+
+			<p>
+				Nonetheless, I’m still using the “wordsform” Excel sheet within Excel, because I don’t want to break other parts of the Excel file.
+				Much of my Excel file still relies on me having all the data in Excel — not in the Json format that this page produces.
+				Eventually enough of the Excel file will be obsolete that I can stop storing all my data there in Excel.
+				Only then will I stop using the “wordsform” sheet.
 			</p>
 
 			<p>
 				It’s all part of my long-term project of converting my Excel file into websites and webpages that are easier to share and maintain. I’m very much in a transition period of using the Excel file for some things and my newer websites/webpages for others. But the Word Data Generator is another step in the process. At the moment, the whole velut project is very convoluted; in the future, it won’t be as bad.
-			</p>
-
-			<h3>Final note</h3>
-			<p>
-				If you’re not me, you’re unlikely to have much use for the Word Data Generator, but kudos to you for reading so far!
 			</p>
 		</section>
 	</main>
