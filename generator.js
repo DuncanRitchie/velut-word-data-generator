@@ -1188,9 +1188,9 @@ if (typeof require !== 'undefined') {
 			console.time('generatingOutput');
 
 			const data = fs.readFileSync(inputFileUrl, 'utf8');
-			const inputRows = data.split('\r\n');
+			const inputRows = data.split('\n');
 			const expectedOutput = fs.readFileSync(expectedOutputFileUrl, 'utf8');
-			const expectedOutputRows = expectedOutput.split('\r\n');
+			const expectedOutputRows = expectedOutput.split('\n');
 			allWordsOnlyWord = expectedOutputRows
 				.filter((row) => row.startsWith('"Word": '))
 				.map((row) => row.substring(9, row.length - 2));
