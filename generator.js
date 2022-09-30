@@ -784,9 +784,6 @@ const unmemoisedFuncs = {
 		);
 	},
 	EcclesRhymeVowels: (word, lemmata) => {
-		if (word === 'dehinc') {
-			return 'ei';
-		}
 		if (f.Scansion(word, lemmata) === EMPTY) {
 			return EMPTY;
 		}
@@ -805,9 +802,6 @@ const unmemoisedFuncs = {
 		return rhymeVowels + phonetic.substring(ultimaVowelIndex + 1);
 	},
 	EcclesPerfectRhyme: (word, lemmata) => {
-		if (word === 'dehinc') {
-			return 'einc';
-		}
 		if (word.startsWith('-') || f.Stress(word, lemmata) === 0) {
 			f.EcclesPhonetic(word, lemmata);
 		}
