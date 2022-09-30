@@ -406,20 +406,20 @@ const stressTests = [
 ]
 
 const extraTests = [
-	{word: 'st',     lemmata: 'st sum', func: 'EcclesVowels',   expected: '∅'         },
-	{word: 'st',     lemmata: 'st sum', func: 'EcclesSort',     expected: '-st---st/' },
-	{word: 'st',     lemmata: 'st sum', func: 'Sort',           expected: '-st---st/' },
-	{word: 'dehinc', lemmata: 'dehinc', func: 'EcclesRhymeVowelsAndUltimaCoda', expected: 'ejnc' },
-	{word: 'dehinc', lemmata: 'dehinc', func: 'EcclesPhonetic', expected: 'dejnc'     },
-	{word: 'dein',   lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'dejn'      },
-	{word: 'deinde', lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'dejnde'    },
-	{word: 'dehïnc', lemmata: 'dehinc', func: 'EcclesPhonetic', expected: 'deinc'     },
-	{word: 'deïn',   lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'dein'      },
-	{word: 'deïnde', lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'deinde'    },
+	{word: 'st',           lemmata: 'st sum',   func: 'EcclesVowels',                   expected: '∅'          },
+	{word: 'st',           lemmata: 'st sum',   func: 'EcclesSort',                     expected: '-st---st/'  },
+	{word: 'st',           lemmata: 'st sum',   func: 'Sort',                           expected: '-st---st/'  },
+	{word: 'dehinc',       lemmata: 'dehinc',   func: 'EcclesRhymeVowelsAndUltimaCoda', expected: 'ejnc'       },
+	{word: 'dehinc',       lemmata: 'dehinc',   func: 'EcclesPhonetic',                 expected: 'dejnc'      },
+	{word: 'dein',         lemmata: 'deinde',   func: 'EcclesPhonetic',                 expected: 'dejn'       },
+	{word: 'deinde',       lemmata: 'deinde',   func: 'EcclesPhonetic',                 expected: 'dejnde'     },
+	{word: 'dehïnc',       lemmata: 'dehinc',   func: 'EcclesPhonetic',                 expected: 'deinc'      },
+	{word: 'deïn',         lemmata: 'deinde',   func: 'EcclesPhonetic',                 expected: 'dein'       },
+	{word: 'deïnde',       lemmata: 'deinde',   func: 'EcclesPhonetic',                 expected: 'deinde'     },
 	// I’m not actually sure how a nasalised ending should be pronounced before an enclitic.
 	// Nasal in classical & non-nasal vowel + n in ecclesiastical is how I did it in Excel.
-	{word: 'īnspectemque', lemmata: 'īnspectō', func: 'Phonetic', expected: 'ĩspectẽqe' },
-	{word: 'īnspectemque', lemmata: 'īnspectō', func: 'EcclesPhonetic', expected: 'inspectenqe' },
+	{word: 'īnspectemque', lemmata: 'īnspectō', func: 'Phonetic',                       expected: 'ĩspectẽqe'  },
+	{word: 'īnspectemque', lemmata: 'īnspectō', func: 'EcclesPhonetic',                 expected: 'inspectenqe'},
 ]
 
 
