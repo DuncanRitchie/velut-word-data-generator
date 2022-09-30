@@ -416,6 +416,10 @@ const extraTests = [
 	{word: 'dehïnc', lemmata: 'dehinc', func: 'EcclesPhonetic', expected: 'deinc'     },
 	{word: 'deïn',   lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'dein'      },
 	{word: 'deïnde', lemmata: 'deinde', func: 'EcclesPhonetic', expected: 'deinde'    },
+	// I’m not actually sure how a nasalised ending should be pronounced before an enclitic.
+	// Nasal in classical & non-nasal vowel + n in ecclesiastical is how I did it in Excel.
+	{word: 'īnspectemque', lemmata: 'īnspectō', func: 'Phonetic', expected: 'ĩspectẽqe' },
+	{word: 'īnspectemque', lemmata: 'īnspectō', func: 'EcclesPhonetic', expected: 'inspectenqe' },
 ]
 
 
@@ -448,6 +452,8 @@ const testStress = () => {
 }
 
 const doExtraTests = () => {
+	//// Encliticized words will be recognised as such if the unencliticized words are in `allWordsOnlyWord`.
+	allWordsOnlyWord.push('īnspectem');
 	extraTests.forEach(test => {
 		const actual = f[test.func](test.word, test.lemmata)
 		if (actual === test.expected) {
