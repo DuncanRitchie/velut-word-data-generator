@@ -1191,14 +1191,15 @@ if (typeof require !== 'undefined') {
 			let batchFilenames = [];
 			const expectedOutput = fs.readFileSync(expectedOutputFileUrl, 'utf8');
 			const expectedOutputRows = expectedOutput.split('\n');
-			allWordsOnlyWord = expectedOutputRows
-				.filter((row) => row.startsWith('"Word": '))
-				.map((row) => row.substring(9, row.length - 2));
 			const generateOutputAndSaveInBatches = () => {
 				console.time('generatingOutput');
 
 				const data = fs.readFileSync(inputFileUrl, 'utf8');
 				const inputRows = data.split('\n');
+
+				allWordsOnlyWord = inputRows
+					.map((row) => row.trim().replace(/\s.*/, ''));
+
 				// from https://stackoverflow.com/a/54029307
 				const chunkArray = (arr, size) =>
 					arr.length > size
