@@ -58,7 +58,10 @@
 			</p>
 
 			<p>
-				But the generator can also be used by simply running <a href="https://github.com/DuncanRitchie/velut-word-data-generator/blob/main/generator.js">one JavaScript file named generator.js</a> in Node, outside of the browser. If it’s running in Node, it reads from a hardcoded filepath and saves its output to another hardcoded filepath. Once the output is on my hard drive, I have a script to upload it to the MongoDB database that the velut website uses.
+				But the generator can also be used by simply running <a href="https://github.com/DuncanRitchie/velut-word-data-generator/blob/main/generator.js">one JavaScript file named generator.js</a> in Node, outside of the browser.
+				If it’s running in Node, it reads from a hardcoded filepath and saves its output to another hardcoded filepath.
+				(It also saves the output to a smaller file for each batch of 50,000 words.)
+				Once the output is on my hard drive, I have a script to upload it to the MongoDB database that the velut website uses.
 			</p>
 
 			<h3>Input and output format</h3>
@@ -87,10 +90,18 @@
 				The benefit of running generator.js in Node is that I can process all my Latin words (more than 120 thousand), in about twenty seconds. If I tried in the browser for that quantity of data, my browser would freeze, unsurprisingly! Likewise, Excel would probably crash if I tried to use the “wordsform” sheet to regenerate all the data.
 			</p>
 
-			<h3>Checking the output for all words</h3>
+			<h3>Version control</h3>
 
 			<p>
-				I can also use Node to check the output against all the “words” data I already have from Excel. The code for this check is at <a href="https://github.com/DuncanRitchie/velut-word-data-generator/blob/1af8383b0f15510010ee86467c2c725f3027c9a5/generator.js#L1177">the end of generator.js</a>. Everything matches, except for some cases where I had bugs in the Excel which I have corrected in the JavaScript. These changes of behaviour are listed in the next section.
+				I track the data-files in Git so I can check whether a change to my code has (inadvertently or deliberately) altered the output.
+				But I don’t track the file that contains all the output — it’s huge.
+				Instead, the Node-only code splits the data into batches of 50,000 words and saves the batches as files, and Git tracks those files.
+			</p>
+
+			<h3>Checking the output in Node</h3>
+
+			<p>
+				I can also use Node to check the output against all the “words” data I previously generated. The code for this check is at <a href="https://github.com/DuncanRitchie/velut-word-data-generator/blob/1af8383b0f15510010ee86467c2c725f3027c9a5/generator.js#L1247">the end of generator.js</a>. When I ran it against all the “words” data I had from Excel, everything matched, except for some cases where I had bugs in the Excel which I have corrected in the JavaScript. These changes of behaviour are listed in the next section.
 			</p>
 
 			<h3>Behaviour changes between my Excel and JavaScript code</h3>
