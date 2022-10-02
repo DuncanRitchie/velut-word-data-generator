@@ -1182,27 +1182,83 @@ if (typeof require !== 'undefined') {
 		const outputFileUrl =
 			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words-from-generator_mongo.json';
 		const expectedOutputFileUrl =
-			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words_mongo.json';
+			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/expected-words_mongo.json';
+		const getOutputFileUrlForBatch = (batchNumber) =>
+			`C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words-from-generator_mongo_batch${batchNumber}.json`;
+		const batchSize = 50_000;
 
 		try {
-			console.time('generatingOutput');
-
-			const data = fs.readFileSync(inputFileUrl, 'utf8');
-			const inputRows = data.split('\n');
+			let batchFilenames = [];
 			const expectedOutput = fs.readFileSync(expectedOutputFileUrl, 'utf8');
 			const expectedOutputRows = expectedOutput.split('\n');
 			allWordsOnlyWord = expectedOutputRows
 				.filter((row) => row.startsWith('"Word": '))
 				.map((row) => row.substring(9, row.length - 2));
-			const outputRows = convertInputToOutputData(inputRows);
-			const output = outputRows.join('\n');
-			fs.writeFileSync(outputFileUrl, output);
-			console.log('Done! See your file at ' + outputFileUrl);
-			console.timeEnd('generatingOutput');
+			const generateOutputAndSaveInBatches = () => {
+				console.time('generatingOutput');
+
+				const data = fs.readFileSync(inputFileUrl, 'utf8');
+				const inputRows = data.split('\n');
+				// from https://stackoverflow.com/a/54029307
+				const chunkArray = (arr, size) =>
+					arr.length > size
+						? [arr.slice(0, size), ...chunkArray(arr.slice(size), size)]
+						: [arr];
+				const inputRowsBatched = chunkArray(inputRows, batchSize).filter((_, index) => index < 5);
+				// console.log({inputRowsBatched});
+				//// INPUTROWSBATCHED IS CORRECT!
+				// const concatenateArrays = (array1, array2) => {
+				// 	return array2?.length
+				// 		? array1.concat(array2)
+				// 		: array1;
+				// }
+				// const unchunkArray = (array) => {
+				// 	const [head, ...tail] = array;
+				// 	return array.length === 0
+				// 		? []
+				// 		: concatenateArrays(head, unchunkArray(tail));
+				// }
+				// let outputRows = [];
+				let outputRowsBatched = [];
+				inputRowsBatched.forEach((batch, index, array) => {
+					const outputBatch = convertInputToOutputData(batch);
+					outputRowsBatched.push([...outputBatch]);
+					// outputRows.push(...outputBatch);
+				});
+				// console.log({outputRowsBatched})
+				// const outputRows = unchunkArray(outputRowsBatched);
+				// console.log({outputRows})
+				// const output = outputRows.join('\n');
+				// fs.writeFileSync(outputFileUrl, output);
+				batchFilenames = outputRowsBatched
+					.map((batch, _) => batch.join('\n'))
+					.map((batch, batchNumber) => {
+						// console.log({batch, batchNumber})
+						fs.writeFileSync(getOutputFileUrlForBatch(batchNumber), batch);
+						return getOutputFileUrlForBatch(batchNumber);
+					});
+				console.log('Output all data! See your file at ' + outputFileUrl);
+				console.timeEnd('generatingOutput');
+			}
+			generateOutputAndSaveInBatches();
+
+			const concatenateBatches = () => {
+				console.time('concatenatingOutput');
+
+				let output = '';
+				batchFilenames.forEach(filename => {
+					output += fs.readFileSync(filename, 'utf8') + '\n';
+				})
+				fs.writeFileSync(outputFileUrl, output);
+
+				console.timeEnd('concatenatingOutput');
+			}
+			concatenateBatches();
 
 			const checkAgainstExpected = () => {
 				console.time('checkingOutput');
 
+				const outputRows = fs.readFileSync(outputFileUrl, 'utf8').split('\n');
 				let errorCount = 0;
 				let lastWordSeen = '';
 				for (
