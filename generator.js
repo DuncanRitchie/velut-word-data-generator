@@ -1169,6 +1169,7 @@ const convertInputToOutputData = (allInputRows) => {
 
 ////
 //// Code that only runs in Node:
+//// (Divided into functions for easier commenting-out when debugging.)
 ////
 
 if (typeof require !== 'undefined') {
@@ -1177,89 +1178,80 @@ if (typeof require !== 'undefined') {
 
 	const runAllWords = () => {
 
+		//// Input data look like "vocābulōrum\tvocābulum\rexcellentium\texcellēns excellō\r"
 		const inputFileUrl =
 			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Excel/words/velut-words-word-and-lemmata.txt';
-		const outputFileUrl =
-			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words-from-generator_mongo.json';
-		const expectedOutputFileUrl =
-			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/expected-words_mongo.json';
+		//// Output data are generated in batches & each batch is written to a file.
+		//// This allows me to track the output in Git without tracking a huge file.
 		const getOutputFileUrlForBatch = (batchNumber) =>
 			`C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words-from-generator_mongo_batch${batchNumber}.json`;
 		const batchSize = 50_000;
+		//// The output batches are concatenated into one file, for Git to ignore and me to import to MongoDB.
+		const outputFileUrl =
+			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words-from-generator_mongo.json';
+		//// For regression testing, I have a file of expected output, that the actual output is compared against.
+		const expectedOutputFileUrl =
+			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/expected-words_mongo.json';
 
 		try {
-			let batchFilenames = [];
-			const expectedOutput = fs.readFileSync(expectedOutputFileUrl, 'utf8');
-			const expectedOutputRows = expectedOutput.split('\n');
+			let batchFilepaths = [];
+
 			const generateOutputAndSaveInBatches = () => {
 				console.time('generatingOutput');
 
 				const data = fs.readFileSync(inputFileUrl, 'utf8');
 				const inputRows = data.split('\n');
 
+				//// This needs to be set before the data are generated, so encliticized words are handled correctly.
 				allWordsOnlyWord = inputRows
 					.map((row) => row.trim().replace(/\s.*/, ''));
 
+				//// Eg [1,2,3,4,5,6,7], 2 => [[1,2],[3,4],[5,6],[7]]
 				// from https://stackoverflow.com/a/54029307
-				const chunkArray = (arr, size) =>
-					arr.length > size
-						? [arr.slice(0, size), ...chunkArray(arr.slice(size), size)]
-						: [arr];
-				const inputRowsBatched = chunkArray(inputRows, batchSize).filter((_, index) => index < 5);
-				// console.log({inputRowsBatched});
-				//// INPUTROWSBATCHED IS CORRECT!
-				// const concatenateArrays = (array1, array2) => {
-				// 	return array2?.length
-				// 		? array1.concat(array2)
-				// 		: array1;
-				// }
-				// const unchunkArray = (array) => {
-				// 	const [head, ...tail] = array;
-				// 	return array.length === 0
-				// 		? []
-				// 		: concatenateArrays(head, unchunkArray(tail));
-				// }
-				// let outputRows = [];
+				const splitArrayIntoBatches = (array, size) =>
+					array.length > size
+						? [array.slice(0, size), ...splitArrayIntoBatches(array.slice(size), size)]
+						: [array];
+				const inputRowsBatched = splitArrayIntoBatches(inputRows, batchSize);
+
 				let outputRowsBatched = [];
 				inputRowsBatched.forEach((batch, index, array) => {
 					const outputBatch = convertInputToOutputData(batch);
 					outputRowsBatched.push([...outputBatch]);
-					// outputRows.push(...outputBatch);
 				});
-				// console.log({outputRowsBatched})
-				// const outputRows = unchunkArray(outputRowsBatched);
-				// console.log({outputRows})
-				// const output = outputRows.join('\n');
-				// fs.writeFileSync(outputFileUrl, output);
-				batchFilenames = outputRowsBatched
+
+				batchFilepaths = outputRowsBatched
 					.map((batch, _) => batch.join('\n'))
 					.map((batch, batchNumber) => {
-						// console.log({batch, batchNumber})
-						fs.writeFileSync(getOutputFileUrlForBatch(batchNumber), batch);
-						return getOutputFileUrlForBatch(batchNumber);
+						const filepath = getOutputFileUrlForBatch(batchNumber)
+						fs.writeFileSync(filepath, batch);
+						return filepath;
 					});
-				console.log('Output all data! See your file at ' + outputFileUrl);
+				console.log('Output all data! See your file at ' + outputFileUrl + ' or ' + batchFilepaths);
+
 				console.timeEnd('generatingOutput');
 			}
-			generateOutputAndSaveInBatches();
 
 			const concatenateBatches = () => {
 				console.time('concatenatingOutput');
 
 				let output = '';
-				batchFilenames.forEach(filename => {
+				batchFilepaths.forEach(filename => {
 					output += fs.readFileSync(filename, 'utf8') + '\n';
 				})
 				fs.writeFileSync(outputFileUrl, output);
 
 				console.timeEnd('concatenatingOutput');
 			}
-			concatenateBatches();
 
 			const checkAgainstExpected = () => {
 				console.time('checkingOutput');
 
 				const outputRows = fs.readFileSync(outputFileUrl, 'utf8').split('\n');
+
+				const expectedOutput = fs.readFileSync(expectedOutputFileUrl, 'utf8');
+				const expectedOutputRows = expectedOutput.split('\n');
+
 				let errorCount = 0;
 				let lastWordSeen = '';
 				for (
@@ -1312,7 +1304,10 @@ if (typeof require !== 'undefined') {
 				console.timeEnd('checkingOutput');
 			};
 
+			generateOutputAndSaveInBatches();
+			concatenateBatches();
 			checkAgainstExpected();
+
 		} catch (err) {
 			console.error(err);
 		}
