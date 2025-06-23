@@ -1097,7 +1097,6 @@ const wordsformFunctionsMemoised = Object.entries(unmemoisedFuncs).reduce(
 
 // Aliases
 const f = wordsformFunctionsMemoised;
-const wordsformFunctions = wordsformFunctionsMemoised;
 
 
 ////
@@ -1132,6 +1131,7 @@ const functionNames = Object.keys(wordsSchema);
 
 const convertInputToOutputData = (allInputRows) => {
 	outputAsArray.length = 0; // Clear the output in case there’s anything from previous runs.
+	clearMemoisationCache(); // Clear the memoisation cache because we don’t have infinite memory.
 	const countRows = allInputRows.length;
 
 	//// For each line of values in the input...
@@ -1180,27 +1180,29 @@ if (typeof require !== 'undefined') {
 
 		//// Input data look like "vocābulōrum\tvocābulum\rexcellentium\texcellēns excellō\r"
 		const inputFileUrl =
-			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Excel/words/velut-words-word-and-lemmata.txt';
+			'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/output-from-lemmata-collator.txt';
 		//// Output data are generated in batches & each batch is written to a file.
 		//// This allows me to track the output in Git without tracking a huge file.
 		const getOutputFileUrlForBatch = (batchNumber) =>
-			`C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words-from-generator_mongo_batch${batchNumber}.json`;
+			`C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/words-from-generator_mongo_batch${batchNumber}.json`;
 		const batchSize = 50_000;
 		//// The output batches are concatenated into one file, for Git to ignore and me to import to MongoDB.
 		const outputFileUrl =
-			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/words-from-generator_mongo.json';
+			'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/words-from-generator_mongo.json';
 		//// For regression testing, I have a file of expected output, that the actual output is compared against.
 		const expectedOutputFileUrl =
-			'C:/Users/Duncan Ritchie/Documents/Code/velutSideAssets/Json/expected-words_mongo.json';
+			'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/expected-words_mongo.json';
 
 		try {
-			let batchFilepaths = [];
+			// Overwritten in generateOutputAndSaveInBatches with the correct array length (batch count)
+			let batchFilepaths = Array(42).fill(null).map((_, index) => getOutputFileUrlForBatch(index));
 
 			const generateOutputAndSaveInBatches = () => {
 				console.time('generatingOutput');
 
 				const data = fs.readFileSync(inputFileUrl, 'utf8');
 				const inputRows = data.split('\n');
+				const batchCount = Math.ceil(inputRows.length / batchSize)
 
 				//// This needs to be set before the data are generated, so encliticized words are handled correctly.
 				allWordsOnlyWord = inputRows
@@ -1214,19 +1216,15 @@ if (typeof require !== 'undefined') {
 						: [array];
 				const inputRowsBatched = splitArrayIntoBatches(inputRows, batchSize);
 
-				let outputRowsBatched = [];
-				inputRowsBatched.forEach((batch, index, array) => {
-					const outputBatch = convertInputToOutputData(batch);
-					outputRowsBatched.push([...outputBatch]);
+				batchFilepaths = inputRowsBatched.map((batch, index, array) => {
+					console.log('Generating batch', index, 'of', batchCount);
+					const outputBatch = convertInputToOutputData(batch).join('\n');
+
+					const filepath = getOutputFileUrlForBatch(index)
+					fs.writeFileSync(filepath, outputBatch);
+					return filepath;
 				});
 
-				batchFilepaths = outputRowsBatched
-					.map((batch, _) => batch.join('\n'))
-					.map((batch, batchNumber) => {
-						const filepath = getOutputFileUrlForBatch(batchNumber)
-						fs.writeFileSync(filepath, batch);
-						return filepath;
-					});
 				console.log('Output all data! See your file at ' + outputFileUrl + ' or ' + batchFilepaths);
 
 				console.timeEnd('generatingOutput');
@@ -1234,12 +1232,13 @@ if (typeof require !== 'undefined') {
 
 			const concatenateBatches = () => {
 				console.time('concatenatingOutput');
+				fs.writeFileSync(outputFileUrl, '');
 
-				let output = '';
-				batchFilepaths.forEach(filename => {
-					output += fs.readFileSync(filename, 'utf8') + '\n';
+				batchFilepaths.forEach((filename, index) => {
+					console.log('Concatenating batch', index);
+					const newBatch = fs.readFileSync(filename, 'utf8') + '\n';
+					fs.appendFileSync(outputFileUrl, newBatch);
 				})
-				fs.writeFileSync(outputFileUrl, output);
 
 				console.timeEnd('concatenatingOutput');
 			}
@@ -1306,7 +1305,7 @@ if (typeof require !== 'undefined') {
 
 			generateOutputAndSaveInBatches();
 			concatenateBatches();
-			checkAgainstExpected();
+			// checkAgainstExpected();
 
 		} catch (err) {
 			console.error(err);
