@@ -80,22 +80,22 @@
 			<h3>The velut Excel file & how I’ve replaced parts of it</h3>
 
 			<p>
-				Although the velut website uses a MongoDB database, and this page produces Json data for the MongoDB database, I privately have a large Excel file for generating and storing the data in velut. This webpage is intended to replace a sheet called “wordsform” in that Excel file. The sheet can generate all the data from words and lemmata entered into the second and third columns — which is why the second and third fields of the output are Word and Lemmata, the two columns that don’t have Excel formulae.
+				Although the velut website uses a MongoDB database, and this page produces Json data for the MongoDB database, I privately have a large Excel file that I used for generating and storing the data in velut. This webpage is intended to replace a sheet called “wordsform” in that Excel file. The sheet can generate all the data from words and lemmata entered into the second and third columns — which is why the second and third fields of the output are Word and Lemmata, the two columns that don’t have Excel formulae.
 			</p>
 
 			<p>
-				One of the differences between the “wordsform” sheet and this Word Data Generator is that in the sheet the output data are in Excel cells, but in the generator they’re in Json format. Copying data from Excel makes them tab-delimited. To convert the tab-delimited data to Json, I use my <a href="https://www.duncanritchie.co.uk/velut-json-generator">Json Generator</a>, which is a separate webpage. But I have less need of that than when I didn’t have this Word Data Generator, because the data from this are already in Json format. (The Json Generator is still useful for other sheets in the Excel file.)
+				One of the differences between the “wordsform” sheet and this Word Data Generator is that in the sheet the output data are in Excel cells, but in the generator they’re in Json format. Copying data from Excel makes them tab-delimited. To convert the tab-delimited data to Json, I use my <a href="https://www.duncanritchie.co.uk/velut-json-generator">Json Generator</a>, which is a separate webpage. But I have less need of that than when I didn’t have this Word Data Generator, because the data from this are already in Json format. (The Json Generator can still be useful for other sheets in the Excel file.)
 			</p>
 
 			<p>
-				The benefit of running generator.js in Node is that I can process all my Latin words (more than 120 thousand), in about twenty seconds. If I tried in the browser for that quantity of data, my browser would freeze, unsurprisingly! Likewise, Excel would probably crash if I tried to use the “wordsform” sheet to regenerate all the data.
+				The benefit of running generator.js in Node is that I can process all my Latin words, more than two million. If I tried in the browser for that quantity of data, my browser would freeze, unsurprisingly! Likewise, Excel would surely crash if I tried to use the “wordsform” sheet to regenerate all the data.
 			</p>
 
 			<h3>Version control</h3>
 
 			<p>
 				I track the data-files in Git so I can check whether a change to my code has (inadvertently or deliberately) altered the output.
-				But I don’t track the file that contains all the output — it’s huge.
+				But I don’t track the file that contains all the output — it’s huge, more than a gigabyte.
 				Instead, the Node-only code splits the data into batches of 50,000 words and saves the batches as files, and Git tracks those files.
 			</p>
 
@@ -193,18 +193,11 @@
 			<h3>My current workflow for managing velut</h3>
 
 			<p>
-				The Word Data Generator is reliable enough that I’ve begun using it for real. The velut website uses the data generated.
+				The Word Data Generator is reliable enough that I’ve begun using it for real. The velut website uses the data generated, and the “wordsform” Excel sheet is no longer useful to me.
 			</p>
 
 			<p>
-				Nonetheless, I’m still using the “wordsform” Excel sheet within Excel, because I don’t want to break other parts of the Excel file.
-				Much of my Excel file still relies on me having all the data in Excel — not in the Json format that this page produces.
-				Eventually enough of the Excel file will be obsolete that I can stop storing all my data there in Excel.
-				Only then will I stop using the “wordsform” sheet.
-			</p>
-
-			<p>
-				It’s all part of my long-term project of converting my Excel file into websites and webpages that are easier to share and maintain. I’m very much in a transition period of using the Excel file for some things and my newer websites/webpages for others. But the Word Data Generator is another step in the process. At the moment, the whole velut project is very convoluted; in the future, it won’t be as bad.
+				This is all part of my long-term project of converting my Excel file into websites and webpages that are easier to share and maintain. I’m very much in a transition period of using the Excel file (or data from it, at least) for some things and my newer websites/webpages for others. But the Word Data Generator is another step in the process. At the moment, the whole velut project is very convoluted; in the future, it won’t be as bad.
 			</p>
 		</section>
 	</main>
