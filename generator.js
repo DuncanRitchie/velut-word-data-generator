@@ -139,13 +139,13 @@ const phoneticExceptions = {
 };
 
 // Eg 'rāia' => 'rājja' because the “i” is consonantal.
-const replaceIntervocalicI = (text) => {
+function replaceIntervocalicI(text) {
 	return `${text}`.replace(/(?<=[āēīōūȳ])i(?=[aeiouyāēīōūȳ])/gi, 'jj');
-};
+}
 // Eg 'velut' => 'tulev'
-const reverseString = (text) => {
+function reverseString(text) {
 	return `${text}`.split('').reverse().join('');
-};
+}
 
 // Defining a value then emptying the array gives us IntelliSense without TypeScript :)
 const existingWords = [{ word: 'string', lemmata: ['string'] }].filter(
@@ -153,13 +153,13 @@ const existingWords = [{ word: 'string', lemmata: ['string'] }].filter(
 );
 let allWordsOnlyWord = ['string'].filter((_) => false);
 
-const addToWordsArray = (word, lemmata) => {
+function addToWordsArray(word, lemmata) {
 	existingWords.push({ word, lemmata });
-};
+}
 
-const clearWordsArray = () => {
+function clearWordsArray() {
 	existingWords.length = 0;
-};
+}
 
 // Constant used when a field would be the empty string, such as the consonants in a word of all vowels.
 const EMPTY = '∅';
@@ -186,20 +186,20 @@ const allValidHexameters = (() => {
 
 const memoisedData = {};
 
-const memoise = (func, functionName, word, lemmata) => {
+function memoise(func, functionName, word, lemmata) {
 	if (memoisedData[word]?.[functionName] === undefined) {
 		const wordObject = { ...memoisedData[word] };
 		wordObject[functionName] = func(word, lemmata);
 		memoisedData[word] = wordObject;
 	}
 	return memoisedData[word][functionName];
-};
+}
 
-const clearMemoisationCache = () => {
+function clearMemoisationCache() {
 	for (const key in memoisedData) {
 		delete memoisedData[key];
 	}
-};
+}
 
 
 ////
@@ -242,7 +242,7 @@ const unmemoisedFuncs = {
 				wordMinusPossibleEnclitic.includes(acute)
 			)
 		) {
-			const removeAcutes = (word) => {
+			function removeAcutes(word) {
 				return word
 					.replace(/á(?=[^aeiouyāēīōūȳ]*)$/, 'a')
 					.replace(/é(?=[^aeiouyāēīōūȳ]*)$/, 'e')
@@ -251,7 +251,7 @@ const unmemoisedFuncs = {
 					.replace(/ú(?=[^aeiouyāēīōūȳ]*)$/, 'u')
 					.replace(/ý(?=[^aeiouyāēīōūȳ]*)$/, 'y')
 					.replace(/ḗ(?=[^aeiouyāēīōūȳ]*)$/, 'ē');
-			};
+			}
 
 			const wordMinusPossibleEncliticWithoutAccents = removeAcutes(
 				wordMinusPossibleEnclitic
@@ -281,7 +281,7 @@ const unmemoisedFuncs = {
 		);
 	},
 	UncompoundedPhonetic: (word, lemmata) => {
-		const getPhoneticBeforeGeneralSubstitutions = () => {
+		function getPhoneticBeforeGeneralSubstitutions() {
 			const uncompounded = f.Uncompounded(word, lemmata);
 			if (uncompounded === 'ai') {
 				return 'à';
@@ -319,15 +319,13 @@ const unmemoisedFuncs = {
 			if (f.Lemma1(word, lemmata) === 'praeeō') {
 				return uncompounded.replaceAll('praei', 'prài');
 			}
-			if (
-				f.Lemma1(word, lemmata).startsWith('cui') ||
+			if (f.Lemma1(word, lemmata).startsWith('cui') ||
 				f.Lemma1(word, lemmata).startsWith('quis') ||
 				f.Lemma1(word, lemmata).startsWith('quī') ||
 				f.Lemma1(word, lemmata) === 'aliquis' ||
 				f.Lemma1(word, lemmata) === 'ecquis' ||
 				f.Lemma1(word, lemmata) === 'nesciōquis' ||
-				f.Lemma1(word, lemmata) === 'ūnusquisque'
-			) {
+				f.Lemma1(word, lemmata) === 'ūnusquisque') {
 				return replaceIntervocalicI(uncompounded)
 					.replaceAll('cuiā', 'cùjā')
 					.replaceAll('cuiu', 'cùju')
@@ -336,20 +334,16 @@ const unmemoisedFuncs = {
 			if (uncompounded.includes('huius')) {
 				return replaceIntervocalicI(uncompounded).replaceAll('huius', 'hùjus');
 			}
-			if (
-				f.NoMacra(word, lemmata).includes('ngua') ||
+			if (f.NoMacra(word, lemmata).includes('ngua') ||
 				f.NoMacra(word, lemmata).includes('ngue') ||
 				f.NoMacra(word, lemmata).includes('ngui') ||
 				f.NoMacra(word, lemmata).includes('nguo') ||
-				f.NoMacra(word, lemmata).includes('nguu')
-			) {
+				f.NoMacra(word, lemmata).includes('nguu')) {
 				return uncompounded.replace('ngu', 'ngv');
 			}
-			if (
-				f.Lemma1(word, lemmata).includes('suād') ||
+			if (f.Lemma1(word, lemmata).includes('suād') ||
 				f.Lemma1(word, lemmata).includes('suās') ||
-				f.Lemma1(word, lemmata).includes('suāv')
-			) {
+				f.Lemma1(word, lemmata).includes('suāv')) {
 				return uncompounded.replace('suā', 'svā');
 			}
 			if (word.startsWith('Eduard')) {
@@ -367,8 +361,7 @@ const unmemoisedFuncs = {
 			if (f.Lemma1(word, lemmata) === 'urgueō') {
 				return uncompounded.replaceAll('urgu', 'urgv');
 			}
-			if (
-				f.Lemma1(word, lemmata).endsWith('iaceō') ||
+			if (f.Lemma1(word, lemmata).endsWith('iaceō') ||
 				f.Lemma1(word, lemmata).endsWith('iectō') ||
 				f.Lemma1(word, lemmata).endsWith('iaciō') ||
 				f.Lemma1(word, lemmata).endsWith('iectus') ||
@@ -392,8 +385,7 @@ const unmemoisedFuncs = {
 					'trāiciō',
 					'obex',
 					'subicēs',
-				].includes(f.Lemma1(word, lemmata))
-			) {
+				].includes(f.Lemma1(word, lemmata))) {
 				return uncompounded
 					.replace('coiē', 'còiē')
 					.replace('coie', 'còie')
@@ -404,24 +396,18 @@ const unmemoisedFuncs = {
 					.replaceAll('ic', 'jic')
 					.replaceAll('rej', 'rèj');
 			}
-			if (
-				uncompounded.startsWith('coniū') ||
-				uncompounded.startsWith('coniu')
-			) {
+			if (uncompounded.startsWith('coniū') ||
+				uncompounded.startsWith('coniu')) {
 				return uncompounded.replace('coni', 'conj');
 			}
-			if (
-				uncompounded.startsWith('disiū') ||
-				uncompounded.startsWith('disiu')
-			) {
+			if (uncompounded.startsWith('disiū') ||
+				uncompounded.startsWith('disiu')) {
 				return uncompounded.replace('disi', 'disj');
 			}
-			if (
-				f.Lemma1(word, lemmata) === 'iniugis' ||
+			if (f.Lemma1(word, lemmata) === 'iniugis' ||
 				f.Lemma1(word, lemmata) === 'biiugis' ||
 				f.Lemma1(word, lemmata) === 'biiugus' ||
-				f.Lemma1(word, lemmata) === 'subiugō'
-			) {
+				f.Lemma1(word, lemmata) === 'subiugō') {
 				return uncompounded.replaceAll('iug', 'jug');
 			}
 			if (uncompounded.startsWith('adiu') || uncompounded.startsWith('adiū')) {
@@ -436,31 +422,26 @@ const unmemoisedFuncs = {
 			if (f.Lemma1(word, lemmata) === 'periūrus') {
 				return uncompounded.replace('periūr', 'perjūr');
 			}
-			if (
-				/^i[aeiouyāēīōūȳ]/i.test(word) &&
+			if (/^i[aeiouyāēīōūȳ]/i.test(word) &&
 				!phoneticExceptions['Vocalic initial i'].includes(
 					f.Lemma1(word, lemmata)
 				) &&
-				uncompounded !== 'iīs'
-			) {
+				uncompounded !== 'iīs') {
 				return uncompounded.replace(/^i/i, 'j');
 			}
-			if (
-				['magnus', 'magis', 'maiestās', 'maiōrēs'].includes(
-					f.Lemma1(word, lemmata)
-				) ||
+			if (['magnus', 'magis', 'maiestās', 'maiōrēs'].includes(
+				f.Lemma1(word, lemmata)
+			) ||
 				(f.NoMacra(f.Lemma1(word, lemmata)) === 'aio' &&
 					['a', 'e', 'i', 'o', 'u', 'y'].includes(
 						f.NoMacra(word, lemmata).substring(2, 3)
-					))
-			) {
+					))) {
 				return uncompounded.replaceAll('ai', 'ajj');
 			}
 			if (['malus', 'male'].includes(f.Lemma1(word, lemmata))) {
 				return uncompounded.replaceAll('ei', 'èj');
 			}
-			if (
-				uncompounded.includes('eius')
+			if (uncompounded.includes('eius')
 				// &&
 				// uncompounded.replace('eius', 'is') === f.Lemma1(word, lemmata)
 			) {
@@ -470,7 +451,7 @@ const unmemoisedFuncs = {
 				return '';
 			}
 			return uncompounded;
-		};
+		}
 
 		return `_${replaceIntervocalicI(
 			getPhoneticBeforeGeneralSubstitutions().toLowerCase()
@@ -1108,10 +1089,10 @@ const f = wordsformFunctionsMemoised;
 //// or gets written to a file (in the Node-only section).
 let outputAsArray = [];
 
-const output = (jsonObject) => {
-	const push = (text) => {
+function output(jsonObject) {
+	function push(text) {
 		outputAsArray.push(text);
-	};
+	}
 	push('{');
 	//// Convert the object to an array of key–value pairs.
 	const asEntries = Object.entries(jsonObject);
@@ -1125,11 +1106,11 @@ const output = (jsonObject) => {
 		push(`"${asEntries[i][0]}": ${JSON.stringify(asEntries[i][1])}`);
 	}
 	push('}');
-};
+}
 
 const functionNames = Object.keys(wordsSchema);
 
-const convertInputToOutputData = (allInputRows) => {
+function convertInputToOutputData(allInputRows) {
 	outputAsArray.length = 0; // Clear the output in case there’s anything from previous runs.
 	clearMemoisationCache(); // Clear the memoisation cache because we don’t have infinite memory.
 	const countRows = allInputRows.length;
@@ -1164,7 +1145,7 @@ const convertInputToOutputData = (allInputRows) => {
 		}
 	}
 	return outputAsArray;
-};
+}
 
 
 ////
@@ -1176,33 +1157,31 @@ if (typeof require !== 'undefined') {
 
 	const fs = require('fs');
 
-	const runAllWords = () => {
+	function runAllWords() {
 
 		//// Input data look like "vocābulōrum\tvocābulum\rexcellentium\texcellēns excellō\r"
-		const inputFileUrl =
-			'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/output-from-lemmata-collator.txt';
+		const inputFileUrl = 'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/output-from-lemmata-collator.txt';
 		//// Output data are generated in batches & each batch is written to a file.
 		//// This allows me to track the output in Git without tracking a huge file.
-		const getOutputFileUrlForBatch = (batchNumber) =>
-			`C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/words-from-generator_mongo_batch${batchNumber}.json`;
-		const batchSize = 50_000;
+		function getOutputFileUrlForBatch(batchNumber) {
+			return `C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/words-from-generator_mongo_batch${batchNumber}.json`;
+		}
+		const batchSize = 50000;
 		//// The output batches are concatenated into one file, for Git to ignore and me to import to MongoDB.
-		const outputFileUrl =
-			'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/words-from-generator_mongo.json';
+		const outputFileUrl = 'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/words-from-generator_mongo.json';
 		//// For regression testing, I have a file of expected output, that the actual output is compared against.
-		const expectedOutputFileUrl =
-			'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/expected-words_mongo.json';
+		const expectedOutputFileUrl = 'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/expected-words_mongo.json';
 
 		try {
 			// Overwritten in generateOutputAndSaveInBatches with the correct array length (batch count)
 			let batchFilepaths = Array(42).fill(null).map((_, index) => getOutputFileUrlForBatch(index));
 
-			const generateOutputAndSaveInBatches = () => {
+			function generateOutputAndSaveInBatches() {
 				console.time('generatingOutput');
 
 				const data = fs.readFileSync(inputFileUrl, 'utf8');
 				const inputRows = data.split('\n');
-				const batchCount = Math.ceil(inputRows.length / batchSize)
+				const batchCount = Math.ceil(inputRows.length / batchSize);
 
 				//// This needs to be set before the data are generated, so encliticized words are handled correctly.
 				allWordsOnlyWord = inputRows
@@ -1210,17 +1189,18 @@ if (typeof require !== 'undefined') {
 
 				//// Eg [1,2,3,4,5,6,7], 2 => [[1,2],[3,4],[5,6],[7]]
 				// from https://stackoverflow.com/a/54029307
-				const splitArrayIntoBatches = (array, size) =>
-					array.length > size
+				function splitArrayIntoBatches(array, size) {
+					return array.length > size
 						? [array.slice(0, size), ...splitArrayIntoBatches(array.slice(size), size)]
 						: [array];
+				}
 				const inputRowsBatched = splitArrayIntoBatches(inputRows, batchSize);
 
 				batchFilepaths = inputRowsBatched.map((batch, index, array) => {
 					console.log('Generating batch', index, 'of', batchCount);
 					const outputBatch = convertInputToOutputData(batch).join('\n');
 
-					const filepath = getOutputFileUrlForBatch(index)
+					const filepath = getOutputFileUrlForBatch(index);
 					fs.writeFileSync(filepath, outputBatch);
 					return filepath;
 				});
@@ -1230,7 +1210,7 @@ if (typeof require !== 'undefined') {
 				console.timeEnd('generatingOutput');
 			}
 
-			const concatenateBatches = () => {
+			function concatenateBatches() {
 				console.time('concatenatingOutput');
 				fs.writeFileSync(outputFileUrl, '');
 
@@ -1238,12 +1218,12 @@ if (typeof require !== 'undefined') {
 					console.log('Concatenating batch', index);
 					const newBatch = fs.readFileSync(filename, 'utf8') + '\n';
 					fs.appendFileSync(outputFileUrl, newBatch);
-				})
+				});
 
 				console.timeEnd('concatenatingOutput');
 			}
 
-			const checkAgainstExpected = () => {
+			function checkAgainstExpected() {
 				console.time('checkingOutput');
 
 				const outputRows = fs.readFileSync(outputFileUrl, 'utf8').split('\n');
@@ -1253,11 +1233,7 @@ if (typeof require !== 'undefined') {
 
 				let errorCount = 0;
 				let lastWordSeen = '';
-				for (
-					let i = 0;
-					i < outputRows.length && i < expectedOutputRows.length;
-					i++
-				) {
+				for (let i = 0; i < outputRows.length && i < expectedOutputRows.length; i++) {
 					if (outputRows[i].startsWith('"Word":')) {
 						lastWordSeen = outputRows[i];
 					}
@@ -1301,16 +1277,15 @@ if (typeof require !== 'undefined') {
 				console.warn(`There were ${errorCount} mismatches.`);
 
 				console.timeEnd('checkingOutput');
-			};
+			}
 
 			generateOutputAndSaveInBatches();
 			concatenateBatches();
 			// checkAgainstExpected();
-
 		} catch (err) {
 			console.error(err);
 		}
-	};
+	}
 
 	runAllWords();
 }
