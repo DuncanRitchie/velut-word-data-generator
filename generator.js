@@ -1078,6 +1078,7 @@ const wordsformFunctionsMemoised = Object.entries(unmemoisedFuncs).reduce(
 
 // Aliases
 const f = wordsformFunctionsMemoised;
+const wordsformFunctions = wordsformFunctionsMemoised; // Used in tests.js.
 
 
 ////
