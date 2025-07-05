@@ -424,6 +424,9 @@ const unmemoisedFuncs = {
 			) {
 				return uncompounded.replace('eius', 'èjus');
 			}
+			if (lemmata.includes('dēsum')) {
+				return uncompounded.replace('dees', 'dēs')
+			}
 			if (word.startsWith('-')) {
 				return '';
 			}
