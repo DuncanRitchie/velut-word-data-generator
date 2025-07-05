@@ -153,7 +153,7 @@ const existingWords = [{ word: 'string', lemmata: ['string'] }].filter(
 );
 let allWordsOnlyWord = ['string'].filter((_) => false);
 
-function addToWordsArray(word, lemmata) {
+function addToWordsArray(word, lemmata, enclitic) {
 	existingWords.push({ word, lemmata });
 }
 
@@ -186,10 +186,10 @@ const allValidHexameters = (() => {
 
 const memoisedData = {};
 
-function memoise(func, functionName, word, lemmata) {
+function memoise(func, functionName, word, lemmata, enclitic) {
 	if (memoisedData[word]?.[functionName] === undefined) {
 		const wordObject = { ...memoisedData[word] };
-		wordObject[functionName] = func(word, lemmata);
+		wordObject[functionName] = func(word, lemmata, enclitic);
 		memoisedData[word] = wordObject;
 	}
 	return memoisedData[word][functionName];
@@ -207,83 +207,60 @@ function clearMemoisationCache() {
 ////
 
 const unmemoisedFuncs = {
-	Ord: (word, lemmata) => {
+	Ord: (word, lemmata, enclitic) => {
 		return existingWords.length + 1;
 	},
-	Word: (word, lemmata) => {
+	Word: (word, lemmata, enclitic) => {
 		return word;
 	},
-	Lemmata: (word, lemmata) => {
+	Lemmata: (word, lemmata, enclitic) => {
 		return lemmata;
 	},
-	Length: (word, lemmata) => {
+	Length: (word, lemmata, enclitic) => {
 		return word.length;
 	},
-	AllConsonants: (word, lemmata) => {
+	AllConsonants: (word, lemmata, enclitic) => {
 		const replaced = f.NoMacraLowerCase(word).replace(/[aeiouy]/gi, '');
 		return replaced || '-';
 	},
-	Uncompounded: (word, lemmata) => {
+	Uncompounded: (word, lemmata, enclitic) => {
 		if (['-ne', '-que', '-ve'].includes(word)) {
 			return EMPTY;
 		}
-		if (f.Lemma1(word, lemmata).endsWith('que')) {
+		if (f.Lemma1(word, lemmata, enclitic).endsWith('que')) {
 			return word;
 		}
-		if (!word.endsWith('ne') && !word.endsWith('que') && !word.endsWith('ve')) {
+		if (enclitic === 'unencliticized') {
 			return word;
 		}
-		const wordMinusPossibleEnclitic = word.replace(/(ne|que|ve)$/, '');
-		if (allWordsOnlyWord.includes(wordMinusPossibleEnclitic)) {
-			return wordMinusPossibleEnclitic;
-		}
-		if (
-			['á', 'é', 'í', 'ó', 'ú', 'ý', 'ḗ', 'ü'].some((acute) =>
-				wordMinusPossibleEnclitic.includes(acute)
-			)
-		) {
-			function removeAcutes(word) {
-				return word
-					.replace(/á(?=[^aeiouyāēīōūȳ]*)$/, 'a')
-					.replace(/é(?=[^aeiouyāēīōūȳ]*)$/, 'e')
-					.replace(/í(?=[^aeiouyāēīōūȳ]*)$/, 'i')
-					.replace(/ó(?=[^aeiouyāēīōūȳ]*)$/, 'o')
-					.replace(/ú(?=[^aeiouyāēīōūȳ]*)$/, 'u')
-					.replace(/ý(?=[^aeiouyāēīōūȳ]*)$/, 'y')
-					.replace(/ḗ(?=[^aeiouyāēīōūȳ]*)$/, 'ē');
-			}
+		const wordMinusPossibleEnclitic = word.replace(/(ne|n|que|ve)$/, '');
 
-			const wordMinusPossibleEncliticWithoutAccents = removeAcutes(
-				wordMinusPossibleEnclitic
-			).replaceAll('ü', 'u');
-
-			if (allWordsOnlyWord.includes(wordMinusPossibleEncliticWithoutAccents)) {
-				return wordMinusPossibleEncliticWithoutAccents;
-			}
+		function removeAcutesAndDiaereses(word) {
+			return word
+				.replace(/á(?=[^aeiouyāēīōūȳ]*)$/, 'a')
+				.replace(/é(?=[^aeiouyāēīōūȳ]*)$/, 'e')
+				.replace(/í(?=[^aeiouyāēīōūȳ]*)$/, 'i')
+				.replace(/ó(?=[^aeiouyāēīōūȳ]*)$/, 'o')
+				.replace(/ú(?=[^aeiouyāēīōūȳ]*)$/, 'u')
+				.replace(/ý(?=[^aeiouyāēīōūȳ]*)$/, 'y')
+				.replace(/ḗ(?=[^aeiouyāēīōūȳ]*)$/, 'ē').replaceAll('ü', 'u');
 		}
-		return word;
+		return removeAcutesAndDiaereses(wordMinusPossibleEnclitic)
 	},
-	Enclitic: (word, lemmata) => {
-		if (word.length === f.Uncompounded(word, lemmata).length) {
-			return '';
+	Enclitic: (word, lemmata, enclitic) => {
+		if (enclitic === 'unencliticized') {
+			return ''
 		}
-		if (word.endsWith('que')) {
-			return 'que';
+		if (enclitic === 'ne' & word.endsWith('n')) {
+			return 'n'
 		}
-		if (word.endsWith('ne')) {
-			return 'ne';
-		}
-		if (word.endsWith('ve')) {
-			return 've';
-		}
-		console.error(
-			'Uncompounded is different to Word but Word doesn’t end with an enclitic.'
-		);
+		return enclitic;
 	},
-	UncompoundedPhonetic: (word, lemmata) => {
+	UncompoundedPhonetic: (word, lemmata, enclitic) => {
 		function getPhoneticBeforeGeneralSubstitutions() {
-			const uncompounded = f.Uncompounded(word, lemmata);
-			if (uncompounded === 'ai') {
+			const uncompounded = f.Uncompounded(word, lemmata, enclitic);
+			// Interjection ‘ai’ but not ‘ain’ (which is from aiō)
+			if (uncompounded === 'ai' && f.Enclitic(word, lemmata, enclitic) !== 'n') {
 				return 'à';
 			}
 			if (uncompounded === 'ei') {
@@ -316,16 +293,16 @@ const unmemoisedFuncs = {
 			if (['dein', 'deinde', 'proin', 'proindē'].includes(uncompounded)) {
 				return uncompounded.replace('dein', 'dèn').replace('proin', 'pròn');
 			}
-			if (f.Lemma1(word, lemmata) === 'praeeō') {
+			if (f.Lemma1(word, lemmata, enclitic) === 'praeeō') {
 				return uncompounded.replaceAll('praei', 'prài');
 			}
-			if (f.Lemma1(word, lemmata).startsWith('cui') ||
-				f.Lemma1(word, lemmata).startsWith('quis') ||
-				f.Lemma1(word, lemmata).startsWith('quī') ||
-				f.Lemma1(word, lemmata) === 'aliquis' ||
-				f.Lemma1(word, lemmata) === 'ecquis' ||
-				f.Lemma1(word, lemmata) === 'nesciōquis' ||
-				f.Lemma1(word, lemmata) === 'ūnusquisque') {
+			if (f.Lemma1(word, lemmata, enclitic).startsWith('cui') ||
+				f.Lemma1(word, lemmata, enclitic).startsWith('quis') ||
+				f.Lemma1(word, lemmata, enclitic).startsWith('quī') ||
+				f.Lemma1(word, lemmata, enclitic) === 'aliquis' ||
+				f.Lemma1(word, lemmata, enclitic) === 'ecquis' ||
+				f.Lemma1(word, lemmata, enclitic) === 'nesciōquis' ||
+				f.Lemma1(word, lemmata, enclitic) === 'ūnusquisque') {
 				return replaceIntervocalicI(uncompounded)
 					.replaceAll('cuiā', 'cùjā')
 					.replaceAll('cuiu', 'cùju')
@@ -334,22 +311,22 @@ const unmemoisedFuncs = {
 			if (uncompounded.includes('huius')) {
 				return replaceIntervocalicI(uncompounded).replaceAll('huius', 'hùjus');
 			}
-			if (f.NoMacra(word, lemmata).includes('ngua') ||
-				f.NoMacra(word, lemmata).includes('ngue') ||
-				f.NoMacra(word, lemmata).includes('ngui') ||
-				f.NoMacra(word, lemmata).includes('nguo') ||
-				f.NoMacra(word, lemmata).includes('nguu')) {
+			if (f.NoMacra(word, lemmata, enclitic).includes('ngua') ||
+				f.NoMacra(word, lemmata, enclitic).includes('ngue') ||
+				f.NoMacra(word, lemmata, enclitic).includes('ngui') ||
+				f.NoMacra(word, lemmata, enclitic).includes('nguo') ||
+				f.NoMacra(word, lemmata, enclitic).includes('nguu')) {
 				return uncompounded.replace('ngu', 'ngv');
 			}
-			if (f.Lemma1(word, lemmata).includes('suād') ||
-				f.Lemma1(word, lemmata).includes('suās') ||
-				f.Lemma1(word, lemmata).includes('suāv')) {
+			if (f.Lemma1(word, lemmata, enclitic).includes('suād') ||
+				f.Lemma1(word, lemmata, enclitic).includes('suās') ||
+				f.Lemma1(word, lemmata, enclitic).includes('suāv')) {
 				return uncompounded.replace('suā', 'svā');
 			}
 			if (word.startsWith('Eduard')) {
 				return uncompounded.replace('Eduard', 'edvard');
 			}
-			if (f.Lemma1(word, lemmata).toLowerCase().includes('suē')) {
+			if (f.Lemma1(word, lemmata, enclitic).toLowerCase().includes('suē')) {
 				return uncompounded
 					.replace('suē', 'svē')
 					.replace('Suē', 'Svē')
@@ -358,14 +335,14 @@ const unmemoisedFuncs = {
 					.replace('suī', 'svī')
 					.replace('suu', 'svu');
 			}
-			if (f.Lemma1(word, lemmata) === 'urgueō') {
+			if (f.Lemma1(word, lemmata, enclitic) === 'urgueō') {
 				return uncompounded.replaceAll('urgu', 'urgv');
 			}
-			if (f.Lemma1(word, lemmata).endsWith('iaceō') ||
-				f.Lemma1(word, lemmata).endsWith('iectō') ||
-				f.Lemma1(word, lemmata).endsWith('iaciō') ||
-				f.Lemma1(word, lemmata).endsWith('iectus') ||
-				f.Lemma1(word, lemmata).endsWith('iectē') ||
+			if (f.Lemma1(word, lemmata, enclitic).endsWith('iaceō') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('iectō') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('iaciō') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('iectus') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('iectē') ||
 				[
 					'abiciō',
 					'adiciō',
@@ -385,7 +362,7 @@ const unmemoisedFuncs = {
 					'trāiciō',
 					'obex',
 					'subicēs',
-				].includes(f.Lemma1(word, lemmata))) {
+				].includes(f.Lemma1(word, lemmata, enclitic))) {
 				return uncompounded
 					.replace('coiē', 'còiē')
 					.replace('coie', 'còie')
@@ -404,10 +381,10 @@ const unmemoisedFuncs = {
 				uncompounded.startsWith('disiu')) {
 				return uncompounded.replace('disi', 'disj');
 			}
-			if (f.Lemma1(word, lemmata) === 'iniugis' ||
-				f.Lemma1(word, lemmata) === 'biiugis' ||
-				f.Lemma1(word, lemmata) === 'biiugus' ||
-				f.Lemma1(word, lemmata) === 'subiugō') {
+			if (f.Lemma1(word, lemmata, enclitic) === 'iniugis' ||
+				f.Lemma1(word, lemmata, enclitic) === 'biiugis' ||
+				f.Lemma1(word, lemmata, enclitic) === 'biiugus' ||
+				f.Lemma1(word, lemmata, enclitic) === 'subiugō') {
 				return uncompounded.replaceAll('iug', 'jug');
 			}
 			if (uncompounded.startsWith('adiu') || uncompounded.startsWith('adiū')) {
@@ -416,34 +393,34 @@ const unmemoisedFuncs = {
 			if (uncompounded.startsWith('iniūr')) {
 				return uncompounded.replace('iniūr', 'injūr');
 			}
-			if (f.Lemma1(word, lemmata) === 'iūsiūrandum') {
+			if (f.Lemma1(word, lemmata, enclitic) === 'iūsiūrandum') {
 				return uncompounded.replaceAll('iū', 'jū');
 			}
-			if (f.Lemma1(word, lemmata) === 'periūrus') {
+			if (f.Lemma1(word, lemmata, enclitic) === 'periūrus') {
 				return uncompounded.replace('periūr', 'perjūr');
 			}
 			if (/^i[aeiouyāēīōūȳ]/i.test(word) &&
 				!phoneticExceptions['Vocalic initial i'].includes(
-					f.Lemma1(word, lemmata)
+					f.Lemma1(word, lemmata, enclitic)
 				) &&
 				uncompounded !== 'iīs') {
 				return uncompounded.replace(/^i/i, 'j');
 			}
 			if (['magnus', 'magis', 'maiestās', 'maiōrēs'].includes(
-				f.Lemma1(word, lemmata)
+				f.Lemma1(word, lemmata, enclitic)
 			) ||
-				(f.NoMacra(f.Lemma1(word, lemmata)) === 'aio' &&
+				(f.NoMacra(f.Lemma1(word, lemmata, enclitic)) === 'aio' &&
 					['a', 'e', 'i', 'o', 'u', 'y'].includes(
-						f.NoMacra(word, lemmata).substring(2, 3)
+						f.NoMacra(word, lemmata, enclitic).substring(2, 3)
 					))) {
 				return uncompounded.replaceAll('ai', 'ajj');
 			}
-			if (['malus', 'male'].includes(f.Lemma1(word, lemmata))) {
+			if (['malus', 'male'].includes(f.Lemma1(word, lemmata, enclitic))) {
 				return uncompounded.replaceAll('ei', 'èj');
 			}
 			if (uncompounded.includes('eius')
 				// &&
-				// uncompounded.replace('eius', 'is') === f.Lemma1(word, lemmata)
+				// uncompounded.replace('eius', 'is') === f.Lemma1(word, lemmata, enclitic)
 			) {
 				return uncompounded.replace('eius', 'èjus');
 			}
@@ -504,7 +481,7 @@ const unmemoisedFuncs = {
 			.replaceAll('k', 'c')
 			.replaceAll(
 				'eu',
-				phoneticExceptions['Diphthong eu'].includes(f.Lemma1(word, lemmata)) > 0
+				phoneticExceptions['Diphthong eu'].includes(f.Lemma1(word, lemmata, enclitic)) > 0
 					? '€'
 					: 'eu'
 			)
@@ -514,21 +491,21 @@ const unmemoisedFuncs = {
 			.replaceAll('eu_', '€')
 			.replaceAll('_', '');
 	},
-	EncliticPhonetic: (word, lemmata) => {
-		return f.Enclitic(word, lemmata).replace('qu', 'q');
+	EncliticPhonetic: (word, lemmata, enclitic) => {
+		return f.Enclitic(word, lemmata, enclitic).replace('qu', 'q');
 	},
-	Phonetic: (word, lemmata) => {
+	Phonetic: (word, lemmata, enclitic) => {
 		if (word === '') {
 			return '_';
 		}
 		return (
-			f.UncompoundedPhonetic(word, lemmata) + f.EncliticPhonetic(word, lemmata)
+			f.UncompoundedPhonetic(word, lemmata, enclitic) + f.EncliticPhonetic(word, lemmata, enclitic)
 		);
 	},
-	Scansion: (word, lemmata) => {
+	Scansion: (word, lemmata, enclitic) => {
 		return (
 			f
-				.Phonetic(word, lemmata)
+				.Phonetic(word, lemmata, enclitic)
 				.replace(/[eiouy]/g, 'a')
 				.replace(/[ēīōūȳãẽĩõũỹàâ€èòùḗ]/g, 'ā')
 				.replace(/bl|cl|cr|dr|fr|fl|gl|gr|pr|pl|tr|θl|θr|φl|φr|χl|χr/g, 'br')
@@ -542,21 +519,21 @@ const unmemoisedFuncs = {
 				.replace(/ā/g, LONG) || EMPTY
 		);
 	},
-	AllVowels: (word, lemmata) => {
+	AllVowels: (word, lemmata, enclitic) => {
 		const emptyIfNeeded =
-			f.Scansion(word, lemmata) === EMPTY || word.startsWith('-') ? EMPTY : '';
+			f.Scansion(word, lemmata, enclitic) === EMPTY || word.startsWith('-') ? EMPTY : '';
 		return (
 			emptyIfNeeded +
-			f.Phonetic(word, lemmata).replace(/[bcdfghjklmnpqrstvxzχφθ]/g, '')
+			f.Phonetic(word, lemmata, enclitic).replace(/[bcdfghjklmnpqrstvxzχφθ]/g, '')
 		);
 	},
-	SyllableCount: (word, lemmata) => {
-		return f.AllVowels(word, lemmata).replace(EMPTY, '').length;
+	SyllableCount: (word, lemmata, enclitic) => {
+		return f.AllVowels(word, lemmata, enclitic).replace(EMPTY, '').length;
 	},
 	// Returns the stress position: 3 for antepenult, 2 for penult, 1 for ultima, 0 for words of no syllables.
-	Stress: (word, lemmata) => {
+	Stress: (word, lemmata, enclitic) => {
 		// Eg ‘st’ has 0 syllables, so cannot have a stressed syllable.
-		if (f.SyllableCount(word, lemmata) === 0) {
+		if (f.SyllableCount(word, lemmata, enclitic) === 0) {
 			return 0;
 		}
 		// Eg ‘-que’ is an enclitic, with the stress on the penult (the syllable before the enclitic!).
@@ -564,7 +541,7 @@ const unmemoisedFuncs = {
 			return 2;
 		}
 		// Monosyllables have only one syllable that could be stressed.
-		if (f.SyllableCount(word, lemmata) === 1) {
+		if (f.SyllableCount(word, lemmata, enclitic) === 1) {
 			return 1;
 		}
 		// These other words are stressed on the ultima.
@@ -596,14 +573,14 @@ const unmemoisedFuncs = {
 		}
 		// Some irregular imperatives have ultima stress.
 		if (
-			f.Phonetic(word, lemmata).endsWith('dīc') ||
-			f.Phonetic(word, lemmata).endsWith('dūc') ||
-			f.Phonetic(word, lemmata).endsWith('fac')
+			f.Phonetic(word, lemmata, enclitic).endsWith('dīc') ||
+			f.Phonetic(word, lemmata, enclitic).endsWith('dūc') ||
+			f.Phonetic(word, lemmata, enclitic).endsWith('fac')
 		) {
 			return 1;
 		}
 		// Any other word of two syllables.
-		if (f.SyllableCount(word, lemmata) === 2) {
+		if (f.SyllableCount(word, lemmata, enclitic) === 2) {
 			return 2;
 		}
 		// “-inde” behaves as an enclitic, moving stress to the antepenult.
@@ -612,12 +589,12 @@ const unmemoisedFuncs = {
 		}
 		// Words with long penult are stressed on it.
 		if (
-			f.Scansion(word, lemmata)[f.SyllableCount(word, lemmata) - 2] === LONG
+			f.Scansion(word, lemmata, enclitic)[f.SyllableCount(word, lemmata, enclitic) - 2] === LONG
 		) {
 			return 2;
 		}
 		// Encliticized words have stress on the syllable before the enclitic (ie the penult).
-		if (word.length !== f.Uncompounded(word, lemmata).length) {
+		if (word.length !== f.Uncompounded(word, lemmata, enclitic).length) {
 			return 2;
 		}
 		// More encliticized words (not ending in the regular -que -ne -ve).
@@ -638,21 +615,21 @@ const unmemoisedFuncs = {
 		// This won’t match Rhódane, which *is* stressed on the antepenult.
 		if (
 			/[áéíóúý][^aeiouyāēīōūȳ]*[aeiouyāēīōūȳ]?[^aeiouyāēīōūȳ]*$/i.test(
-				f.Uncompounded(word, lemmata)
+				f.Uncompounded(word, lemmata, enclitic)
 			)
 		) {
 			return 2;
 		}
 		// More contractions such as ‘imperī’ from ‘imperium’, where I haven’t used an acute.
 		if (
-			(f.Lemma1(word, lemmata).endsWith('ius') ||
-				f.Lemma1(word, lemmata).endsWith('ïus') ||
-				f.Lemma1(word, lemmata).endsWith('ium') ||
-				f.Lemma1(word, lemmata).endsWith('ius[prn]') ||
-				f.Lemma1(word, lemmata).endsWith('ius[adj]') ||
-				f.Lemma1(word, lemmata).endsWith('ius[n]') ||
-				f.Lemma1(word, lemmata).endsWith('ium[prn]') ||
-				f.Lemma1(word, lemmata).endsWith('ium[n]')) &&
+			(f.Lemma1(word, lemmata, enclitic).endsWith('ius') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('ïus') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('ium') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('ius[prn]') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('ius[adj]') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('ius[n]') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('ium[prn]') ||
+				f.Lemma1(word, lemmata, enclitic).endsWith('ium[n]')) &&
 			word
 				.replaceAll('á', 'a')
 				.replaceAll('é', 'e')
@@ -661,7 +638,7 @@ const unmemoisedFuncs = {
 				.replaceAll('ú', 'u')
 				.replaceAll('ý', 'y') ===
 				f
-					.Lemma1(word, lemmata)
+					.Lemma1(word, lemmata, enclitic)
 					.replace(/\[[^\]]+\]/, '')
 					.replace(/...$/, 'ī')
 		) {
@@ -670,61 +647,61 @@ const unmemoisedFuncs = {
 		// All other words are stressed on the antepenult.
 		return 3;
 	},
-	UltimaRhyme: (word, lemmata) => {
-		if (f.SyllableCount(word, lemmata) === 0) {
-			return f.Phonetic(word, lemmata);
+	UltimaRhyme: (word, lemmata, enclitic) => {
+		if (f.SyllableCount(word, lemmata, enclitic) === 0) {
+			return f.Phonetic(word, lemmata, enclitic);
 		}
-		const ultimaVowel = f.AllVowels(word, lemmata).at(-1);
-		const lastIndex = `${f.Phonetic(word, lemmata)}`.lastIndexOf(ultimaVowel);
-		return `${f.Phonetic(word, lemmata)}`.substring(lastIndex);
+		const ultimaVowel = f.AllVowels(word, lemmata, enclitic).at(-1);
+		const lastIndex = `${f.Phonetic(word, lemmata, enclitic)}`.lastIndexOf(ultimaVowel);
+		return `${f.Phonetic(word, lemmata, enclitic)}`.substring(lastIndex);
 	},
-	RhymeVowels: (word, lemmata) => {
-		if (f.Scansion(word, lemmata) === EMPTY) {
+	RhymeVowels: (word, lemmata, enclitic) => {
+		if (f.Scansion(word, lemmata, enclitic) === EMPTY) {
 			return EMPTY;
 		}
 		return f
-			.AllVowels(word, lemmata)
-			.substring(f.SyllableCount(word, lemmata) - f.Stress(word, lemmata));
+			.AllVowels(word, lemmata, enclitic)
+			.substring(f.SyllableCount(word, lemmata, enclitic) - f.Stress(word, lemmata, enclitic));
 	},
-	PerfectRhyme: (word, lemmata) => {
-		if (word.startsWith('-') || f.Stress(word, lemmata) === 0) {
-			return f.Phonetic(word, lemmata);
+	PerfectRhyme: (word, lemmata, enclitic) => {
+		if (word.startsWith('-') || f.Stress(word, lemmata, enclitic) === 0) {
+			return f.Phonetic(word, lemmata, enclitic);
 		}
-		const rhymeVowels = f.RhymeVowels(word, lemmata).split('');
+		const rhymeVowels = f.RhymeVowels(word, lemmata, enclitic).split('');
 		// Subtract syllables from the end until the rhyme-vowels are used up.
 		// Eg vocābulōrũ => vocābul
 		let wordMinusRhyme = rhymeVowels.reduceRight((substring, vowel) => {
 			return substring.substring(0, substring.lastIndexOf(vowel));
-		}, f.Phonetic(word, lemmata));
+		}, f.Phonetic(word, lemmata, enclitic));
 		// Remove this from the initial word to give the syllables that were subtracted in the `reduceRight`.
 		// Eg vocābulōrũ - vocābul => ōrũ
-		return f.Phonetic(word, lemmata).replace(wordMinusRhyme, '');
+		return f.Phonetic(word, lemmata, enclitic).replace(wordMinusRhyme, '');
 	},
-	RhymeConsonants: (word, lemmata) => {
-		return (f.PerfectRhyme(word, lemmata) + '.')
+	RhymeConsonants: (word, lemmata, enclitic) => {
+		return (f.PerfectRhyme(word, lemmata, enclitic) + '.')
 			.replace(/[€āàâeēiīoōóòuūùyȳ]/g, 'a')
 			.replace(/[ãẽĩõũỹ]f/g, 'anf')
 			.replace(/[ãẽĩõũỹ]s/g, 'ans')
 			.replace(/[ãẽĩõũỹ]/g, 'am')
 			.replace('.', '');
 	},
-	Ultima: (word, lemmata) => {
-		if (f.Stress(word, lemmata) === 2) {
-			return '2 ' + f.UltimaRhyme(word, lemmata);
+	Ultima: (word, lemmata, enclitic) => {
+		if (f.Stress(word, lemmata, enclitic) === 2) {
+			return '2 ' + f.UltimaRhyme(word, lemmata, enclitic);
 		}
-		return f.UltimaRhyme(word, lemmata);
+		return f.UltimaRhyme(word, lemmata, enclitic);
 	},
-	RhymeVowelsAndUltimaCoda: (word, lemmata) => {
-		if (f.Stress(word, lemmata) === 0) {
-			return f.UltimaRhyme(word, lemmata);
+	RhymeVowelsAndUltimaCoda: (word, lemmata, enclitic) => {
+		if (f.Stress(word, lemmata, enclitic) === 0) {
+			return f.UltimaRhyme(word, lemmata, enclitic);
 		}
 
 		return (
-			f.RhymeVowels(word, lemmata) + f.UltimaRhyme(word, lemmata).substring(1)
+			f.RhymeVowels(word, lemmata, enclitic) + f.UltimaRhyme(word, lemmata, enclitic).substring(1)
 		);
 	},
-	EcclesPhonetic: (word, lemmata) => {
-		return `${f.Phonetic(word, lemmata)}.`
+	EcclesPhonetic: (word, lemmata, enclitic) => {
+		return `${f.Phonetic(word, lemmata, enclitic)}.`
 			.replace(/ā/g, 'a')
 			.replace(/ē/g, 'e')
 			.replace(/ī/g, 'i')
@@ -756,74 +733,74 @@ const unmemoisedFuncs = {
 			.replaceAll('h', '')
 			.replaceAll('.', '');
 	},
-	EcclesVowels: (word, lemmata) => {
+	EcclesVowels: (word, lemmata, enclitic) => {
 		const emptyIfNeeded =
-			f.Scansion(word, lemmata) === EMPTY || word.startsWith('-') ? EMPTY : '';
+			f.Scansion(word, lemmata, enclitic) === EMPTY || word.startsWith('-') ? EMPTY : '';
 		return (
 			emptyIfNeeded +
-			f.EcclesPhonetic(word, lemmata).replace(/[bcdfghjklmnpqrstvxz]/g, '')
+			f.EcclesPhonetic(word, lemmata, enclitic).replace(/[bcdfghjklmnpqrstvxz]/g, '')
 		);
 	},
-	EcclesRhymeVowels: (word, lemmata) => {
-		if (f.Scansion(word, lemmata) === EMPTY) {
+	EcclesRhymeVowels: (word, lemmata, enclitic) => {
+		if (f.Scansion(word, lemmata, enclitic) === EMPTY) {
 			return EMPTY;
 		}
 		return f
-			.EcclesVowels(word, lemmata)
-			.substring(f.SyllableCount(word, lemmata) - f.Stress(word, lemmata));
+			.EcclesVowels(word, lemmata, enclitic)
+			.substring(f.SyllableCount(word, lemmata, enclitic) - f.Stress(word, lemmata, enclitic));
 	},
-	EcclesRhymeVowelsAndUltimaCoda: (word, lemmata) => {
-		if (f.Scansion(word, lemmata) === EMPTY) {
+	EcclesRhymeVowelsAndUltimaCoda: (word, lemmata, enclitic) => {
+		if (f.Scansion(word, lemmata, enclitic) === EMPTY) {
 			return EMPTY;
 		}
-		const phonetic = f.EcclesPhonetic(word, lemmata);
-		const rhymeVowels = f.EcclesRhymeVowels(word, lemmata);
+		const phonetic = f.EcclesPhonetic(word, lemmata, enclitic);
+		const rhymeVowels = f.EcclesRhymeVowels(word, lemmata, enclitic);
 		const ultimaVowel = rhymeVowels.substring(rhymeVowels.length - 1);
 		const ultimaVowelIndex = phonetic.lastIndexOf(ultimaVowel);
 		return rhymeVowels + phonetic.substring(ultimaVowelIndex + 1);
 	},
-	EcclesPerfectRhyme: (word, lemmata) => {
-		if (word.startsWith('-') || f.Stress(word, lemmata) === 0) {
-			f.EcclesPhonetic(word, lemmata);
+	EcclesPerfectRhyme: (word, lemmata, enclitic) => {
+		if (word.startsWith('-') || f.Stress(word, lemmata, enclitic) === 0) {
+			f.EcclesPhonetic(word, lemmata, enclitic);
 		}
-		const rhymeVowels = f.EcclesRhymeVowels(word, lemmata).split('');
+		const rhymeVowels = f.EcclesRhymeVowels(word, lemmata, enclitic).split('');
 		// Subtract syllables from the end until the rhyme-vowels are used up.
 		// Eg vocabulorum => vocabul
 		let wordMinusRhyme = rhymeVowels.reduceRight((substring, vowel) => {
 			return substring.substring(0, substring.lastIndexOf(vowel));
-		}, f.EcclesPhonetic(word, lemmata));
+		}, f.EcclesPhonetic(word, lemmata, enclitic));
 		// Remove this from the initial word to give the syllables that were subtracted in the `reduceRight`.
 		// Eg vocabulorum - vocabul => orum
-		return f.EcclesPhonetic(word, lemmata).replace(wordMinusRhyme, '');
+		return f.EcclesPhonetic(word, lemmata, enclitic).replace(wordMinusRhyme, '');
 	},
-	EcclesSort: (word, lemmata) => {
+	EcclesSort: (word, lemmata, enclitic) => {
 		return (
 			(
-				(f.EcclesRhymeVowels(word, lemmata) === EMPTY
+				(f.EcclesRhymeVowels(word, lemmata, enclitic) === EMPTY
 					? ''
-					: f.EcclesRhymeVowels(word, lemmata)) +
+					: f.EcclesRhymeVowels(word, lemmata, enclitic)) +
 				'-' +
 				f
-					.EcclesPerfectRhyme(word, lemmata)
+					.EcclesPerfectRhyme(word, lemmata, enclitic)
 					.replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a') +
 				'-' +
 				reverseString(
 					f
-						.EcclesVowels(word, lemmata)
+						.EcclesVowels(word, lemmata, enclitic)
 						.substring(
 							0,
-							f.EcclesVowels(word, lemmata).length -
-								f.EcclesRhymeVowels(word, lemmata).length
+							f.EcclesVowels(word, lemmata, enclitic).length -
+								f.EcclesRhymeVowels(word, lemmata, enclitic).length
 						)
 				) +
 				'-' +
 				reverseString(
 					f
-						.EcclesPhonetic(word, lemmata)
+						.EcclesPhonetic(word, lemmata, enclitic)
 						.substring(
 							0,
-							f.EcclesPhonetic(word, lemmata).length -
-								f.EcclesPerfectRhyme(word, lemmata).length
+							f.EcclesPhonetic(word, lemmata, enclitic).length -
+								f.EcclesPerfectRhyme(word, lemmata, enclitic).length
 						)
 				).replace(/[eiouyàâè€òùãẽĩõũỹ]/g, 'a') +
 				'-' +
@@ -850,49 +827,49 @@ const unmemoisedFuncs = {
 				.replaceAll('ù', 'uzzzz') + (word === word.toLowerCase() ? '/' : '')
 		);
 	},
-	LemmaCount: (word, lemmata) => {
-		return f.LemmaArray(word, lemmata).length;
+	LemmaCount: (word, lemmata, enclitic) => {
+		return f.LemmaArray(word, lemmata, enclitic).length;
 	},
-	Lemma1: (word, lemmata) => {
-		return f.LemmaArray(word, lemmata)[0];
+	Lemma1: (word, lemmata, enclitic) => {
+		return f.LemmaArray(word, lemmata, enclitic)[0];
 	},
-	Lemma2: (word, lemmata) => {
-		return f.LemmaArray(word, lemmata)[1] || null;
+	Lemma2: (word, lemmata, enclitic) => {
+		return f.LemmaArray(word, lemmata, enclitic)[1] || null;
 	},
-	Lemma3: (word, lemmata) => {
-		return f.LemmaArray(word, lemmata)[2] || null;
+	Lemma3: (word, lemmata, enclitic) => {
+		return f.LemmaArray(word, lemmata, enclitic)[2] || null;
 	},
-	Lemma4: (word, lemmata) => {
-		return f.LemmaArray(word, lemmata)[3] || null;
+	Lemma4: (word, lemmata, enclitic) => {
+		return f.LemmaArray(word, lemmata, enclitic)[3] || null;
 	},
-	Lemma5: (word, lemmata) => {
-		return f.LemmaArray(word, lemmata)[4] || null;
+	Lemma5: (word, lemmata, enclitic) => {
+		return f.LemmaArray(word, lemmata, enclitic)[4] || null;
 	},
-	ScansionWithElision: (word, lemmata) => {
-		if (!'aeiouyāēīōūӯãẽĩõũỹàâé€òù'.includes(f.UltimaRhyme(word, lemmata))) {
-			return f.Scansion(word, lemmata);
+	ScansionWithElision: (word, lemmata, enclitic) => {
+		if (!'aeiouyāēīōūӯãẽĩõũỹàâé€òù'.includes(f.UltimaRhyme(word, lemmata, enclitic))) {
+			return f.Scansion(word, lemmata, enclitic);
 		}
-		if (f.SyllableCount(word, lemmata) === 1) {
+		if (f.SyllableCount(word, lemmata, enclitic) === 1) {
 			return EMPTY;
 		}
 		return f
-			.Scansion(word, lemmata)
-			.substring(0, f.SyllableCount(word, lemmata) - 1);
+			.Scansion(word, lemmata, enclitic)
+			.substring(0, f.SyllableCount(word, lemmata, enclitic) - 1);
 	},
-	IsFitForDactyl: (word, lemmata) => {
-		const scansionWithElision = f.ScansionWithElision(word, lemmata);
+	IsFitForDactyl: (word, lemmata, enclitic) => {
+		const scansionWithElision = f.ScansionWithElision(word, lemmata, enclitic);
 		if (scansionWithElision === EMPTY) {
 			return 1;
 		}
-		const scansionWithoutElision = f.Scansion(word, lemmata);
-		const phonetic = f.Phonetic(word, lemmata);
+		const scansionWithoutElision = f.Scansion(word, lemmata, enclitic);
+		const phonetic = f.Phonetic(word, lemmata, enclitic);
 		const endsWithConsonant = scansionWithElision === scansionWithoutElision;
 		const endsWithShortVowelConsonant =
 			/[aeiouy].$/.test(phonetic) && endsWithConsonant;
 
 		// return endsWithShortVowelConsonant;
 		const scansionToFit = endsWithShortVowelConsonant
-			? scansionWithElision.substring(0, f.SyllableCount(word, lemmata) - 1)
+			? scansionWithElision.substring(0, f.SyllableCount(word, lemmata, enclitic) - 1)
 			: scansionWithElision;
 
 		if (
@@ -906,24 +883,24 @@ const unmemoisedFuncs = {
 		// return `IFFD false endsWithShortVowelConsonant ${endsWithShortVowelConsonant} Phonetic ${phonetic} Scansion ${scansionWithoutElision}`;
 		return 0;
 	},
-	LemmaArray: (word, lemmata) => {
+	LemmaArray: (word, lemmata, enclitic) => {
 		return lemmata.split(' ');
 	},
-	IsLemma: (word, lemmata) => {
-		return f.LemmaArray(word, lemmata).some((lemma) => {
+	IsLemma: (word, lemmata, enclitic) => {
+		return f.LemmaArray(word, lemmata, enclitic).some((lemma) => {
 			return lemma.replace(/\[[^\]]+\]/, '') === word;
 		})
 			? 1
 			: 0;
 	},
-	IsNonLemma: (word, lemmata) => {
-		return f.LemmaArray(word, lemmata).some((lemma) => {
+	IsNonLemma: (word, lemmata, enclitic) => {
+		return f.LemmaArray(word, lemmata, enclitic).some((lemma) => {
 			return lemma.replace(/\[[^\]]+\]/, '') !== word;
 		})
 			? 1
 			: 0;
 	},
-	DuplicateWords: (word, lemmata) => {
+	DuplicateWords: (word, lemmata, enclitic) => {
 		const duplicateFound = existingWords.find((record) => record.word === word);
 		if (duplicateFound) {
 			if (JSON.stringify(duplicateFound.lemmata) === JSON.stringify(lemmata)) {
@@ -950,34 +927,34 @@ const unmemoisedFuncs = {
 		}
 		return null;
 	},
-	NewLemmata: (word, lemmata) => {
+	NewLemmata: (word, lemmata, enclitic) => {
 		// I’m not going to write something useful for this.
 		// In the Excel file, this column checks whether lemmata are missing from
 		// a sheet called `lemmata` — but that sheet cannot be replicated here.
 		return '';
 	},
-	NoMacra: (word, lemmata) => {
+	NoMacra: (word, lemmata, enclitic) => {
 		// Function from https://ricardometring.com/javascript-replace-special-characters
 		return word
 			.normalize('NFD')
 			.replace(/[\u0300-\u036f]/g, '')
 			.replace(/-/g, '');
 	},
-	NoMacraLowerCase: (word, lemmata) => {
+	NoMacraLowerCase: (word, lemmata, enclitic) => {
 		return f.NoMacra(word).toLowerCase();
 	},
-	AlphOrderNoMacra: (word, lemmata) => {
-		return f.NoMacraLowerCase(word, lemmata).split('').sort().join('');
+	AlphOrderNoMacra: (word, lemmata, enclitic) => {
+		return f.NoMacraLowerCase(word, lemmata, enclitic).split('').sort().join('');
 	},
-	Sort: (word, lemmata) => {
+	Sort: (word, lemmata, enclitic) => {
 		return (
 			(
-				(f.RhymeVowels(word, lemmata) === EMPTY
+				(f.RhymeVowels(word, lemmata, enclitic) === EMPTY
 					? ''
-					: f.RhymeVowels(word, lemmata)) +
+					: f.RhymeVowels(word, lemmata, enclitic)) +
 				'-' +
 				f
-					.NoMacra(f.PerfectRhyme(word, lemmata))
+					.NoMacra(f.PerfectRhyme(word, lemmata, enclitic))
 					.replaceAll('a', 'a')
 					.replaceAll('e', 'a')
 					.replaceAll('i', 'a')
@@ -999,20 +976,20 @@ const unmemoisedFuncs = {
 				'-' +
 				reverseString(
 					f
-						.AllVowels(word, lemmata)
+						.AllVowels(word, lemmata, enclitic)
 						.substring(
 							0,
-							f.SyllableCount(word, lemmata) - f.Stress(word, lemmata)
+							f.SyllableCount(word, lemmata, enclitic) - f.Stress(word, lemmata, enclitic)
 						)
 				) +
 				'-' +
 				reverseString(
 					f
-						.Phonetic(word, lemmata)
+						.Phonetic(word, lemmata, enclitic)
 						.substring(
 							0,
-							f.Phonetic(word, lemmata).length -
-								f.PerfectRhyme(word, lemmata).length
+							f.Phonetic(word, lemmata, enclitic).length -
+								f.PerfectRhyme(word, lemmata, enclitic).length
 						)
 				)
 					.replaceAll('a', 'a')
@@ -1057,7 +1034,7 @@ const unmemoisedFuncs = {
 			(word === word.toLowerCase() ? '/' : '')
 		);
 	},
-	RepeatWord: (word, lemmata) => {
+	RepeatWord: (word, lemmata, enclitic) => {
 		return word;
 	},
 };
@@ -1069,8 +1046,8 @@ const unmemoisedFuncs = {
 
 const wordsformFunctionsMemoised = Object.entries(unmemoisedFuncs).reduce(
 	(memoisedFuncs, [currentFuncName, currentFunc]) => {
-		memoisedFuncs[currentFuncName] = (word, lemmata) =>
-			memoise(currentFunc, currentFuncName, word, lemmata);
+		memoisedFuncs[currentFuncName] = (word, lemmata, enclitic) =>
+			memoise(currentFunc, currentFuncName, word, lemmata, enclitic);
 		return memoisedFuncs;
 	},
 	{}
@@ -1129,15 +1106,17 @@ function convertInputToOutputData(allInputRows) {
 
 		if (positionOfWordLemmataSplit) {
 			const word = inputRow.substring(0, positionOfWordLemmataSplit).trim();
-			const lemmata = inputRow.substring(positionOfWordLemmataSplit).trim();
+			const lemmataAndEnclitic = inputRow.substring(positionOfWordLemmataSplit).trim().split('\t');
+			const lemmata = lemmataAndEnclitic[0]
+			const enclitic = lemmataAndEnclitic[1]
 			const resultsForLine = {};
 
 			functionNames.forEach((functionName) => {
-				resultsForLine[functionName] = f[functionName](word, lemmata);
+				resultsForLine[functionName] = f[functionName](word, lemmata, enclitic);
 			});
 
 			output(resultsForLine);
-			addToWordsArray(word, lemmata);
+			addToWordsArray(word, lemmata, enclitic);
 			clearMemoisationCache();
 		} else {
 			console.error(
