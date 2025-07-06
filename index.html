@@ -49,12 +49,12 @@
 			</p>
 
 			<p>
-				The Word Data Generator generates the data for my Latin rhyming dictionary, <a href="https://www.velut.co.uk/">velut</a>; specifically it generates the “words” data. For each word and corresponding list of lemmata, this generates fields such as the phonetic representation, the number of syllables, the rhyming-part, and strings that words are sorted on.
+				The Word Data Generator generates the data for my Latin rhyming dictionary, <a href="https://www.velut.co.uk/">velut</a>; specifically it generates the “words” data. For each word and corresponding list of lemmata (and enclitic), this generates fields such as the phonetic representation, the number of syllables, the rhyming-part, and strings that words are sorted on.
 			</p>
 
 			<p>
 				This webpage is nice for showing you what the generator does.
-				You can input several words (and the lemma or lemmata for each) in the first box, click “Generate Json”, and see the output in the second box.
+				You can input several words (and the lemma or lemmata for each, and the enclitic) in the first box, click “Generate Json”, and see the output in the second box.
 				The resultant Json can be downloaded or copied to the clipboard.
 			</p>
 
@@ -68,9 +68,14 @@
 			<h3>Input and output format</h3>
 
 			<p>
-				Each line of input must be a word, whitespace, and the space-separated list of lemmata.
+				Each line of input must be a word, whitespace, the space-separated list of lemmata, a tab character, and then one of [“ne”, “que”, “ve”, “unencliticized”].
+				(In Latin, <i lang="la">-ne</i>, <i lang="la">-que</i>, and <i lang="la">-ve</i> are enclitics that can be appended to almost any Latin word that doesn’t already have an enclitic.)
+			</p>
+
+			<p>
 				The “Load sample” button will give you some examples; the examples use a tab for the whitespace between the word and the lemmata, because you get tabs when pasting from Excel cells.
 				But you can use a normal space (or several) if you prefer.
+				You must use a tab character to separate the lemmata from the enclitic.
 			</p>
 
 			<p>
@@ -80,7 +85,8 @@
 			<h3>The velut Excel file & how I’ve replaced parts of it</h3>
 
 			<p>
-				Although the velut website uses a MongoDB database, and this page produces Json data for the MongoDB database, I privately have a large Excel file that I used for generating and storing the data in velut. This webpage is intended to replace a sheet called “wordsform” in that Excel file. The sheet can generate all the data from words and lemmata entered into the second and third columns — which is why the second and third fields of the output are Word and Lemmata, the two columns that don’t have Excel formulae.
+				Although the velut website uses a MongoDB database, and this page produces Json data for the MongoDB database, I privately have a large Excel file that I used for generating and storing the data in velut. This webpage replaced a sheet called “wordsform” in that Excel file. The sheet can generate all the data from words and lemmata entered into the second and third columns — which is why the second and third fields of the output are Word and Lemmata, the two columns that don’t have Excel formulae.
+				(The information about whether a word was encliticized or not was inferred a different way.)
 			</p>
 
 			<p>
@@ -88,7 +94,7 @@
 			</p>
 
 			<p>
-				The benefit of running generator.js in Node is that I can process all my Latin words, more than two million. If I tried in the browser for that quantity of data, my browser would freeze, unsurprisingly! Likewise, Excel would surely crash if I tried to use the “wordsform” sheet to regenerate all the data.
+				The benefit of running generator.js in Node is that I can process all my Latin words, more than two million, just from the command-line. If I tried in the browser for that quantity of data, my browser would freeze, unsurprisingly! Likewise, Excel would surely crash if I tried to use the “wordsform” sheet to regenerate all the data.
 			</p>
 
 			<h3>Version control</h3>
@@ -102,7 +108,7 @@
 			<h3>Checking the output in Node</h3>
 
 			<p>
-				I can also use Node to check the output against all the “words” data I previously generated. The code for this check is at <a href="https://github.com/DuncanRitchie/velut-word-data-generator/blob/1af8383b0f15510010ee86467c2c725f3027c9a5/generator.js#L1247">the end of generator.js</a>. When I ran it against all the “words” data I had from Excel, everything matched, except for some cases where I had bugs in the Excel which I have corrected in the JavaScript. These changes of behaviour are listed in the next section.
+				I can also use Node to check the output against all the “words” data I previously generated. The code for this check is at <a href="https://github.com/DuncanRitchie/velut-word-data-generator/blob/1af8383b0f15510010ee86467c2c725f3027c9a5/generator.js#L1209">the end of generator.js</a>. When I ran it against all the “words” data I had from Excel, everything matched, except for some cases where I had bugs in the Excel which I have corrected in the JavaScript. These changes of behaviour are listed in the next section.
 			</p>
 
 			<h3>Behaviour changes between my Excel and JavaScript code</h3>
@@ -121,6 +127,11 @@
 
 				<li>
 					<i lang="la">iūsiūrandum</i> has both “i”s consonantal. My Excel formulae had kept the first “i” as a vowel (as if it were <i lang="la">ïūsjūrandum</i> instead of <i lang="la">jūsjūrandum</i>).
+				</li>
+
+				<li>
+					Forms of <i lang="la">dēsum</i> such as <i lang="la">deesse</i> have the double “e” pronounced as one long vowel (as <i lang="la">dēsse</i>), at least in poetry, despite the spelling.
+					I learnt of this years after I had made the Word Data Generator, so I’ve made the change in the Word Data Generator though it was not in Excel.
 				</li>
 			</ul>
 
@@ -175,7 +186,7 @@
 				<li>
 					The <code>Ord</code> function gives a serial number to each word, starting at one.
 					I named it years ago as an abbreviation of “ordinal”.
-					If I were starting from scratch, I’d probably call it “Id”, and start it from zero.
+					If I were starting from scratch, I’d probably call it “Id” or “Index”, and start it from zero.
 				</li>
 			</ul>
 
@@ -197,7 +208,33 @@
 			</p>
 
 			<p>
-				This is all part of my long-term project of converting my Excel file into websites and webpages that are easier to share and maintain. I’m very much in a transition period of using the Excel file (or data from it, at least) for some things and my newer websites/webpages for others. But the Word Data Generator is another step in the process. At the moment, the whole velut project is very convoluted; in the future, it won’t be as bad.
+				In fact, I have little use at all for the Excel file now.
+				Everything is getting derived from my Json data.
+				This also makes it easier for me to add lemmata to velut, or delete lemmata from it, since I’ll be editing the Json and not Excel.
+			</p>
+
+			<p>
+				(I haven’t actually made any edits to the Excel file since October 2022, when I started making the Inflector.
+				Any edits would need to be replicated in the new architecture.)
+			</p>
+
+			<p>
+				To refresh the data in velut, I run a script called the <a href="https://www.duncanritchie.co.uk/velut-inflector">Inflector</a>, which creates the inflected forms for all my lemmata.
+				Next, I run my <a href="https://www.duncanritchie.co.uk/velut-lemmata-collator">Lemmata Collator</a> script, which extracts all the inflected forms into a convenient list of words with the lemmata each word is a form of.
+				Then, I run the Word Data Generator, which produces information that the website needs about each word.
+				Finally, I import the data into the MongoDB database, for the website to read from when you browse.
+			</p>
+
+			<p>
+				To sum up, my long-term project has been to convert my Excel file into websites and webpages that are easier to share and maintain.
+				I’ve been very much in a transition period of using the Excel file for some things and my newer websites/webpages for others.
+				But the Lemmata Collator is another step in the process.
+				The whole velut project was very convoluted; with my new scripts, it’s not as bad.
+			</p>
+
+			<p>
+				For an overview of velut in general, see the <a href="https://github.com/DuncanRitchie/velut/blob/main/README.md">“readme” file</a>.
+				Or you can just go to the <a href="https://www.velut.co.uk">velut website</a> and see what Latin words are there!
 			</p>
 		</section>
 	</main>
