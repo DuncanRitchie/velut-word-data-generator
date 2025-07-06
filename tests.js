@@ -383,6 +383,9 @@ const phoneticTests = [
 	{Word: 'peior', Lemmata: 'malus male', Enclitic: 'unencliticized', Phonetic: 'pèjor'},
 	{Word: 'peiōribus', Lemmata: 'malus male', Enclitic: 'unencliticized', Phonetic: 'pèjōribus'},
 	{Word: 'peius', Lemmata: 'malus male', Enclitic: 'unencliticized', Phonetic: 'pèjus'},
+	{Word: 'dees', Lemmata: 'dēsum', Enclitic: 'unencliticized', Phonetic: 'dēs'},
+	{Word: 'deestis', Lemmata: 'dēsum', Enclitic: 'unencliticized', Phonetic: 'dēstis'},
+	{Word: 'deesve', Lemmata: 'dēsum', Enclitic: 've', Phonetic: 'dēsve'},
 ]
 
 const stressTests = [
@@ -410,6 +413,9 @@ const stressTests = [
 	{Word: 'suamet', Lemmata: 'suamet', Enclitic: 'unencliticized', Stress: 2},
 	{Word: 'tandem', Lemmata: 'tandem', Enclitic: 'unencliticized', Stress: 2},
 	{Word: 'ūndēcentēsimus', Lemmata: 'ūndēcentēsimus', Enclitic: 'unencliticized', Stress: 3},
+	{Word: 'dees', Lemmata: 'dēsum', Enclitic: 'unencliticized', Stress: 1},
+	{Word: 'deestis', Lemmata: 'dēsum', Enclitic: 'unencliticized', Stress: 2},
+	{Word: 'deesve', Lemmata: 'dēsum', Enclitic: 've', Stress: 2},
 ]
 
 const extraTests = [
