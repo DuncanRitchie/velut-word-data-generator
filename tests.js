@@ -7,6 +7,7 @@ const expectedOutputCoveringAllFunctions = [
 		Ord: 1,
 		Word: 'vocābulōrum',
 		Lemmata: 'vocābulum',
+		Enclitic: 'unencliticized',
 		Length: 11,
 		AllConsonants: 'vcblrm',
 		Uncompounded: 'vocābulōrum',
@@ -28,7 +29,7 @@ const expectedOutputCoveringAllFunctions = [
 		EcclesRhymeVowels: 'ou',
 		EcclesRhymeVowelsAndUltimaCoda: 'oum',
 		EcclesPerfectRhyme: 'orum',
-		EcclesSort: 'ou-aram-uao-labacav-vocazzzzbulozzzzrum/',
+		EcclesSort: 'ou-aram-uao-labacav-vocazzbulozzrum/',
 		LemmaCount: 1,
 		Lemma1: 'vocābulum',
 		Lemma2: null,
@@ -43,13 +44,14 @@ const expectedOutputCoveringAllFunctions = [
 		NoMacra: 'vocabulorum',
 		NoMacraLowerCase: 'vocabulorum',
 		AlphOrderNoMacra: 'abclmooruuv',
-		Sort: 'ozzzzuzzzzzz-ara-uazzzzo-labazzzzcav-vocābulōrum/',
+		Sort: 'ozzuzzz-ara-uazzo-labazzcav-vocābulōrum/',
 		RepeatWord: 'vocābulōrum',
 	},
 	{
 		Ord: 2,
 		Word: 'excellentium',
 		Lemmata: 'excellēns excellō',
+		Enclitic: 'unencliticized',
 		Length: 12,
 		AllConsonants: 'xcllntm',
 		Uncompounded: 'excellentium',
@@ -86,13 +88,14 @@ const expectedOutputCoveringAllFunctions = [
 		NoMacra: 'excellentium',
 		NoMacraLowerCase: 'excellentium',
 		AlphOrderNoMacra: 'ceeeillmntux',
-		Sort: 'eiuzzzzzz-antaa-ee-llacsca-excellentium/',
+		Sort: 'eiuzzz-antaa-ee-llacsca-excellentium/',
 		RepeatWord: 'excellentium',
 	},
 	{
 		Ord: 3,
 		Word: 'Latīnōrum',
 		Lemmata: 'Latīnus[prn] Latīnus[adj]',
+		Enclitic: 'unencliticized',
 		Length: 9,
 		AllConsonants: 'ltnrm',
 		Uncompounded: 'Latīnōrum',
@@ -114,7 +117,7 @@ const expectedOutputCoveringAllFunctions = [
 		EcclesRhymeVowels: 'ou',
 		EcclesRhymeVowelsAndUltimaCoda: 'oum',
 		EcclesPerfectRhyme: 'orum',
-		EcclesSort: 'ou-aram-ia-natal-latizzzznozzzzrum',
+		EcclesSort: 'ou-aram-ia-natal-latizznozzrum',
 		LemmaCount: 2,
 		Lemma1: 'Latīnus[prn]',
 		Lemma2: 'Latīnus[adj]',
@@ -129,13 +132,14 @@ const expectedOutputCoveringAllFunctions = [
 		NoMacra: 'Latinorum',
 		NoMacraLowerCase: 'latinorum',
 		AlphOrderNoMacra: 'ailmnortu',
-		Sort: 'ozzzzuzzzzzz-ara-izzzza-nizzzztal-latīnōrum',
+		Sort: 'ozzuzzz-ara-izza-nizztal-latīnōrum',
 		RepeatWord: 'Latīnōrum',
 	},
 	{
 		Ord: 4,
 		Word: 'ūtilēs',
 		Lemmata: 'ūtilis',
+		Enclitic: 'unencliticized',
 		Length: 6,
 		AllConsonants: 'tls',
 		Uncompounded: 'ūtilēs',
@@ -157,7 +161,7 @@ const expectedOutputCoveringAllFunctions = [
 		EcclesRhymeVowels: 'uie',
 		EcclesRhymeVowelsAndUltimaCoda: 'uies',
 		EcclesPerfectRhyme: 'utiles',
-		EcclesSort: 'uie-atalas---uzzzztilezzzzs/',
+		EcclesSort: 'uie-atalas---uzztilezzs/',
 		LemmaCount: 1,
 		Lemma1: 'ūtilis',
 		Lemma2: null,
@@ -172,13 +176,14 @@ const expectedOutputCoveringAllFunctions = [
 		NoMacra: 'utiles',
 		NoMacraLowerCase: 'utiles',
 		AlphOrderNoMacra: 'eilstu',
-		Sort: 'uzzzziezzzz-atalas---ūtilēs/',
+		Sort: 'uzziezz-atalas---ūtilēs/',
 		RepeatWord: 'ūtilēs',
 	},
 	{
 		Ord: 5,
 		Word: 'tabulae',
 		Lemmata: 'tabula',
+		Enclitic: 'unencliticized',
 		Length: 7,
 		AllConsonants: 'tbl',
 		Uncompounded: 'tabulae',
@@ -215,13 +220,14 @@ const expectedOutputCoveringAllFunctions = [
 		NoMacra: 'tabulae',
 		NoMacraLowerCase: 'tabulae',
 		AlphOrderNoMacra: 'aabeltu',
-		Sort: 'auazzzzzzzz-abala--t-tabulae/',
+		Sort: 'auazzzz-abala--t-tabulae/',
 		RepeatWord: 'tabulae',
 	},
 	{
 		Ord: 6,
 		Word: 'Iūlia',
 		Lemmata: 'Iūlia Iūlius[adj]',
+		Enclitic: 'unencliticized',
 		Length: 5,
 		AllConsonants: 'l',
 		Uncompounded: 'Iūlia',
@@ -242,7 +248,7 @@ const expectedOutputCoveringAllFunctions = [
 		EcclesRhymeVowels: 'uia',
 		EcclesRhymeVowelsAndUltimaCoda: 'uia',
 		EcclesPerfectRhyme: 'ulia',
-		EcclesSort: 'uia-alaa--j-iuzzzzlia',
+		EcclesSort: 'uia-alaa--j-iuzzlia',
 		LemmaCount: 2,
 		Lemma1: 'Iūlia',
 		Lemma2: 'Iūlius[adj]',
@@ -255,13 +261,14 @@ const expectedOutputCoveringAllFunctions = [
 		NoMacra: 'Iulia',
 		NoMacraLowerCase: 'iulia',
 		AlphOrderNoMacra: 'aiilu',
-		Sort: 'uzzzzia-alaa--j-iūlia',
+		Sort: 'uzzia-alaa--j-iūlia',
 		RepeatWord: 'Iūlia',
 	},
 	{
 		Ord: 7,
 		Word: '-que',
 		Lemmata: '-que',
+		Enclitic: 'que',
 		Length: 4,
 		AllConsonants: 'q',
 		Uncompounded: '∅',
@@ -301,125 +308,125 @@ const expectedOutputCoveringAllFunctions = [
 ]
 
 const phoneticTests = [
-	{Word: 'ai', Lemmata: 'ai', Phonetic: 'à'},
-	{Word: 'ei', Lemmata: 'ei', Phonetic: 'è'},
-	{Word: 'eia', Lemmata: 'eia', Phonetic: 'èa'},
-	{Word: 'hei', Lemmata: 'hei', Phonetic: 'hè'},
-	{Word: 'heia', Lemmata: 'heia', Phonetic: 'hèa'},
-	{Word: 'hoc', Lemmata: 'hic', Phonetic: 'hocc'},
-	{Word: 'oi', Lemmata: 'oi', Phonetic: 'ò'},
-	{Word: 'oiei', Lemmata: 'oiei', Phonetic: 'òè'},
-	{Word: 'dehinc', Lemmata: 'dehinc', Phonetic: 'dènc'},
-	{Word: 'dein', Lemmata: 'dein', Phonetic: 'dèn'},
-	{Word: 'deinde', Lemmata: 'deinde', Phonetic: 'dènde'},
-	{Word: 'proin', Lemmata: 'proin', Phonetic: 'pròn'},
-	{Word: 'proindē', Lemmata: 'proindē', Phonetic: 'pròndē'},
-	{Word: 'praeeō', Lemmata: 'praeeō', Phonetic: 'pràeō'},
-	{Word: 'praeit', Lemmata: 'praeeō', Phonetic: 'pràit'},
-	{Word: 'cui', Lemmata: 'quī quis', Phonetic: 'cù'},
-	{Word: 'alicuius', Lemmata: 'aliquis', Phonetic: 'alicùjus'},
-	{Word: 'eccui', Lemmata: 'ecquis', Phonetic: 'eccù'},
-	{Word: 'nesciōcuius', Lemmata: 'nesciōquis', Phonetic: 'nesciōcùjus'},
-	{Word: 'ūnīcuique', Lemmata: 'ūnusquisque', Phonetic: 'ūnīcùqe'},
-	{Word: 'anguis', Lemmata: 'anguis', Phonetic: 'angvis'},
-	{Word: 'lingua', Lemmata: 'lingua', Phonetic: 'lingva'},
-	{Word: 'suādeō', Lemmata: 'suādeō', Phonetic: 'svādeō'},
-	{Word: 'persuāvī', Lemmata: 'persuādeō', Phonetic: 'persvāvī'},
-	{Word: 'persuāsiō', Lemmata: 'persuāsiō', Phonetic: 'persvāsiō'},
-	{Word: 'Eduardō', Lemmata: 'Eduardus', Phonetic: 'edvardō'},
-	{Word: 'suēscō', Lemmata: 'suēscō', Phonetic: 'svēscō'},
-	{Word: 'cōnsuētūdō', Lemmata: 'cōnsuētūdō', Phonetic: 'cõsvētūdō'},
-	{Word: 'urguet', Lemmata: 'urgueō', Phonetic: 'urgvet'},
-	{Word: 'iacent', Lemmata: 'iaceō', Phonetic: 'jacent'},
-	{Word: 'coniectant', Lemmata: 'coniectō', Phonetic: 'conjectant'},
-	{Word: 'subicit', Lemmata: 'subiciō', Phonetic: 'subjicit'},
-	{Word: 'coniūnctiō', Lemmata: 'coniūnctiō', Phonetic: 'conjūnctiō'},
-	{Word: 'coniūnx', Lemmata: 'coniūnx', Phonetic: 'conjūncs'},
-	{Word: 'coniugor', Lemmata: 'coniugō', Phonetic: 'conjugor'},
-	{Word: 'disiungimus', Lemmata: 'disiungō', Phonetic: 'disjungimus'},
-	{Word: 'iniugem', Lemmata: 'iniugis', Phonetic: 'injugẽ'},
-	{Word: 'biiugem', Lemmata: 'biiugis', Phonetic: 'bijugẽ'},
-	{Word: 'biiugum', Lemmata: 'biiugis', Phonetic: 'bijugũ'},
-	{Word: 'subiugat', Lemmata: 'subiugō', Phonetic: 'subjugat'},
-	{Word: 'adiūdicārī', Lemmata: 'adiūdicō', Phonetic: 'adjūdicārī'},
-	{Word: 'adiuvāns', Lemmata: 'adiuvō', Phonetic: 'adjuvãs'},
-	{Word: 'iniūriae', Lemmata: 'iniūria', Phonetic: 'injūrià'},
-	{Word: 'iūsiūrandum', Lemmata: 'iūsiūrandum', Phonetic: 'jūsjūrandũ'},
-	{Word: 'iūrisiūrandī', Lemmata: 'iūsiūrandum', Phonetic: 'jūrisjūrandī'},
-	{Word: 'periūrae', Lemmata: 'periūrus', Phonetic: 'perjūrà'},
-	{Word: 'Iūliam', Lemmata: 'Iūlia Iūlius[adj]', Phonetic: 'jūliã'},
-	{Word: 'iocant', Lemmata: 'iocō', Phonetic: 'jocant'},
-	{Word: 'iambe', Lemmata: 'iambus', Phonetic: 'iambe'},
-	{Word: 'Iāsoniī', Lemmata: 'Iāsonius', Phonetic: 'iāsoniī'},
-	{Word: 'iīs', Lemmata: 'is', Phonetic: 'iīs'},
-	{Word: 'magne', Lemmata: 'magnus', Phonetic: 'magne'},
-	{Word: 'magis', Lemmata: 'magis', Phonetic: 'magis'},
-	{Word: 'maiestātis', Lemmata: 'maiestās', Phonetic: 'majjestātis'},
-	{Word: 'maiōrum', Lemmata: 'maiōrēs', Phonetic: 'majjōrũ'},
-	{Word: 'malō', Lemmata: 'malus', Phonetic: 'malō'},
-	{Word: 'male', Lemmata: 'male', Phonetic: 'male'},
-	{Word: 'aiō', Lemmata: 'aiō', Phonetic: 'ajjō'},
-	{Word: 'aiunt', Lemmata: 'aiō', Phonetic: 'ajjunt'},
-	{Word: 'ait', Lemmata: 'aiō', Phonetic: 'ait'},
-	{Word: '-que', Lemmata: '-que', Phonetic: 'qe'},
-	{Word: 'lectiientāculāris', Lemmata: 'lectiientāculāris', Phonetic: 'lectijentāculāris'},
-	{Word: 'Ōsuestriā', Lemmata: 'Ōsuestria', Phonetic: 'ōsvestriā'},
-	{Word: 'Reiciavīcum', Lemmata: 'Reiciavīcum', Phonetic: 'rejcjavīcũ'},
-	{Word: 'kalendae', Lemmata: 'kalendae', Phonetic: 'calendà'},
-	{Word: 'ēheu', Lemmata: 'ēheu', Phonetic: 'ēh€'},
-	{Word: 'meus', Lemmata: 'meus', Phonetic: 'meus'},
-	{Word: 'Orpheus', Lemmata: 'Orpheus', Phonetic: 'orφ€s'},
-	{Word: 'eunt', Lemmata: 'eō', Phonetic: 'eunt'},
-	{Word: 'eundum', Lemmata: 'eō', Phonetic: 'eundũ'},
-	{Word: 'eius', Lemmata: 'is', Phonetic: 'èjus'},
-	{Word: 'maius', Lemmata: 'magnus magis', Phonetic: 'majjus'},
-	{Word: 'peior', Lemmata: 'malus male', Phonetic: 'pèjor'},
-	{Word: 'peiōribus', Lemmata: 'malus male', Phonetic: 'pèjōribus'},
-	{Word: 'peius', Lemmata: 'malus male', Phonetic: 'pèjus'},
+	{Word: 'ai', Lemmata: 'ai', Enclitic: 'unencliticized', Phonetic: 'à'},
+	{Word: 'ei', Lemmata: 'ei', Enclitic: 'unencliticized', Phonetic: 'è'},
+	{Word: 'eia', Lemmata: 'eia', Enclitic: 'unencliticized', Phonetic: 'èa'},
+	{Word: 'hei', Lemmata: 'hei', Enclitic: 'unencliticized', Phonetic: 'hè'},
+	{Word: 'heia', Lemmata: 'heia', Enclitic: 'unencliticized', Phonetic: 'hèa'},
+	{Word: 'hoc', Lemmata: 'hic', Enclitic: 'unencliticized', Phonetic: 'hocc'},
+	{Word: 'oi', Lemmata: 'oi', Enclitic: 'unencliticized', Phonetic: 'ò'},
+	{Word: 'oiei', Lemmata: 'oiei', Enclitic: 'unencliticized', Phonetic: 'òè'},
+	{Word: 'dehinc', Lemmata: 'dehinc', Enclitic: 'unencliticized', Phonetic: 'dènc'},
+	{Word: 'dein', Lemmata: 'dein', Enclitic: 'unencliticized', Phonetic: 'dèn'},
+	{Word: 'deinde', Lemmata: 'deinde', Enclitic: 'unencliticized', Phonetic: 'dènde'},
+	{Word: 'proin', Lemmata: 'proin', Enclitic: 'unencliticized', Phonetic: 'pròn'},
+	{Word: 'proindē', Lemmata: 'proindē', Enclitic: 'unencliticized', Phonetic: 'pròndē'},
+	{Word: 'praeeō', Lemmata: 'praeeō', Enclitic: 'unencliticized', Phonetic: 'pràeō'},
+	{Word: 'praeit', Lemmata: 'praeeō', Enclitic: 'unencliticized', Phonetic: 'pràit'},
+	{Word: 'cui', Lemmata: 'quī quis', Enclitic: 'unencliticized', Phonetic: 'cù'},
+	{Word: 'alicuius', Lemmata: 'aliquis', Enclitic: 'unencliticized', Phonetic: 'alicùjus'},
+	{Word: 'eccui', Lemmata: 'ecquis', Enclitic: 'unencliticized', Phonetic: 'eccù'},
+	{Word: 'nesciōcuius', Lemmata: 'nesciōquis', Enclitic: 'unencliticized', Phonetic: 'nesciōcùjus'},
+	{Word: 'ūnīcuique', Lemmata: 'ūnusquisque', Enclitic: 'unencliticized', Phonetic: 'ūnīcùqe'},
+	{Word: 'anguis', Lemmata: 'anguis', Enclitic: 'unencliticized', Phonetic: 'angvis'},
+	{Word: 'lingua', Lemmata: 'lingua', Enclitic: 'unencliticized', Phonetic: 'lingva'},
+	{Word: 'suādeō', Lemmata: 'suādeō', Enclitic: 'unencliticized', Phonetic: 'svādeō'},
+	{Word: 'persuāvī', Lemmata: 'persuādeō', Enclitic: 'unencliticized', Phonetic: 'persvāvī'},
+	{Word: 'persuāsiō', Lemmata: 'persuāsiō', Enclitic: 'unencliticized', Phonetic: 'persvāsiō'},
+	{Word: 'Eduardō', Lemmata: 'Eduardus', Enclitic: 'unencliticized', Phonetic: 'edvardō'},
+	{Word: 'suēscō', Lemmata: 'suēscō', Enclitic: 'unencliticized', Phonetic: 'svēscō'},
+	{Word: 'cōnsuētūdō', Lemmata: 'cōnsuētūdō', Enclitic: 'unencliticized', Phonetic: 'cõsvētūdō'},
+	{Word: 'urguet', Lemmata: 'urgueō', Enclitic: 'unencliticized', Phonetic: 'urgvet'},
+	{Word: 'iacent', Lemmata: 'iaceō', Enclitic: 'unencliticized', Phonetic: 'jacent'},
+	{Word: 'coniectant', Lemmata: 'coniectō', Enclitic: 'unencliticized', Phonetic: 'conjectant'},
+	{Word: 'subicit', Lemmata: 'subiciō', Enclitic: 'unencliticized', Phonetic: 'subjicit'},
+	{Word: 'coniūnctiō', Lemmata: 'coniūnctiō', Enclitic: 'unencliticized', Phonetic: 'conjūnctiō'},
+	{Word: 'coniūnx', Lemmata: 'coniūnx', Enclitic: 'unencliticized', Phonetic: 'conjūncs'},
+	{Word: 'coniugor', Lemmata: 'coniugō', Enclitic: 'unencliticized', Phonetic: 'conjugor'},
+	{Word: 'disiungimus', Lemmata: 'disiungō', Enclitic: 'unencliticized', Phonetic: 'disjungimus'},
+	{Word: 'iniugem', Lemmata: 'iniugis', Enclitic: 'unencliticized', Phonetic: 'injugẽ'},
+	{Word: 'biiugem', Lemmata: 'biiugis', Enclitic: 'unencliticized', Phonetic: 'bijugẽ'},
+	{Word: 'biiugum', Lemmata: 'biiugis', Enclitic: 'unencliticized', Phonetic: 'bijugũ'},
+	{Word: 'subiugat', Lemmata: 'subiugō', Enclitic: 'unencliticized', Phonetic: 'subjugat'},
+	{Word: 'adiūdicārī', Lemmata: 'adiūdicō', Enclitic: 'unencliticized', Phonetic: 'adjūdicārī'},
+	{Word: 'adiuvāns', Lemmata: 'adiuvō', Enclitic: 'unencliticized', Phonetic: 'adjuvãs'},
+	{Word: 'iniūriae', Lemmata: 'iniūria', Enclitic: 'unencliticized', Phonetic: 'injūrià'},
+	{Word: 'iūsiūrandum', Lemmata: 'iūsiūrandum', Enclitic: 'unencliticized', Phonetic: 'jūsjūrandũ'},
+	{Word: 'iūrisiūrandī', Lemmata: 'iūsiūrandum', Enclitic: 'unencliticized', Phonetic: 'jūrisjūrandī'},
+	{Word: 'periūrae', Lemmata: 'periūrus', Enclitic: 'unencliticized', Phonetic: 'perjūrà'},
+	{Word: 'Iūliam', Lemmata: 'Iūlia Iūlius[adj]', Enclitic: 'unencliticized', Phonetic: 'jūliã'},
+	{Word: 'iocant', Lemmata: 'iocō', Enclitic: 'unencliticized', Phonetic: 'jocant'},
+	{Word: 'iambe', Lemmata: 'iambus', Enclitic: 'unencliticized', Phonetic: 'iambe'},
+	{Word: 'Iāsoniī', Lemmata: 'Iāsonius', Enclitic: 'unencliticized', Phonetic: 'iāsoniī'},
+	{Word: 'iīs', Lemmata: 'is', Enclitic: 'unencliticized', Phonetic: 'iīs'},
+	{Word: 'magne', Lemmata: 'magnus', Enclitic: 'unencliticized', Phonetic: 'magne'},
+	{Word: 'magis', Lemmata: 'magis', Enclitic: 'unencliticized', Phonetic: 'magis'},
+	{Word: 'maiestātis', Lemmata: 'maiestās', Enclitic: 'unencliticized', Phonetic: 'majjestātis'},
+	{Word: 'maiōrum', Lemmata: 'maiōrēs', Enclitic: 'unencliticized', Phonetic: 'majjōrũ'},
+	{Word: 'malō', Lemmata: 'malus', Enclitic: 'unencliticized', Phonetic: 'malō'},
+	{Word: 'male', Lemmata: 'male', Enclitic: 'unencliticized', Phonetic: 'male'},
+	{Word: 'aiō', Lemmata: 'aiō', Enclitic: 'unencliticized', Phonetic: 'ajjō'},
+	{Word: 'aiunt', Lemmata: 'aiō', Enclitic: 'unencliticized', Phonetic: 'ajjunt'},
+	{Word: 'ait', Lemmata: 'aiō', Enclitic: 'unencliticized', Phonetic: 'ait'},
+	{Word: '-que', Lemmata: '-que', Enclitic: 'que', Phonetic: 'qe'},
+	{Word: 'lectiientāculāris', Lemmata: 'lectiientāculāris', Enclitic: 'unencliticized', Phonetic: 'lectijentāculāris'},
+	{Word: 'Ōsuestriā', Lemmata: 'Ōsuestria', Enclitic: 'unencliticized', Phonetic: 'ōsvestriā'},
+	{Word: 'Reiciavīcum', Lemmata: 'Reiciavīcum', Enclitic: 'unencliticized', Phonetic: 'rejcjavīcũ'},
+	{Word: 'kalendae', Lemmata: 'kalendae', Enclitic: 'unencliticized', Phonetic: 'calendà'},
+	{Word: 'ēheu', Lemmata: 'ēheu', Enclitic: 'unencliticized', Phonetic: 'ēh€'},
+	{Word: 'meus', Lemmata: 'meus', Enclitic: 'unencliticized', Phonetic: 'meus'},
+	{Word: 'Orpheus', Lemmata: 'Orpheus', Enclitic: 'unencliticized', Phonetic: 'orφ€s'},
+	{Word: 'eunt', Lemmata: 'eō', Enclitic: 'unencliticized', Phonetic: 'eunt'},
+	{Word: 'eundum', Lemmata: 'eō', Enclitic: 'unencliticized', Phonetic: 'eundũ'},
+	{Word: 'eius', Lemmata: 'is', Enclitic: 'unencliticized', Phonetic: 'èjus'},
+	{Word: 'maius', Lemmata: 'magnus magis', Enclitic: 'unencliticized', Phonetic: 'majjus'},
+	{Word: 'peior', Lemmata: 'malus male', Enclitic: 'unencliticized', Phonetic: 'pèjor'},
+	{Word: 'peiōribus', Lemmata: 'malus male', Enclitic: 'unencliticized', Phonetic: 'pèjōribus'},
+	{Word: 'peius', Lemmata: 'malus male', Enclitic: 'unencliticized', Phonetic: 'pèjus'},
 ]
 
 const stressTests = [
-	{Word: '-que', Lemmata: '-que', Stress: 2},
-	{Word: 'abdōmine', Lemmata: 'abdōmen', Stress: 3},
-	{Word: 'addūc', Lemmata: 'addūcō', Stress: 1},
-	{Word: 'ai', Lemmata: 'ai', Stress: 1},
-	{Word: 'dominī', Lemmata: 'dominus', Stress: 3},
-	{Word: 'domínī', Lemmata: 'dominium', Stress: 2},
-	{Word: 'illīc', Lemmata: 'illīc', Stress: 1},
-	{Word: 'imperī', Lemmata: 'imperium', Stress: 2},
-	{Word: 'Latīnitās', Lemmata: 'Latīnitās', Stress: 3},
-	{Word: 'Latīnus', Lemmata: 'Latīnus[prn] Latīnus[adj]', Stress: 2},
-	{Word: 'Latīnusque', Lemmata: 'Latīnus[prn] Latīnus[adj]', Stress: 2},
-	{Word: 'lingua', Lemmata: 'lingua', Stress: 2},
-	{Word: 'linguaque', Lemmata: 'lingua', Stress: 2},
-	{Word: 'mōns', Lemmata: 'mōns', Stress: 1},
-	{Word: 'proïndē', Lemmata: 'proïndē', Stress: 3},
-	{Word: 'Quīntilī', Lemmata: 'Quīntilius[prn]', Stress: 2},
-	{Word: 'Rhoda', Lemmata: 'Rhoda', Stress: 2},
-	{Word: 'Rhodane', Lemmata: 'Rhoda', Stress: 2},
-	{Word: 'Rhódane', Lemmata: 'Rhodanus', Stress: 3},
-	{Word: 'satin', Lemmata: 'satis', Stress: 1},
-	{Word: 'st', Lemmata: 'st sum', Stress: 0},
-	{Word: 'suamet', Lemmata: 'suamet', Stress: 2},
-	{Word: 'tandem', Lemmata: 'tandem', Stress: 2},
-	{Word: 'ūndēcentēsimus', Lemmata: 'ūndēcentēsimus', Stress: 3},
+	{Word: '-que', Lemmata: '-que', Enclitic: 'que', Stress: 2},
+	{Word: 'abdōmine', Lemmata: 'abdōmen', Enclitic: 'unencliticized', Stress: 3},
+	{Word: 'addūc', Lemmata: 'addūcō', Enclitic: 'unencliticized', Stress: 1},
+	{Word: 'ai', Lemmata: 'ai', Enclitic: 'unencliticized', Stress: 1},
+	{Word: 'dominī', Lemmata: 'dominus', Enclitic: 'unencliticized', Stress: 3},
+	{Word: 'domínī', Lemmata: 'dominium', Enclitic: 'unencliticized', Stress: 2},
+	{Word: 'illīc', Lemmata: 'illīc', Enclitic: 'unencliticized', Stress: 1},
+	{Word: 'imperī', Lemmata: 'imperium', Enclitic: 'unencliticized', Stress: 2},
+	{Word: 'Latīnitās', Lemmata: 'Latīnitās', Enclitic: 'unencliticized', Stress: 3},
+	{Word: 'Latīnus', Lemmata: 'Latīnus[prn] Latīnus[adj]', Enclitic: 'unencliticized', Stress: 2},
+	{Word: 'Latīnusque', Lemmata: 'Latīnus[prn] Latīnus[adj]', Enclitic: 'que', Stress: 2},
+	{Word: 'lingua', Lemmata: 'lingua', Enclitic: 'unencliticized', Stress: 2},
+	{Word: 'linguaque', Lemmata: 'lingua', Enclitic: 'que', Stress: 2},
+	{Word: 'mōns', Lemmata: 'mōns', Enclitic: 'unencliticized', Stress: 1},
+	{Word: 'proïndē', Lemmata: 'proïndē', Enclitic: 'unencliticized', Stress: 3},
+	{Word: 'Quīntilī', Lemmata: 'Quīntilius[prn]', Enclitic: 'unencliticized', Stress: 2},
+	{Word: 'Rhoda', Lemmata: 'Rhoda', Enclitic: 'unencliticized', Stress: 2},
+	{Word: 'Rhodane', Lemmata: 'Rhoda', Enclitic: 'ne', Stress: 2},
+	{Word: 'Rhódane', Lemmata: 'Rhodanus', Enclitic: 'unencliticized', Stress: 3},
+	{Word: 'satin', Lemmata: 'satis', Enclitic: 'ne', Stress: 1},
+	{Word: 'st', Lemmata: 'st sum', Enclitic: 'unencliticized', Stress: 0},
+	{Word: 'suamet', Lemmata: 'suamet', Enclitic: 'unencliticized', Stress: 2},
+	{Word: 'tandem', Lemmata: 'tandem', Enclitic: 'unencliticized', Stress: 2},
+	{Word: 'ūndēcentēsimus', Lemmata: 'ūndēcentēsimus', Enclitic: 'unencliticized', Stress: 3},
 ]
 
 const extraTests = [
-	{word: 'st',           lemmata: 'st sum',   func: 'EcclesVowels',                   expected: '∅'          },
-	{word: 'st',           lemmata: 'st sum',   func: 'EcclesSort',                     expected: '-st---st/'  },
-	{word: 'st',           lemmata: 'st sum',   func: 'Sort',                           expected: '-st---st/'  },
-	{word: 'dehinc',       lemmata: 'dehinc',   func: 'EcclesRhymeVowelsAndUltimaCoda', expected: 'ejnc'       },
-	{word: 'dehinc',       lemmata: 'dehinc',   func: 'EcclesPhonetic',                 expected: 'dejnc'      },
-	{word: 'dein',         lemmata: 'deinde',   func: 'EcclesPhonetic',                 expected: 'dejn'       },
-	{word: 'deinde',       lemmata: 'deinde',   func: 'EcclesPhonetic',                 expected: 'dejnde'     },
-	{word: 'dehïnc',       lemmata: 'dehinc',   func: 'EcclesPhonetic',                 expected: 'deinc'      },
-	{word: 'deïn',         lemmata: 'deinde',   func: 'EcclesPhonetic',                 expected: 'dein'       },
-	{word: 'deïnde',       lemmata: 'deinde',   func: 'EcclesPhonetic',                 expected: 'deinde'     },
+	{word: 'st',           lemmata: 'st sum',   enclitic: 'unencliticized',  func: 'EcclesVowels',                   expected: '∅'          },
+	{word: 'st',           lemmata: 'st sum',   enclitic: 'unencliticized',  func: 'EcclesSort',                     expected: '-st---st/'  },
+	{word: 'st',           lemmata: 'st sum',   enclitic: 'unencliticized',  func: 'Sort',                           expected: '-st---st/'  },
+	{word: 'dehinc',       lemmata: 'dehinc',   enclitic: 'unencliticized',  func: 'EcclesRhymeVowelsAndUltimaCoda', expected: 'ejnc'       },
+	{word: 'dehinc',       lemmata: 'dehinc',   enclitic: 'unencliticized',  func: 'EcclesPhonetic',                 expected: 'dejnc'      },
+	{word: 'dein',         lemmata: 'deinde',   enclitic: 'unencliticized',  func: 'EcclesPhonetic',                 expected: 'dejn'       },
+	{word: 'deinde',       lemmata: 'deinde',   enclitic: 'unencliticized',  func: 'EcclesPhonetic',                 expected: 'dejnde'     },
+	{word: 'dehïnc',       lemmata: 'dehinc',   enclitic: 'unencliticized',  func: 'EcclesPhonetic',                 expected: 'deinc'      },
+	{word: 'deïn',         lemmata: 'deinde',   enclitic: 'unencliticized',  func: 'EcclesPhonetic',                 expected: 'dein'       },
+	{word: 'deïnde',       lemmata: 'deinde',   enclitic: 'unencliticized',  func: 'EcclesPhonetic',                 expected: 'deinde'     },
 	// I’m not actually sure how a nasalised ending should be pronounced before an enclitic.
 	// Nasal in classical & non-nasal vowel + n in ecclesiastical is how I did it in Excel.
-	{word: 'īnspectemque', lemmata: 'īnspectō', func: 'Phonetic',                       expected: 'ĩspectẽqe'  },
-	{word: 'īnspectemque', lemmata: 'īnspectō', func: 'EcclesPhonetic',                 expected: 'inspectenqe'},
+	{word: 'īnspectemque', lemmata: 'īnspectō', enclitic: 'que',             func: 'Phonetic',                       expected: 'ĩspectẽqe'  },
+	{word: 'īnspectemque', lemmata: 'īnspectō', enclitic: 'que',             func: 'EcclesPhonetic',                 expected: 'inspectenqe'},
 ]
 
 
@@ -427,7 +434,7 @@ const extraTests = [
 
 const testPhonetic = () => {
 	phoneticTests.forEach(test => {
-		const actual = f.Phonetic(test.Word, test.Lemmata)
+		const actual = f.Phonetic(test.Word, test.Lemmata, test.Enclitic)
 		if (actual === test.Phonetic) {
 			console.log(`Yay! Phonetic(${test.Word}) => ${actual}`)
 		}
@@ -441,7 +448,7 @@ const testStress = () => {
 	//// Encliticized words will be recognised as such if the unencliticized words are in `allWordsOnlyWord`.
 	allWordsOnlyWord.push('Latīnus', 'lingua', 'Rhoda');
 	stressTests.forEach(test => {
-		const actual = f.Stress(test.Word, test.Lemmata)
+		const actual = f.Stress(test.Word, test.Lemmata, test.Enclitic)
 		if (actual === test.Stress) {
 			console.log(`Yay! Stress(${test.Word}) => ${actual}`)
 		}
@@ -455,7 +462,7 @@ const doExtraTests = () => {
 	//// Encliticized words will be recognised as such if the unencliticized words are in `allWordsOnlyWord`.
 	allWordsOnlyWord.push('īnspectem');
 	extraTests.forEach(test => {
-		const actual = f[test.func](test.word, test.lemmata)
+		const actual = f[test.func](test.word, test.lemmata, test.enclitic)
 		if (actual === test.expected) {
 			console.log(`Yay! ${test.func}(${test.word}) => ${actual}`)
 		}
@@ -469,25 +476,26 @@ const testAllFunctions = () => {
 	for (const wordObject of expectedOutputCoveringAllFunctions) {
 		const word = wordObject.Word;
 		const lemmata = wordObject.Lemmata;
+		const enclitic = wordObject.Enclitic;
 
 		functionNames.forEach(functionName => {
 			const expectedOutput = wordObject[functionName];
-			const actualOutput = wordsformFunctions[functionName](word, lemmata);
+			const actualOutput = wordsformFunctions[functionName](word, lemmata, enclitic);
 
 			if (expectedOutput === undefined && actualOutput === '') {
-				console.warn(`Neither the function nor the expected value has been defined for ${functionName}(${word}, ${lemmata})`);
+				console.warn(`Neither the function nor the expected value has been defined for ${functionName}(${word}, ${lemmata}, ${enclitic})`);
 			}
 			else if (expectedOutput === undefined) {
-				console.warn(`${functionName}(${word}, ${lemmata}) gives ${actualOutput} but the expected value hasn’t been defined`);
+				console.warn(`${functionName}(${word}, ${lemmata}, ${enclitic}) gives ${actualOutput} but the expected value hasn’t been defined`);
 			}
 			else if (actualOutput === '') {
-				console.log(`${functionName}(${word}, ${lemmata}) should give ${expectedOutput} but the function hasn’t been written`);
+				console.log(`${functionName}(${word}, ${lemmata}, ${enclitic}) should give ${expectedOutput} but the function hasn’t been written`);
 			}
 			else if (JSON.stringify(actualOutput) === JSON.stringify(expectedOutput)) {
-				console.log(`Yay! ${functionName}(${word}, ${lemmata}) => ${expectedOutput}`);
+				console.log(`Yay! ${functionName}(${word}, ${lemmata}, ${enclitic}) => ${expectedOutput}`);
 			}
 			else {
-				console.error({for: `${functionName}(${word}, ${lemmata})`, expected: expectedOutput, actual: actualOutput});
+				console.error({for: `${functionName}(${word}, ${lemmata}, ${enclitic})`, expected: expectedOutput, actual: actualOutput});
 			}
 		});
 

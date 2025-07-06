@@ -16,11 +16,12 @@ textareaOutput.value = '';
 //// Sample data the user can load if they don’t have my Excel file:
 
 const sampleData =
-`vocābulōrum	vocābulum
-excellentium	excellēns excellō
-Latīnōrum	Latīnus[prn] Latīnus[adj]
-ūtilēs	ūtilis
-tabulae	tabula
+`vocābulōrum	vocābulum	unencliticized
+excellentium	excellēns excellō	unencliticized
+Latīnōrum	Latīnus[prn] Latīnus[adj]	unencliticized
+ūtilēs	ūtilis	unencliticized
+tabulae	tabula	unencliticized
+tabulaeque	tabula	que
 `
 
 
