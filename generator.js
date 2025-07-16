@@ -136,6 +136,18 @@ const phoneticExceptions = {
 		'iaspis',
 		'iō',
 	],
+	// Short vowel + “bl” or short vowel + “br” usually gives a short syllable.
+	// (The consonant cluster is called ‘mūta cum liquidā’.)
+	// Words beginning with a prefix ‘ab’/‘ob’ in front of ‘l’/‘r’ have the prefix as a long syllable
+	// because the syllable boundary is the morpheme boundary.
+	// (Incidentally, this is not true for words with a prefix in front of a vowel: so ‘abarceō’ begins with a short syllable, a•bar•ce•ō.)
+	// Words beginning with ‘abl’/‘abr’/‘obl’/‘obr’ where this is not a prefix should revert to the ‘mūta cum liquidā’ rule.
+	// Listing them here helps distinguish them from the prefixed words that have the long syllable.
+	// So: ‘fabrica’ & ‘labrum’ begin with a short syllable (fa•bri•ca, la•brum).
+	// ‘abrādō’ & ‘obrutus’ begin with a long syllable (ab•rā•dō, ob•ru•tus).
+	// ‘inobrutus’ likewise has a long second syllable (i•nob•ru•tus), as in Ovid Met. 7.356; and there’s inoblītā (i•nob•lī•tā) in Ovid Pont. 4.15.37.
+	// ‘abra’ & ‘obrussa’ begin with a short syllable (a•bra, o•brus•sa).
+	lemmataWithMutaCumLiquidaNotPrefix: ['abra', 'obrussa']
 };
 
 // Eg 'rāia' => 'rājja' because the “i” is consonantal.
@@ -160,6 +172,10 @@ function addToWordsArray(word, lemmata, enclitic) {
 function clearWordsArray() {
 	existingWords.length = 0;
 }
+
+// Defining a value then emptying the set gives us IntelliSense without TypeScript :)
+const lemmataBeginningWithMutaCumLiquidaPrefix = new Set(['abrōdō'])
+lemmataBeginningWithMutaCumLiquidaPrefix.clear()
 
 // Constant used when a field would be the empty string, such as the consonants in a word of all vowels.
 const EMPTY = '∅';
@@ -506,9 +522,25 @@ const unmemoisedFuncs = {
 		);
 	},
 	Scansion: (word, lemmata, enclitic) => {
+		const lemmaArray = f.LemmaArray(word, lemmata, enclitic)
+		// Matches ‘abrogō’, ‘inobrutus’, ‘superabluō’, ‘abra’, etc, where the ‘mūta cum liquida’ consonant cluster
+		// looks like it’s from a prefix and therefore would not make the preceding syllable short.
+		// ‘abra’ does not in fact have a prefix, so is caught by `phoneticExceptions.lemmataWithMutaCumLiquidaNotPrefix`.
+		const regexForMutaCumLiquidaPrefix = /(?<=^(ad|in|ex|super)?)(abl|abr|obl|obr)/
+		lemmaArray.forEach(lemma => {
+			if (regexForMutaCumLiquidaPrefix.test(lemma) && !lemmataBeginningWithMutaCumLiquidaPrefix.has(lemma)) {
+				console.log('Lemma might begin with a muta-cum-liquida prefix', lemma)
+				lemmataBeginningWithMutaCumLiquidaPrefix.add(lemma)
+			}
+		})
 		return (
 			f
 				.Phonetic(word, lemmata, enclitic)
+				.replace(
+					regexForMutaCumLiquidaPrefix,
+					lemmaArray.some(l => 
+						phoneticExceptions.lemmataWithMutaCumLiquidaNotPrefix.includes(l)
+					) ? 'abr' : 'abb')
 				.replace(/[eiouy]/g, 'a')
 				.replace(/[ēīōūȳãẽĩõũỹàâ€èòùḗ]/g, 'ā')
 				.replace(/bl|cl|cr|dr|fr|fl|gl|gr|pr|pl|tr|θl|θr|φl|φr|χl|χr/g, 'br')
