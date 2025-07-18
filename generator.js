@@ -526,7 +526,7 @@ const unmemoisedFuncs = {
 		// Matches ‘abrogō’, ‘inobrutus’, ‘superabluō’, ‘abra’, etc, where the ‘mūta cum liquida’ consonant cluster
 		// looks like it’s from a prefix and therefore would not make the preceding syllable short.
 		// ‘abra’ does not in fact have a prefix, so is caught by `phoneticExceptions.lemmataWithMutaCumLiquidaNotPrefix`.
-		const regexForMutaCumLiquidaPrefix = /(?<=^(ad|in|ex|super)?)(abl|abr|obl|obr)/
+		const regexForMutaCumLiquidaPrefix = /(?<=^(ad|in|ex|super)?)(abl|abr|adr|obl|obr)/
 		lemmaArray.forEach(lemma => {
 			if (regexForMutaCumLiquidaPrefix.test(lemma) && !lemmataBeginningWithMutaCumLiquidaPrefix.has(lemma)) {
 				console.log('Lemma might begin with a muta-cum-liquida prefix', lemma)
