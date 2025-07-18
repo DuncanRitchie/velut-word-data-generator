@@ -173,10 +173,6 @@ function clearWordsArray() {
 	existingWords.length = 0;
 }
 
-// Defining a value then emptying the set gives us IntelliSense without TypeScript :)
-const lemmataBeginningWithMutaCumLiquidaPrefix = new Set(['abrōdō'])
-lemmataBeginningWithMutaCumLiquidaPrefix.clear()
-
 // Constant used when a field would be the empty string, such as the consonants in a word of all vowels.
 const EMPTY = '∅';
 // Syllable length symbols.
@@ -527,12 +523,6 @@ const unmemoisedFuncs = {
 		// looks like it’s from a prefix and therefore would not make the preceding syllable short.
 		// ‘abra’ does not in fact have a prefix, so is caught by `phoneticExceptions.lemmataWithMutaCumLiquidaNotPrefix`.
 		const regexForMutaCumLiquidaPrefix = /(?<=^(ad|in|ex|super)?)(abl|abr|adr|obl|obr)/
-		lemmaArray.forEach(lemma => {
-			if (regexForMutaCumLiquidaPrefix.test(lemma) && !lemmataBeginningWithMutaCumLiquidaPrefix.has(lemma)) {
-				console.log('Lemma might begin with a muta-cum-liquida prefix', lemma)
-				lemmataBeginningWithMutaCumLiquidaPrefix.add(lemma)
-			}
-		})
 		return (
 			f
 				.Phonetic(word, lemmata, enclitic)
