@@ -675,6 +675,13 @@ const unmemoisedFuncs = {
 		if (f.LemmaArray(word, lemmata, enclitic).some(lemma => /ō(\[.+\])?$/.test(lemma))
 			&& (word.endsWith('iī') || word.endsWith('iit'))
 		) {
+			// But if the verb is derived from ‘eō’ (eg ‘abiī’, ‘interiit’, ‘nequiī’, ‘vēniit’)
+			// the stress is on the antepenult, as normal.
+			// In these words, the -īv- forms developed from the -i- forms, not vice versa.
+			if (f.LemmaArray(word, lemmata, enclitic).some(lemma => /eō(\[.+\])?$/.test(lemma))) {
+
+				return 3;
+			}
 			return 2;
 		}
 		// All other words are stressed on the antepenult.
