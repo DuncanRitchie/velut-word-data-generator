@@ -669,6 +669,14 @@ const unmemoisedFuncs = {
 		) {
 			return 2;
 		}
+		// Words such as ‘audiī’ & ‘petiit’ are contractions of verbs (‘audīvī’, ‘petīvit’)
+		// and are therefore stressed on the penult.
+		// But see https://latin.stackexchange.com/questions/9363/how-do-we-know-how-i%C4%AB-and-iit-perfects-were-stressed
+		if (f.LemmaArray(word, lemmata, enclitic).some(lemma => /ō(\[.+\])?$/.test(lemma))
+			&& (word.endsWith('iī') || word.endsWith('iit'))
+		) {
+			return 2;
+		}
 		// All other words are stressed on the antepenult.
 		return 3;
 	},
