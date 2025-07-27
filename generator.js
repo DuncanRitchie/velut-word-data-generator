@@ -556,6 +556,9 @@ const unmemoisedFuncs = {
 		return f.AllVowels(word, lemmata, enclitic).replace(EMPTY, '').length;
 	},
 	// Returns the stress position: 3 for antepenult, 2 for penult, 1 for ultima, 0 for words of no syllables.
+	// Note: if it’s possible for words of the same spelling and macronization to be stressed differently,
+	// both this `Stress` function and the `replaceFormsOfAmbiguousStress` function in the Inflector may
+	// need to be updated to reflect this.
 	Stress: (word, lemmata, enclitic) => {
 		// Eg ‘st’ has 0 syllables, so cannot have a stressed syllable.
 		if (f.SyllableCount(word, lemmata, enclitic) === 0) {
@@ -671,17 +674,15 @@ const unmemoisedFuncs = {
 		}
 		// Words such as ‘audiī’ & ‘petiit’ are contractions of verbs (‘audīvī’, ‘petīvit’)
 		// and are therefore stressed on the penult.
+		// But if the verb is derived from ‘eō’ (eg ‘abiī’, ‘ambiī’, ‘interiit’, ‘nequiī’, ‘vēniit’)
+		// the stress is on the antepenult, as normal.
+		// In these words, the -īv- forms developed from the -i- forms, not vice versa.
 		// But see https://latin.stackexchange.com/questions/9363/how-do-we-know-how-i%C4%AB-and-iit-perfects-were-stressed
-		if (f.LemmaArray(word, lemmata, enclitic).some(lemma => /ō(\[.+\])?$/.test(lemma))
+		// In the regex, the lookbehinds stop forms of lemmata ending in ‘eō’ or ‘ambiō’ from being given penult stress.
+		// The (\[.+\])? part is there because lemmata in velut can have bracketed information at the end.
+		if (f.LemmaArray(word, lemmata, enclitic).some(lemma => /(?<!e)(?<!ambi)(?<!sili)ō(\[.+\])?$/.test(lemma))
 			&& (word.endsWith('iī') || word.endsWith('iit'))
 		) {
-			// But if the verb is derived from ‘eō’ (eg ‘abiī’, ‘interiit’, ‘nequiī’, ‘vēniit’)
-			// the stress is on the antepenult, as normal.
-			// In these words, the -īv- forms developed from the -i- forms, not vice versa.
-			if (f.LemmaArray(word, lemmata, enclitic).some(lemma => /eō(\[.+\])?$/.test(lemma))) {
-
-				return 3;
-			}
 			return 2;
 		}
 		// All other words are stressed on the antepenult.
@@ -1225,7 +1226,7 @@ if (typeof require !== 'undefined') {
 					return filepath;
 				});
 
-				console.log('Output all data! See your file at ' + outputFileUrl + ' or ' + batchFilepaths);
+				console.log('All word data have been generated!');
 
 				console.timeEnd('generatingOutput');
 			}
