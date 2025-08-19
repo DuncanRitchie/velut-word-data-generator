@@ -1192,6 +1192,11 @@ if (typeof require !== 'undefined') {
 		const outputFileUrl = 'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/words-from-generator_mongo.json';
 		//// For regression testing, I have a file of expected output, that the actual output is compared against.
 		const expectedOutputFileUrl = 'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/expected-words_mongo.json';
+		//// Basic statistics are appended to this file when the Word Data Generator runs.
+		//// The Inflector has similar code.
+		const logFolderUrl =
+			'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/data-updater-log/';
+		const logFileUrl = logFolderUrl + 'log.txt';
 
 		try {
 			// Overwritten in generateOutputAndSaveInBatches with the correct array length (batch count)
@@ -1226,9 +1231,23 @@ if (typeof require !== 'undefined') {
 					return filepath;
 				});
 
-				console.log('All word data have been generated!');
+				console.log(`Data have been generated for all ${inputRows.length} words!`);
 
 				console.timeEnd('generatingOutput');
+
+				//// Record the word count in a log file, so it’s easy for me to see how velut has grown over time.
+				console.time('loggingLemmaCount');
+				if (!fs.existsSync(logFolderUrl)) {
+					fs.mkdirSync(logFolderUrl);
+				}
+				if (!fs.existsSync(logFileUrl)) {
+					fs.writeFileSync(logFileUrl, '');
+				}
+				fs.appendFileSync(
+					logFileUrl,
+					`Date: ${new Date()}, Words: ${inputRows.length}\n`,
+				);
+				console.timeEnd('loggingLemmaCount');
 			}
 
 			function concatenateBatches() {
