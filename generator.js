@@ -589,6 +589,7 @@ const unmemoisedFuncs = {
 				'Maecēnās',
 				'nostrās',
 				'posthāc',
+				'potin',
 				'Samnīs',
 				'satin',
 				'Suffēnās',
