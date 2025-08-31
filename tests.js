@@ -416,6 +416,7 @@ const stressTests = [
 	{Word: 'dees', Lemmata: 'dēsum', Enclitic: 'unencliticized', Stress: 1},
 	{Word: 'deestis', Lemmata: 'dēsum', Enclitic: 'unencliticized', Stress: 2},
 	{Word: 'deesve', Lemmata: 'dēsum', Enclitic: 've', Stress: 2},
+	{Word: 'potin', Lemmata: 'potin', Enclitic: 'ne', Stress: 1},
 ]
 
 const extraTests = [
