@@ -408,7 +408,7 @@ const unmemoisedFuncs = {
 			if (f.Lemma1(word, lemmata, enclitic) === 'iūsiūrandum') {
 				return uncompounded.replaceAll('iū', 'jū');
 			}
-			if (f.Lemma1(word, lemmata, enclitic) === 'periūrus') {
+			if (f.Lemma1(word, lemmata, enclitic).startsWith('periūr')) {
 				return uncompounded.replace('periūr', 'perjūr');
 			}
 			if (/^i[aeiouyāēīōūȳ]/i.test(word) &&
