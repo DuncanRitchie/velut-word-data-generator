@@ -402,8 +402,8 @@ const unmemoisedFuncs = {
 			if (uncompounded.startsWith('adiu') || uncompounded.startsWith('adiū')) {
 				return uncompounded.replace('adi', 'adj');
 			}
-			if (uncompounded.startsWith('iniūr')) {
-				return uncompounded.replace('iniūr', 'injūr');
+			if (uncompounded.startsWith('iniūr') || uncompounded.startsWith('iniūst')) {
+				return uncompounded.replace('iniū', 'injū');
 			}
 			if (f.Lemma1(word, lemmata, enclitic) === 'iūsiūrandum') {
 				return uncompounded.replaceAll('iū', 'jū');
