@@ -338,6 +338,9 @@ const unmemoisedFuncs = {
 			if (word.startsWith('Eduard')) {
 				return uncompounded.replace('Eduard', 'edvard');
 			}
+			if (word.startsWith('Osuald')) {
+				return uncompounded.replace('Osuald', 'osvald');
+			}
 			if (f.Lemma1(word, lemmata, enclitic).toLowerCase().includes('suē')) {
 				return uncompounded
 					.replace('suē', 'svē')
