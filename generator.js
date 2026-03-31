@@ -439,6 +439,10 @@ const unmemoisedFuncs = {
 			if (lemmata.includes('dēsum')) {
 				return uncompounded.replace('dees', 'dēs')
 			}
+			// ‘far’ is pronounced with geminate r, apparently.
+			if (word === 'far') {
+				return 'farr'
+			}
 			if (word.startsWith('-')) {
 				return '';
 			}
