@@ -1189,21 +1189,21 @@ if (typeof require !== 'undefined') {
 	function runAllWords() {
 
 		//// Input data look like "vocābulōrum\tvocābulum\rexcellentium\texcellēns excellō\r"
-		const inputFileUrl = 'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/output-from-lemmata-collator.txt';
+		const inputFileUrl = 'D:/Duncan/velut/velutSideAssets/Json/output-from-lemmata-collator.txt';
 		//// Output data are generated in batches & each batch is written to a file.
 		//// This allows me to track the output in Git without tracking a huge file.
 		function getOutputFileUrlForBatch(batchNumber) {
-			return `C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/words-from-generator_mongo_batch${batchNumber}.json`;
+			return `D:/Duncan/velut/velutSideAssets/Json/words-from-generator_mongo_batch${batchNumber}.json`;
 		}
 		const batchSize = 50000;
 		//// The output batches are concatenated into one file, for Git to ignore and me to import to MongoDB.
-		const outputFileUrl = 'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/words-from-generator_mongo.json';
+		const outputFileUrl = 'D:/Duncan/velut/velutSideAssets/Json/words-from-generator_mongo.json';
 		//// For regression testing, I have a file of expected output, that the actual output is compared against.
-		const expectedOutputFileUrl = 'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/Json/expected-words_mongo.json';
+		const expectedOutputFileUrl = 'D:/Duncan/velut/velutSideAssets/Json/expected-words_mongo.json';
 		//// Basic statistics are appended to this file when the Word Data Generator runs.
 		//// The Inflector has similar code.
 		const logFolderUrl =
-			'C:/Users/Duncan Ritchie/Documents/Code/velut/velutSideAssets/data-updater-log/';
+			'D:/Duncan/velut/velutSideAssets/data-updater-log/';
 		const logFileUrl = logFolderUrl + 'log.txt';
 
 		try {
